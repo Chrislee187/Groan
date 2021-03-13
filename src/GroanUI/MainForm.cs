@@ -56,12 +56,12 @@ namespace GroanUI
             }
         }
 
-        public float MinThresholdValue
+        public float MinThresholdLabel
         {
             set => minThresholdValue.Text = value.ToString(CultureInfo.InvariantCulture);
         }
 
-        public float MaxThresholdValue
+        public float MaxThresholdLabel
         {
             set => maxThresholdValue.Text = value.ToString(CultureInfo.InvariantCulture);
         }
@@ -118,6 +118,15 @@ namespace GroanUI
                 _presenter.OptionsTabSelected(nt);
             }
         }
+        private void minThreshold_Scroll(object sender, ScrollEventArgs e)
+        {
+            _presenter.SetMinThreshold(e.NewValue);
+        }
+
+        private void maxThreshold_Scroll(object sender, ScrollEventArgs e)
+        {
+            _presenter.SetMaxThreshold(e.NewValue);
+        }
 
 
         private readonly Dictionary<NoiseType, TabPage> _configTabsIndex = new();
@@ -142,15 +151,6 @@ namespace GroanUI
             }
         }
 
-        private void minThreshold_Scroll(object sender, ScrollEventArgs e)
-        {
-            _presenter.SetMinThreshold(e.NewValue);
-        }
-
-        private void maxThreshold_Scroll(object sender, ScrollEventArgs e)
-        {
-            _presenter.SetMaxThreshold(e.NewValue);
-        }
     }
 
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -74,7 +73,8 @@ namespace GroanUI
             View.DisableChangeEvents();
 
             _model.MinThreshold = (float)value / MainModel.ThresholdMaxValue;
-            View.MinThresholdValue = _model.MinThreshold;
+            View.MinThresholdLabel = _model.MinThreshold;
+            
             RedrawNoiseMap();
 
             View.EnableChangeEvents();
@@ -85,14 +85,16 @@ namespace GroanUI
             View.DisableChangeEvents();
 
             _model.MaxThreshold = (float)value / MainModel.ThresholdMaxValue;
-            View.MaxThresholdValue = _model.MaxThreshold;
+            View.MaxThresholdLabel = _model.MaxThreshold;
 
             RedrawNoiseMap();
 
             View.EnableChangeEvents();
         }
-        private void RedrawNoiseMap() => 
+        private void RedrawNoiseMap()
+        {
             View.NoiseMapImage = CreateNoiseBitmap(_model.SelectedNoiseType, _model.MapSize, _model.InvertMap);
+        }
 
         private Bitmap CreateNoiseBitmap(NoiseType noiseType, Size size, bool invert)
         {
@@ -101,11 +103,12 @@ namespace GroanUI
                 size.Height,
                 PixelFormat.Format32bppRgb);
 
-            var noise = _noiseFactory[noiseType];
-            var cfg = new NoiseConfig(_model.InvertMap, _model.MinThreshold, _model.MaxThreshold);
-            for (int y = 0; y < size.Height - 1; y++)
+            var noise = _noiseProvider[noiseType];
+            var cfg = _configProviders[_model.SelectedNoiseType](_model);
+
+            for (var y = 0; y < size.Height - 1; y++)
             {
-                for (int x = 0; x < size.Width - 1; x++)
+                for (var x = 0; x < size.Width - 1; x++)
                 {
                     bmp.SetPixel(x, y, noise.Plot(x, y, bmp, cfg));
                 }
@@ -114,7 +117,18 @@ namespace GroanUI
             return bmp;
         }
 
-        private readonly Dictionary<NoiseType, NoisePlotter> _noiseFactory
+        private readonly Dictionary<NoiseType, Func<MainModel, NoiseConfig>> _configProviders =
+            new()
+            {
+                {NoiseType.HorizontalGradient, DefaultConfigProvider},
+                {NoiseType.VerticalGradient, DefaultConfigProvider},
+                {NoiseType.Random, DefaultConfigProvider}
+            };
+
+        private static NoiseConfig DefaultConfigProvider(MainModel model) 
+            => new(model.InvertMap, model.MinThreshold, model.MaxThreshold);
+
+        private readonly Dictionary<NoiseType, NoisePlotter> _noiseProvider
             = new()
             {
                 { NoiseType.HorizontalGradient, new HGradientPlotter() },

@@ -1,3 +1,4 @@
+using System.Drawing;
 using NUnit.Framework;
 using Shouldly;
 
@@ -13,6 +14,7 @@ namespace GroanUI.Tests
         public void Setup()
         {
             _model = new MainModelBuilder().Build();
+            _model.MapSize = new Size(1, 1);
             _viewMockery = new MainViewMockery();
 
             _presenter = new MainPresenter(_model);
@@ -29,7 +31,7 @@ namespace GroanUI.Tests
         }
 
         [Test]
-        public void NoiseType_updates_the_selected_OptionsTab()
+        public void NoiseTypeSelected_updates_the_selected_OptionsTab()
         {
             _presenter.NoiseTypeSelected(NoiseType.VerticalGradient);
             
@@ -37,7 +39,7 @@ namespace GroanUI.Tests
         }
 
         [Test]
-        public void NoiseType_updates_the_NoiseMap()
+        public void NoiseTypeSelected_updates_the_NoiseMap()
         {
             _presenter.NoiseTypeSelected(NoiseType.VerticalGradient);
 
@@ -45,7 +47,7 @@ namespace GroanUI.Tests
         }
 
         [Test]
-        public void NoiseType_updates_the_Model()
+        public void NoiseTypeSelected_updates_the_Model()
         {
             _presenter.NoiseTypeSelected(NoiseType.VerticalGradient);
 
@@ -53,7 +55,15 @@ namespace GroanUI.Tests
         }
 
         [Test]
-        public void OptionsTab_updates_the_selected_NoiseType()
+        public void OptionsTabSelected_updates_the_Model()
+        {
+            _presenter.OptionsTabSelected(NoiseType.VerticalGradient);
+
+            _model.SelectedNoiseType.ShouldBe(NoiseType.VerticalGradient);
+        }
+
+        [Test]
+        public void OptionsTabSelected_updates_the_selected_NoiseType()
         {
             _presenter.OptionsTabSelected(NoiseType.VerticalGradient);
 
@@ -61,7 +71,7 @@ namespace GroanUI.Tests
         }
 
         [Test]
-        public void OptionsTab_updates_the_NoiseMap()
+        public void OptionsTabSelected_updates_the_NoiseMap()
         {
             _presenter.OptionsTabSelected(NoiseType.VerticalGradient);
 
@@ -69,15 +79,7 @@ namespace GroanUI.Tests
         }
 
         [Test]
-        public void OptionsTab_updates_the_Model()
-        {
-            _presenter.OptionsTabSelected(NoiseType.VerticalGradient);
-
-            _model.SelectedNoiseType.ShouldBe(NoiseType.VerticalGradient);
-        }
-
-        [Test]
-        public void Invert_updates_the_model()
+        public void InvertNoise_updates_the_model()
         {
             _model.InvertMap.ShouldBeFalse();
 
@@ -87,9 +89,56 @@ namespace GroanUI.Tests
         }
 
         [Test]
-        public void Invert_updates_the_NoiseMap()
+        public void InvertNoise_updates_the_NoiseMap()
         {
             _presenter.InvertNoise();
+
+            _viewMockery.NoiseMapImageUpdated();
+        }
+
+        [Test]
+        public void SetMinThreshold_updates_the_model()
+        {
+            _presenter.SetMinThreshold(500);
+
+            _model.MinThreshold.ShouldBe(0.5f);
+        }
+
+        [Test]
+        public void SetMinThreshold_updates_the_MinThresholdLabel()
+        {
+            _presenter.SetMinThreshold(500);
+
+            _viewMockery.MinThresholdLabelUpdated();
+        }
+
+        [Test]
+        public void SetMinThreshold_updates_the_NoiseMap()
+        {
+            _presenter.SetMinThreshold(500);
+
+            _viewMockery.NoiseMapImageUpdated();
+        }
+
+        [Test]
+        public void SetMaxThreshold_updates_the_model()
+        {
+            _presenter.SetMaxThreshold(750);
+
+            _model.MaxThreshold.ShouldBe(0.75f);
+        }
+
+        [Test]
+        public void SetMaxThreshold_updates_the_MaxThresholdLabel()
+        {
+            _presenter.SetMaxThreshold(500);
+
+            _viewMockery.MaxThresholdLabelUpdated();
+        }
+        [Test]
+        public void SetMaxThreshold_updates_the_NoiseMap()
+        {
+            _presenter.SetMaxThreshold(500);
 
             _viewMockery.NoiseMapImageUpdated();
         }

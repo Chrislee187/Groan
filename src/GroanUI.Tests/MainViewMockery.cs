@@ -46,6 +46,12 @@ namespace GroanUI.Tests
                         => nt2 == nt))
             );
         }
+        public void MinThresholdLabelUpdated() =>
+            _viewMock.VerifySet(m
+                => m.MinThresholdLabel = It.IsAny<float>(), Times.Once);
+        public void MaxThresholdLabelUpdated() =>
+            _viewMock.VerifySet(m
+                => m.MaxThresholdLabel = It.IsAny<float>(), Times.Once);
 
         public void NoiseMapImageUpdated() =>
             _viewMock.VerifySet(m

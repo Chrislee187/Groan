@@ -11,7 +11,7 @@ namespace GroanUI
 
         public IEnumerable<ListItem<NoiseType, string>> NoiseTypes { get;}
 
-        public Size MapSize { get; }
+        public Size MapSize { get; set; }
         public bool InvertMap { get; set; }
         public NoiseType SelectedNoiseType { get; set; }
 

@@ -10,13 +10,23 @@ namespace GroanUI
         public Size MapSize { set; }
         public Bitmap NoiseMapImage { set; }
         NoiseType SelectedNoise { set; }
-        float MinThresholdValue { set; }
-        float MaxThresholdValue { set; }
+        
+        float MinThresholdLabel { set; }
+        float MaxThresholdLabel { set; }
 
         void ShowOptionsTabFor(NoiseType noiseType);
         void ShowDefaultOptionsTab();
 
+        /// <summary>
+        /// For the View to disable events that may be triggered
+        /// by programmatic changes, typically disabled/enabled in
+        /// Presenter actions that need to update visual elements
+        /// without the "change" events triggering cascading updates
+        /// </summary>
         void DisableChangeEvents();
+        /// <summary>
+        /// Reenable events that were disabled in <see cref="DisableChangeEvents"/>
+        /// </summary>
         void EnableChangeEvents();
     }
 }
