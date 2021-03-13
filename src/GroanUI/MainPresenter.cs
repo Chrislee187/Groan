@@ -139,6 +139,13 @@ namespace GroanUI
         private Task _refreshNoiseMapTask;
         private CancellationTokenSource _refreshTaskToken;
 
+        /// <summary>
+        /// Introduce a small delay before refreshing the noise map to allow further
+        /// changes to the config. i.e. When scrolling a scrollbar to change a value
+        /// 
+        /// </summary>
+        public static int MapRefreshDelayMs = 10;
+
         private void DelayedNoiseMapRedraw()
         {
             if (_refreshNoiseMapTask == null)
@@ -151,8 +158,15 @@ namespace GroanUI
                 _refreshTaskToken = new CancellationTokenSource();
             }
 
-            _refreshNoiseMapTask = Task.Delay(10, _refreshTaskToken.Token)
-                .ContinueWith(t => InstantNoiseMapRedraw(), _refreshTaskToken.Token);
+            if (MapRefreshDelayMs > 0)
+            {
+                _refreshNoiseMapTask = Task.Delay(MapRefreshDelayMs, _refreshTaskToken.Token)
+                    .ContinueWith(t => InstantNoiseMapRedraw(), _refreshTaskToken.Token);
+            }
+            else
+            {
+                InstantNoiseMapRedraw();
+            }
         }
 
         private void InstantNoiseMapRedraw()

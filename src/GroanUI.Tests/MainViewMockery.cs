@@ -1,4 +1,5 @@
 using System.Drawing;
+using System.Threading;
 using Moq;
 using Shouldly;
 
@@ -52,9 +53,14 @@ namespace GroanUI.Tests
             _viewMock.VerifySet(m
                 => m.MaxThresholdLabel = It.IsAny<float>(), Times.Once);
 
-        public void VerifyNoiseMapImageUpdated() =>
+        public void VerifyNoiseMapImageUpdated()
+        {
+            // NOTE: Image updates are delayed briefly stop the bitmap creation
+            // process triggering over and over when draggin sliders.
+            // Thread.Sleep((int) (MainPresenter.MapRefreshDelayMs + 25));
             _viewMock.VerifySet(m
                 => m.NoiseMapImage = It.IsAny<Bitmap>(), Times.Once);
+        }
 
         public void VerifySelectedNoiseUpdated(NoiseType nt)
             => _viewMock.VerifySet(m
