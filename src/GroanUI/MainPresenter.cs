@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Drawing;
-using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -170,7 +168,7 @@ namespace GroanUI
                 _refreshTaskToken = new CancellationTokenSource();
 
                 Task.Delay(MapRefreshDelayMs, _refreshTaskToken.Token)
-                    .ContinueWith(t => InstantNoiseMapRedraw(), _refreshTaskToken.Token);
+                    .ContinueWith(_ => InstantNoiseMapRedraw(), _refreshTaskToken.Token);
             }
             else
             {

@@ -1,5 +1,4 @@
 using System.Drawing;
-using System.Threading;
 using Moq;
 using Shouldly;
 
@@ -25,22 +24,23 @@ namespace GroanUI.Tests
                 .Callback(() =>
                 {
                     disabledCalled = true;
-                    enabledCalled.ShouldBeFalse();
+                    enabledCalled.ShouldBeFalse("Change Events enabled before being disabled in Presenter action");
                 });
             _viewMock.InSequence(sq).Setup(s => s.EnableChangeEvents())
                 .Callback(() =>
                 {
                     enabledCalled = true;
-                    disabledCalled.ShouldBeTrue();
+                    disabledCalled.ShouldBeTrue("Change Events were not disabled in Presenter action");
                 });
         }
 
         public void VerifyEventsDisabled() 
-        { 
+        {
+            var failMessage = $"Value changed events not correctly managed by the Presenter. Surround Presenter actions with calls to {nameof(IMainView.DisableChangeEvents)}() and {nameof(IMainView.EnableChangeEvents)}() to avoid problems caused by cascading 'changed' or 'selected' style events";
             _viewMock.Verify((v)
-                => v.DisableChangeEvents(), Times.Once);
+                => v.DisableChangeEvents(), Times.Once, failMessage);
             _viewMock.Verify((v)
-                => v.EnableChangeEvents(), Times.Once);
+                => v.EnableChangeEvents(), Times.Once, failMessage);
         }
 
         public void VerifyOptionsTabUpdated(NoiseType nt)
@@ -51,22 +51,32 @@ namespace GroanUI.Tests
                         => nt2 == nt))
             );
         }
+        
         public void VerifyMinThresholdLabelUpdated() =>
             _viewMock.VerifySet(m
                 => m.MinThresholdLabel = It.IsAny<float>(), Times.AtLeast(2)); // Init and change
+        
         public void VerifyMaxThresholdLabelUpdated() =>
             _viewMock.VerifySet(m
                 => m.MaxThresholdLabel = It.IsAny<float>(), Times.AtLeast(2)); // Init and change
+        
         public void VerifyNoiseMapImageUpdated()
         {
-            // NOTE: Image updates are delayed briefly stop the bitmap creation
-            // process triggering over and over when draggin sliders.
-            // Thread.Sleep((int) (MainPresenter.MapRefreshDelayMs + 25));
             _viewMock.VerifySet(m
                 => m.NoiseMapImage = It.IsAny<Bitmap>(), Times.Once);
         }
+        
         public void VerifySelectedNoiseUpdated(NoiseType nt)
             => _viewMock.VerifySet(m
                 => m.SelectedNoise = nt, Times.Once);
+        
+        public void VerifyPerlinAmplitudeLabelUpdated() =>
+            _viewMock.VerifySet(m
+                => m.PerlinAmplitudeLabel = It.IsAny<float>(), Times.AtLeast(2)); // Init and change
+        
+        public void VerifyPerlinFrequencyLabelUpdated() =>
+            _viewMock.VerifySet(m
+                => m.PerlinFrequencyLabel = It.IsAny<float>(), Times.AtLeast(2)); // Init and change
+
     }
 }

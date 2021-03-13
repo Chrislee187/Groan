@@ -149,5 +149,51 @@ namespace GroanUI.Tests
 
             _viewMockery.VerifyNoiseMapImageUpdated();
         }
+
+        [Test]
+        public void SetPerlinAmplitude_updates_the_Model()
+        {
+            _presenter.SetPerlinAmplitude(3);
+
+            _model.PerlinAmplitude.ShouldBe(0.03f);
+        }
+        [Test]
+        public void SetPerlinAmplitude_updates_the_PerlinAmplitudeLabel()
+        {
+            _presenter.SetPerlinAmplitude(3);
+
+            _viewMockery.VerifyPerlinAmplitudeLabelUpdated();
+        }
+        [Test]
+        public void SetPerlinAmplitude_updates_the_NoiseMap()
+        {
+            _presenter.SetPerlinAmplitude(3);
+
+            _viewMockery.VerifyNoiseMapImageUpdated();
+        }
+
+        [Test]
+        public void SetPerlinFrequency_updates_the_Model()
+        {
+            _presenter.SetPerlinFrequency(3);
+
+            _model.PerlinFrequency.ShouldBe(0.03f);
+        }
+
+        [Test]
+        public void SetPerlinFrequency_updates_the_PerlinFrequencyLabel()
+        {
+            _presenter.SetPerlinFrequency(3);
+
+            _viewMockery.VerifyPerlinFrequencyLabelUpdated();
+        }
+
+        [Test]
+        public void SetPerlinFrequency_updates_the_NoiseMap()
+        {
+            _presenter.SetPerlinFrequency(3);
+
+            _viewMockery.VerifyNoiseMapImageUpdated();
+        }
     }
 }
