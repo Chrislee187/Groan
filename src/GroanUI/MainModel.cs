@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Numerics;
 
 namespace GroanUI
 {
@@ -18,6 +19,9 @@ namespace GroanUI
         public float MinThreshold { get; set; }
         public float MaxThreshold { get; set; }
         public int PerlinScale { get; set; }
+        public bool OneBit { get; set; }
+        public float PerlinAmplitude { get; set; }
+        public float PerlinFrequency { get; set; }
 
         public MainModel()
         {
@@ -32,10 +36,13 @@ namespace GroanUI
             MapSize = new Size(400, 400);
             SelectedNoiseType = NoiseTypes.First().ID;
 
-            MinThreshold = 0.0f;
-            MaxThreshold = 1.0f;
+            MinThreshold = 0.2f;
+            MaxThreshold = 0.8f;
 
             PerlinScale = PerlinPlotter.PerlinDefaultScale;
+            OneBit = false;
+            PerlinAmplitude = 1f;
+            PerlinFrequency = 3f;
         }
     }
 

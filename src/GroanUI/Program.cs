@@ -25,6 +25,7 @@ namespace GroanUI
             services.AddTransient<MainForm>();
             services.AddTransient<MainPresenter>();
             services.AddTransient<MainModel>();
+            services.AddTransient<INoiseFactory, NoiseFactory>();
             ServiceProvider = services.BuildServiceProvider();
         }
     }

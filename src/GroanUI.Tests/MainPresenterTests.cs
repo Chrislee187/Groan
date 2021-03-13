@@ -1,4 +1,5 @@
 using System.Drawing;
+using Moq;
 using NUnit.Framework;
 using Shouldly;
 
@@ -10,15 +11,20 @@ namespace GroanUI.Tests
         private MainViewMockery _viewMockery;
         private MainModel _model;
 
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            MainPresenter.MapRefreshDelayMs.ShouldBeGreaterThan(0, "UX is degraded when using the sliders to change values without a refresh delay");
+            MainPresenter.MapRefreshDelayMs = 0; // NOTE: Remove the UX improvement refresh delay for the purposes of testing
+        }
+
         [SetUp]
         public void Setup()
         {
             _model = new MainModelBuilder().Build();
             _model.MapSize = new Size(1, 1);
             _viewMockery = new MainViewMockery();
-            MainPresenter.MapRefreshDelayMs.ShouldBeGreaterThan(0, "UX is degraded when using the sliders to change values without a refresh delay");
-            MainPresenter.MapRefreshDelayMs = 0; // NOTE: Remove the UX improvement refresh delay for the purposes of testing
-            _presenter = new MainPresenter(_model);
+            _presenter = new MainPresenter(_model, new Mock<NoiseFactory>().Object);
             _presenter.SetView(_viewMockery.Object);
             _presenter.Init();
 

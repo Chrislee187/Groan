@@ -30,6 +30,8 @@ namespace GroanUI
         {
             value = ConstrainToThresholds(value, cfg);
             value = (cfg.Invert ? 1f : 0f) - value;
+            value = cfg.OneBit ? (float)Math.Floor(value) : value;
+
             return Math.Abs(value);
 
         }

@@ -5,6 +5,11 @@ using Shouldly;
 
 namespace GroanUI.Tests
 {
+    /// <summary>
+    /// By there very nature Mock Setup's and Verify's can be quite cumbersome to read,
+    /// this "Mockery" acts as a simple wrapper around such Setup's and Verify's
+    /// to promote readability and re-use
+    /// </summary>
     public class MainViewMockery
     {
         private readonly Mock<IMainView> _viewMock = new();
@@ -48,11 +53,10 @@ namespace GroanUI.Tests
         }
         public void VerifyMinThresholdLabelUpdated() =>
             _viewMock.VerifySet(m
-                => m.MinThresholdLabel = It.IsAny<float>(), Times.Once);
+                => m.MinThresholdLabel = It.IsAny<float>(), Times.AtLeast(2)); // Init and change
         public void VerifyMaxThresholdLabelUpdated() =>
             _viewMock.VerifySet(m
-                => m.MaxThresholdLabel = It.IsAny<float>(), Times.Once);
-
+                => m.MaxThresholdLabel = It.IsAny<float>(), Times.AtLeast(2)); // Init and change
         public void VerifyNoiseMapImageUpdated()
         {
             // NOTE: Image updates are delayed briefly stop the bitmap creation
@@ -61,7 +65,6 @@ namespace GroanUI.Tests
             _viewMock.VerifySet(m
                 => m.NoiseMapImage = It.IsAny<Bitmap>(), Times.Once);
         }
-
         public void VerifySelectedNoiseUpdated(NoiseType nt)
             => _viewMock.VerifySet(m
                 => m.SelectedNoise = nt, Times.Once);

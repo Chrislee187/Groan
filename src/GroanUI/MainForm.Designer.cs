@@ -33,6 +33,7 @@
             this.noiseTypeComboBox = new System.Windows.Forms.ComboBox();
             this.refreshButton = new System.Windows.Forms.Button();
             this.postProcessingGroupBox = new System.Windows.Forms.GroupBox();
+            this.oneBitCheckBox = new System.Windows.Forms.CheckBox();
             this.maxThresholdValue = new System.Windows.Forms.Label();
             this.minThresholdValue = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -44,10 +45,17 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.perlinFrequencyValueLabel = new System.Windows.Forms.Label();
+            this.perlinFrequencyHScrollBar = new System.Windows.Forms.HScrollBar();
+            this.perlinAmplitudeValueLabel = new System.Windows.Forms.Label();
+            this.perlinAmplitudeHScrollBar = new System.Windows.Forms.HScrollBar();
+            this.xOffsetScrollBar = new System.Windows.Forms.HScrollBar();
             this.perlinScaleLabel = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.perlinScale = new System.Windows.Forms.HScrollBar();
-            this.mapRefreshTimer = new System.Windows.Forms.Timer(this.components);
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.previewPictureBox)).BeginInit();
             this.postProcessingGroupBox.SuspendLayout();
             this.optionTabControl.SuspendLayout();
@@ -85,6 +93,7 @@
             // 
             // postProcessingGroupBox
             // 
+            this.postProcessingGroupBox.Controls.Add(this.oneBitCheckBox);
             this.postProcessingGroupBox.Controls.Add(this.maxThresholdValue);
             this.postProcessingGroupBox.Controls.Add(this.minThresholdValue);
             this.postProcessingGroupBox.Controls.Add(this.label4);
@@ -98,6 +107,19 @@
             this.postProcessingGroupBox.TabIndex = 5;
             this.postProcessingGroupBox.TabStop = false;
             this.postProcessingGroupBox.Text = "Post processing options";
+            // 
+            // oneBitCheckBox
+            // 
+            this.oneBitCheckBox.AutoSize = true;
+            this.oneBitCheckBox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.oneBitCheckBox.Location = new System.Drawing.Point(68, 22);
+            this.oneBitCheckBox.Name = "oneBitCheckBox";
+            this.oneBitCheckBox.Size = new System.Drawing.Size(67, 19);
+            this.oneBitCheckBox.TabIndex = 12;
+            this.oneBitCheckBox.Text = "One-bit";
+            this.toolTip1.SetToolTip(this.oneBitCheckBox, "Make the value 0 or 1 before converting to a Color");
+            this.oneBitCheckBox.UseVisualStyleBackColor = true;
+            this.oneBitCheckBox.CheckedChanged += new System.EventHandler(this.oneBitCheckBox_CheckedChanged);
             // 
             // maxThresholdValue
             // 
@@ -125,6 +147,7 @@
             this.label4.Size = new System.Drawing.Size(106, 15);
             this.label4.TabIndex = 8;
             this.label4.Text = "Maxium Threshold";
+            this.toolTip1.SetToolTip(this.label4, "Values above this will be set to 1 for the plot");
             // 
             // label3
             // 
@@ -134,6 +157,7 @@
             this.label3.Size = new System.Drawing.Size(104, 15);
             this.label3.TabIndex = 7;
             this.label3.Text = "Minium Threshold";
+            this.toolTip1.SetToolTip(this.label3, "Values below this will be set to zero for the plot");
             // 
             // maxThreshold
             // 
@@ -164,6 +188,7 @@
             this.invertNoiseMap.Size = new System.Drawing.Size(56, 19);
             this.invertNoiseMap.TabIndex = 4;
             this.invertNoiseMap.Text = "Invert";
+            this.toolTip1.SetToolTip(this.invertNoiseMap, "Invert the plot value before converting to Color");
             this.invertNoiseMap.UseVisualStyleBackColor = true;
             this.invertNoiseMap.CheckedChanged += new System.EventHandler(this.invertNoiseMap_CheckedChanged);
             // 
@@ -200,6 +225,13 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.label7);
+            this.tabPage2.Controls.Add(this.label5);
+            this.tabPage2.Controls.Add(this.perlinFrequencyValueLabel);
+            this.tabPage2.Controls.Add(this.perlinFrequencyHScrollBar);
+            this.tabPage2.Controls.Add(this.perlinAmplitudeValueLabel);
+            this.tabPage2.Controls.Add(this.perlinAmplitudeHScrollBar);
+            this.tabPage2.Controls.Add(this.xOffsetScrollBar);
             this.tabPage2.Controls.Add(this.perlinScaleLabel);
             this.tabPage2.Controls.Add(this.label6);
             this.tabPage2.Controls.Add(this.perlinScale);
@@ -211,6 +243,69 @@
             this.tabPage2.Tag = "Perlin";
             this.tabPage2.Text = "Perlin";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 139);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(62, 15);
+            this.label7.TabIndex = 23;
+            this.label7.Text = "Frequency";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 111);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(63, 15);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Amplitude";
+            // 
+            // perlinFrequencyValueLabel
+            // 
+            this.perlinFrequencyValueLabel.AutoSize = true;
+            this.perlinFrequencyValueLabel.Location = new System.Drawing.Point(219, 139);
+            this.perlinFrequencyValueLabel.Name = "perlinFrequencyValueLabel";
+            this.perlinFrequencyValueLabel.Size = new System.Drawing.Size(34, 15);
+            this.perlinFrequencyValueLabel.TabIndex = 22;
+            this.perlinFrequencyValueLabel.Text = "0.001";
+            // 
+            // perlinFrequencyHScrollBar
+            // 
+            this.perlinFrequencyHScrollBar.Location = new System.Drawing.Point(121, 135);
+            this.perlinFrequencyHScrollBar.Maximum = 1001;
+            this.perlinFrequencyHScrollBar.Name = "perlinFrequencyHScrollBar";
+            this.perlinFrequencyHScrollBar.Size = new System.Drawing.Size(214, 19);
+            this.perlinFrequencyHScrollBar.TabIndex = 21;
+            this.perlinFrequencyHScrollBar.Value = 25;
+            this.perlinFrequencyHScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.perlinFrequencyHScrollBar_Scroll);
+            // 
+            // perlinAmplitudeValueLabel
+            // 
+            this.perlinAmplitudeValueLabel.AutoSize = true;
+            this.perlinAmplitudeValueLabel.Location = new System.Drawing.Point(219, 111);
+            this.perlinAmplitudeValueLabel.Name = "perlinAmplitudeValueLabel";
+            this.perlinAmplitudeValueLabel.Size = new System.Drawing.Size(34, 15);
+            this.perlinAmplitudeValueLabel.TabIndex = 20;
+            this.perlinAmplitudeValueLabel.Text = "0.001";
+            // 
+            // perlinAmplitudeHScrollBar
+            // 
+            this.perlinAmplitudeHScrollBar.Location = new System.Drawing.Point(121, 107);
+            this.perlinAmplitudeHScrollBar.Maximum = 1001;
+            this.perlinAmplitudeHScrollBar.Name = "perlinAmplitudeHScrollBar";
+            this.perlinAmplitudeHScrollBar.Size = new System.Drawing.Size(214, 19);
+            this.perlinAmplitudeHScrollBar.TabIndex = 19;
+            this.perlinAmplitudeHScrollBar.Value = 25;
+            this.perlinAmplitudeHScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.perlinAmplitudeHScrollBar_Scroll);
+            // 
+            // xOffsetScrollBar
+            // 
+            this.xOffsetScrollBar.Location = new System.Drawing.Point(0, 0);
+            this.xOffsetScrollBar.Name = "xOffsetScrollBar";
+            this.xOffsetScrollBar.Size = new System.Drawing.Size(80, 17);
+            this.xOffsetScrollBar.TabIndex = 24;
             // 
             // perlinScaleLabel
             // 
@@ -239,10 +334,6 @@
             this.perlinScale.TabIndex = 11;
             this.perlinScale.Value = 25;
             this.perlinScale.Scroll += new System.Windows.Forms.ScrollEventHandler(this.perlinScale_Scroll);
-            // 
-            // mapRefreshTimer
-            // 
-            this.mapRefreshTimer.Tick += new System.EventHandler(this.mapRefreshTimer_Tick);
             // 
             // MainForm
             // 
@@ -288,7 +379,15 @@
         private System.Windows.Forms.Label perlinScaleLabel;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.HScrollBar perlinScale;
-        private System.Windows.Forms.Timer mapRefreshTimer;
+        private System.Windows.Forms.CheckBox oneBitCheckBox;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.HScrollBar xOffsetScrollBar;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label perlinFrequencyValueLabel;
+        private System.Windows.Forms.HScrollBar perlinFrequencyHScrollBar;
+        private System.Windows.Forms.Label perlinAmplitudeValueLabel;
+        private System.Windows.Forms.HScrollBar perlinAmplitudeHScrollBar;
     }
 }
 

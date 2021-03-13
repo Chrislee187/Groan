@@ -26,7 +26,8 @@ namespace GroanUI
             IndexNoiseTypesDropDown();
 
         }
-        #region IMainView
+        
+        #region View implementation
 
         public string ViewTitle { set => Text = value; }
         public IEnumerable<ListItem<NoiseType, string>> NoiseTypes
@@ -47,13 +48,11 @@ namespace GroanUI
 
         public NoiseType SelectedNoise
         {
-            set
-            {
+            set =>
                 noiseTypeComboBox.SelectedItem =
                     _noiseTypesItemIndex.TryGetValue(value, out var item)
                         ? item
                         : noiseTypeComboBox.Items[0];
-            }
         }
 
         public float MinThresholdLabel
@@ -70,7 +69,24 @@ namespace GroanUI
         {
             set => perlinScaleLabel.Text = value.ToString(CultureInfo.InvariantCulture);
         }
+        
+        public float PerlinAmplitudeLabel
+        {
+            set => perlinAmplitudeValueLabel.Text = value.ToString(CultureInfo.InvariantCulture);
+        }
+        public int PerlinAmplitudeScrollValue
+        {
+            set => perlinAmplitudeHScrollBar.Value = value;
+        }
 
+        public float PerlinFrequencyLabel
+        {
+            set => perlinFrequencyValueLabel.Text = value.ToString(CultureInfo.InvariantCulture);
+        }
+        public int PerlinFrequencyScrollValue
+        {
+            set => perlinFrequencyHScrollBar.Value = value;
+        }
 
         public void ShowDefaultOptionsTab()
         {
@@ -100,20 +116,16 @@ namespace GroanUI
 
         #endregion
 
-        private void noiseTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            _presenter.SelectNoiseType(((ListItem<NoiseType, string>) noiseTypeComboBox.SelectedItem).ID);
-        }
+        #region Control events
+        private void noiseTypeComboBox_SelectedIndexChanged(object sender, EventArgs e) 
+            => _presenter.SelectNoiseType(((ListItem<NoiseType, string>) noiseTypeComboBox.SelectedItem).ID);
 
-        private void invertNoiseMap_CheckedChanged(object sender, EventArgs e)
-        {
-            _presenter.InvertNoise();
-        }
+        private void invertNoiseMap_CheckedChanged(object sender, EventArgs e) 
+            => _presenter.InvertNoise();
 
-        private void mapRefreshTimer_Tick(object sender, EventArgs e)
-        {
+        private void oneBitCheckBox_CheckedChanged(object sender, EventArgs e) 
+            => _presenter.OneBitToggle();
 
-        }
         private void optionTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             var tab = ((TabControl) sender).SelectedTab;
@@ -129,22 +141,26 @@ namespace GroanUI
                 _presenter.SelectOptionsTab(nt);
             }
         }
-        private void minThreshold_Scroll(object sender, ScrollEventArgs e)
-        {
-            _presenter.SetMinThreshold(e.NewValue);
-        }
+        
+        private void minThreshold_Scroll(object sender, ScrollEventArgs e) 
+            => _presenter.SetMinThreshold(e.NewValue);
 
-        private void maxThreshold_Scroll(object sender, ScrollEventArgs e)
-        {
-            _presenter.SetMaxThreshold(e.NewValue);
-        }
+        private void maxThreshold_Scroll(object sender, ScrollEventArgs e) 
+            => _presenter.SetMaxThreshold(e.NewValue);
 
-        private void perlinScale_Scroll(object sender, ScrollEventArgs e)
-        {
-            _presenter.SetPerlinScale(e.NewValue);
-        }
+        private void perlinScale_Scroll(object sender, ScrollEventArgs e) 
+            => _presenter.SetPerlinScale(e.NewValue);
 
+        private void perlinAmplitudeHScrollBar_Scroll(object sender, ScrollEventArgs e) 
+            => _presenter.SetPerlinAmplitude(e.NewValue);
 
+        private void perlinFrequencyHScrollBar_Scroll(object sender, ScrollEventArgs e) 
+            => _presenter.SetPerlinFrequency(e.NewValue);
+
+        #endregion
+
+        #region Lookup indexes
+        
         private readonly Dictionary<NoiseType, TabPage> _configTabsIndex = new();
         private void IndexConfigTabs()
         {
@@ -166,6 +182,8 @@ namespace GroanUI
                 _noiseTypesItemIndex.Add(listItem.ID, listItem);
             }
         }
+
+        #endregion
 
     }
 

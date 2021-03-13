@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.Runtime.CompilerServices;
+using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,10 +8,12 @@ namespace GroanUI
 {
     public class MainPresenter : BasePresenter<IMainView>
     {
+        private readonly INoiseFactory _noiseFactory;
         private readonly MainModel _model;
 
-        public MainPresenter(MainModel model)
+        public MainPresenter(MainModel model, INoiseFactory noiseFactory)
         {
+            _noiseFactory = noiseFactory;
             _model = model;
         }
 
@@ -22,6 +22,13 @@ namespace GroanUI
             View.ViewTitle = _model.ViewTitle;
             View.MapSize = _model.MapSize;
             View.NoiseTypes = _model.NoiseTypes;
+            View.MinThresholdLabel = _model.MinThreshold;
+            View.MaxThresholdLabel = _model.MaxThreshold;
+            View.PerlinScaleLabel = _model.PerlinScale;
+            View.PerlinAmplitudeLabel = _model.PerlinAmplitude;
+            View.PerlinFrequencyLabel = _model.PerlinFrequency;
+            View.PerlinAmplitudeScrollValue = (int) (_model.PerlinAmplitude * 100f);
+            View.PerlinFrequencyScrollValue = (int) (_model.PerlinFrequency * 100f);
         }
 
         public void SelectNoiseType(NoiseType noiseType)
@@ -68,6 +75,15 @@ namespace GroanUI
 
             View.EnableChangeEvents();
         }
+        public void OneBitToggle()
+        {
+            View.DisableChangeEvents();
+            _model.OneBit = !_model.OneBit;
+            InstantNoiseMapRedraw();
+
+            View.EnableChangeEvents();
+        }
+
         public void SetMinThreshold(int value)
         {
             View.DisableChangeEvents();
@@ -101,66 +117,59 @@ namespace GroanUI
 
             View.EnableChangeEvents();
         }
-
-        private Bitmap CreateNoiseBitmap(NoiseType noiseType, Size size)
+        public void SetPerlinAmplitude(int value)
         {
-            var bmp = new Bitmap(
-                size.Width,
-                size.Height,
-                PixelFormat.Format32bppRgb);
+            View.DisableChangeEvents();
 
-            var noise = _noiseProvider[noiseType];
+            _model.PerlinAmplitude = (float)value / 100;
+            View.PerlinAmplitudeLabel = _model.PerlinAmplitude;
 
-            var noiseConfig = _configProviders[noiseType];
+            DelayedNoiseMapRedraw();
 
-            noise.Plot(bmp, noiseConfig(_model));
+            View.EnableChangeEvents();
+        }
+        public void SetPerlinFrequency(int value)
+        {
+            View.DisableChangeEvents();
 
-            return bmp;
+            _model.PerlinFrequency = (float)value / 100;
+            View.PerlinFrequencyLabel = _model.PerlinFrequency;
+
+            DelayedNoiseMapRedraw();
+
+            View.EnableChangeEvents();
         }
 
-        private readonly DefaultReturnDictionary<NoiseType, Func<MainModel, NoiseConfig>> _configProviders =
+
+        private readonly DefaultDictionary<NoiseType, Func<MainModel, NoiseConfig>> _configProviders =
             new (DefaultConfigProvider)
             {
-                {NoiseType.Perlin, m => new PerlinConfig(m.InvertMap, m.MinThreshold, m.MaxThreshold, m.PerlinScale)}
+                {NoiseType.Perlin, m => new PerlinConfig(
+                    m.InvertMap, m.MinThreshold, m.MaxThreshold, m.OneBit, 
+                    m.PerlinScale, m.PerlinAmplitude, m.PerlinFrequency)}
             };
 
         private static NoiseConfig DefaultConfigProvider(MainModel model) 
-            => new(model.InvertMap, model.MinThreshold, model.MaxThreshold);
+            => new(model.InvertMap, model.MinThreshold, model.MaxThreshold, model.OneBit);
 
-        private readonly Dictionary<NoiseType, NoisePlotter> _noiseProvider
-            = new()
-            {
-                { NoiseType.HorizontalGradient, new HGradientPlotter() },
-                { NoiseType.VerticalGradient, new VGradientPlotter() },
-                { NoiseType.Random, new SystemRandomPlotter() },
-                { NoiseType.Perlin, new PerlinPlotter() },
-            };
-
-        private Task _refreshNoiseMapTask;
-        private CancellationTokenSource _refreshTaskToken;
 
         /// <summary>
         /// Introduce a small delay before refreshing the noise map to allow further
         /// changes to the config. i.e. When scrolling a scrollbar to change a value
-        /// 
-        /// </summary>
+        /// the redraw is not finished by the time the next scroll event arrive and produces
+        /// a laggy UX. The delay is reset every time the Redraw is called.
+        ///  </summary>
         public static int MapRefreshDelayMs = 10;
+        private CancellationTokenSource _refreshTaskToken = new();
 
         private void DelayedNoiseMapRedraw()
         {
-            if (_refreshNoiseMapTask == null)
-            {
-                _refreshTaskToken = new CancellationTokenSource();
-            }
-            else
+            if (MapRefreshDelayMs > 0)
             {
                 _refreshTaskToken.Cancel();
                 _refreshTaskToken = new CancellationTokenSource();
-            }
 
-            if (MapRefreshDelayMs > 0)
-            {
-                _refreshNoiseMapTask = Task.Delay(MapRefreshDelayMs, _refreshTaskToken.Token)
+                Task.Delay(MapRefreshDelayMs, _refreshTaskToken.Token)
                     .ContinueWith(t => InstantNoiseMapRedraw(), _refreshTaskToken.Token);
             }
             else
@@ -170,30 +179,6 @@ namespace GroanUI
         }
 
         private void InstantNoiseMapRedraw()
-            => View.NoiseMapImage = CreateNoiseBitmap(_model.SelectedNoiseType, _model.MapSize);
-
-    }
-
-    public class DefaultReturnDictionary<TKey, TValue> : Dictionary<TKey, TValue>
-    {
-        public DefaultReturnDictionary(TValue dflt)
-        {
-            _default = dflt;
-        }
-
-        private TValue _default;
-
-        public new TValue this[TKey i]
-        {
-            get
-            {
-                if (TryGetValue(i, out var value))
-                {
-                    return value;
-                }
-
-                return _default;
-            }
-        }
+            => View.NoiseMapImage = _noiseFactory.CreateNoiseBitmap(_model.SelectedNoiseType, _model.MapSize, _configProviders[_model.SelectedNoiseType](_model));
     }
 }

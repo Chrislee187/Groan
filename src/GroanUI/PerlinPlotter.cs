@@ -6,7 +6,7 @@ namespace GroanUI
 {
     public class PerlinPlotter : NoisePlotter
     {
-        public const int PerlinDefaultScale = 25;
+        public const int PerlinDefaultScale = 100;
         public const int PerlinDefaultNumberOfOctaves = 5;
         public const float PerlinDefaultPersistence = 0.4f;
         public const float PerlinDefaultLacunarity = 2f;
@@ -20,11 +20,8 @@ namespace GroanUI
             var maxNoiseHeight = float.MinValue;
             var minNoiseHeight = float.MaxValue;
 
-            var halfWidth = b.Width / 2f;
-            var halfHeight = b.Height / 2f;
             var noiseMap = new float[b.Width, b.Height];
 
-            // TODO: From config
             var octaves = PerlinDefaultNumberOfOctaves;
             var seed = 0;
             var scale = pcfg.Scale;
@@ -35,7 +32,8 @@ namespace GroanUI
             {
                 for (int x = 0; x < b.Width; x++)
                 {
-                    var noiseHeight = CalculatePerlinNoise(x , y , scale, persistence, lacunarity, octaveOffsets);
+                    var noiseHeight = CalculatePerlinNoise(x , y , scale, persistence, lacunarity, octaveOffsets,
+                        pcfg.Amplitude, pcfg.Frequency);
 
                     maxNoiseHeight = Math.Max(noiseHeight, maxNoiseHeight);
                     minNoiseHeight = Math.Min(noiseHeight, minNoiseHeight);
@@ -80,10 +78,11 @@ namespace GroanUI
 
         private static float CalculatePerlinNoise(float x, float y, float scale, float persistence,
             float lacunarity,
-            Vector2[] octaveOffsets)
+            Vector2[] octaveOffsets,
+            float amplitude = 1f,
+            float frequency = 1f)
         {
-            var amplitude = 1f;
-            var frequency = 1f; // NOTE: Higher the freq, further apart sample points will be, which means height values will change more rapidly
+            // NOTE: Higher the freq, further apart sample points will be, which means height values will change more rapidly
 
             var noiseHeight = 0f;
 
