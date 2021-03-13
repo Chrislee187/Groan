@@ -1,4 +1,3 @@
-using System;
 using System.Drawing;
 using Moq;
 using Shouldly;

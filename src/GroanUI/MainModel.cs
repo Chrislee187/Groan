@@ -17,6 +17,7 @@ namespace GroanUI
 
         public float MinThreshold { get; set; }
         public float MaxThreshold { get; set; }
+        public int PerlinScale { get; set; }
 
         public MainModel()
         {
@@ -26,12 +27,15 @@ namespace GroanUI
                 new(NoiseType.HorizontalGradient, "Horizontal Gradient")
                 ,new(NoiseType.VerticalGradient, "Vertical Gradient")
                 ,new(NoiseType.Random, "Random")
+                ,new(NoiseType.Perlin, "Perlin")
             };
             MapSize = new Size(400, 400);
             SelectedNoiseType = NoiseTypes.First().ID;
 
             MinThreshold = 0.0f;
             MaxThreshold = 1.0f;
+
+            PerlinScale = PerlinPlotter.PerlinDefaultScale;
         }
     }
 
@@ -39,6 +43,7 @@ namespace GroanUI
     {
         HorizontalGradient,
         VerticalGradient,
-        Random
+        Random,
+        Perlin
     }
 }

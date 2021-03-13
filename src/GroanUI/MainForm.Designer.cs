@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.previewPictureBox = new System.Windows.Forms.PictureBox();
             this.noiseTypeComboBox = new System.Windows.Forms.ComboBox();
             this.refreshButton = new System.Windows.Forms.Button();
@@ -43,7 +44,10 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.label2 = new System.Windows.Forms.Label();
+            this.perlinScaleLabel = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.perlinScale = new System.Windows.Forms.HScrollBar();
+            this.mapRefreshTimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.previewPictureBox)).BeginInit();
             this.postProcessingGroupBox.SuspendLayout();
             this.optionTabControl.SuspendLayout();
@@ -137,6 +141,7 @@
             this.maxThreshold.Maximum = 1000;
             this.maxThreshold.Name = "maxThreshold";
             this.maxThreshold.Size = new System.Drawing.Size(214, 19);
+            this.maxThreshold.SmallChange = 5;
             this.maxThreshold.TabIndex = 6;
             this.maxThreshold.Value = 1000;
             this.maxThreshold.Scroll += new System.Windows.Forms.ScrollEventHandler(this.maxThreshold_Scroll);
@@ -195,24 +200,49 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.label2);
+            this.tabPage2.Controls.Add(this.perlinScaleLabel);
+            this.tabPage2.Controls.Add(this.label6);
+            this.tabPage2.Controls.Add(this.perlinScale);
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(426, 259);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Tag = "VerticalGradient";
-            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.Tag = "Perlin";
+            this.tabPage2.Text = "Perlin";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // label2
+            // perlinScaleLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(146, 140);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(38, 15);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "label2";
+            this.perlinScaleLabel.AutoSize = true;
+            this.perlinScaleLabel.Location = new System.Drawing.Point(219, 19);
+            this.perlinScaleLabel.Name = "perlinScaleLabel";
+            this.perlinScaleLabel.Size = new System.Drawing.Size(34, 15);
+            this.perlinScaleLabel.TabIndex = 13;
+            this.perlinScaleLabel.Text = "0.001";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 19);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(34, 15);
+            this.label6.TabIndex = 12;
+            this.label6.Text = "Scale";
+            // 
+            // perlinScale
+            // 
+            this.perlinScale.Location = new System.Drawing.Point(121, 15);
+            this.perlinScale.Maximum = 1001;
+            this.perlinScale.Name = "perlinScale";
+            this.perlinScale.Size = new System.Drawing.Size(214, 19);
+            this.perlinScale.TabIndex = 11;
+            this.perlinScale.Value = 25;
+            this.perlinScale.Scroll += new System.Windows.Forms.ScrollEventHandler(this.perlinScale_Scroll);
+            // 
+            // mapRefreshTimer
+            // 
+            this.mapRefreshTimer.Tick += new System.EventHandler(this.mapRefreshTimer_Tick);
             // 
             // MainForm
             // 
@@ -249,13 +279,16 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.HScrollBar minThreshold;
         private System.Windows.Forms.HScrollBar maxThreshold;
         private System.Windows.Forms.Label minThresholdValue;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label maxThresholdValue;
+        private System.Windows.Forms.Label perlinScaleLabel;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.HScrollBar perlinScale;
+        private System.Windows.Forms.Timer mapRefreshTimer;
     }
 }
 

@@ -33,7 +33,7 @@ namespace GroanUI.Tests
         [Test]
         public void NoiseTypeSelected_updates_the_selected_OptionsTab()
         {
-            _presenter.NoiseTypeSelected(NoiseType.VerticalGradient);
+            _presenter.SelectNoiseType(NoiseType.VerticalGradient);
             
             _viewMockery.VerifyOptionsTabUpdated(NoiseType.VerticalGradient);
         }
@@ -41,7 +41,7 @@ namespace GroanUI.Tests
         [Test]
         public void NoiseTypeSelected_updates_the_NoiseMap()
         {
-            _presenter.NoiseTypeSelected(NoiseType.VerticalGradient);
+            _presenter.SelectNoiseType(NoiseType.VerticalGradient);
 
             _viewMockery.VerifyNoiseMapImageUpdated();
         }
@@ -49,7 +49,7 @@ namespace GroanUI.Tests
         [Test]
         public void NoiseTypeSelected_updates_the_Model()
         {
-            _presenter.NoiseTypeSelected(NoiseType.VerticalGradient);
+            _presenter.SelectNoiseType(NoiseType.VerticalGradient);
 
             _model.SelectedNoiseType.ShouldBe(NoiseType.VerticalGradient);
         }
@@ -57,7 +57,7 @@ namespace GroanUI.Tests
         [Test]
         public void OptionsTabSelected_updates_the_Model()
         {
-            _presenter.OptionsTabSelected(NoiseType.VerticalGradient);
+            _presenter.SelectOptionsTab(NoiseType.VerticalGradient);
 
             _model.SelectedNoiseType.ShouldBe(NoiseType.VerticalGradient);
         }
@@ -65,7 +65,7 @@ namespace GroanUI.Tests
         [Test]
         public void OptionsTabSelected_updates_the_selected_NoiseType()
         {
-            _presenter.OptionsTabSelected(NoiseType.VerticalGradient);
+            _presenter.SelectOptionsTab(NoiseType.VerticalGradient);
 
             _viewMockery.VerifySelectedNoiseUpdated(NoiseType.VerticalGradient);
         }
@@ -73,7 +73,7 @@ namespace GroanUI.Tests
         [Test]
         public void OptionsTabSelected_updates_the_NoiseMap()
         {
-            _presenter.OptionsTabSelected(NoiseType.VerticalGradient);
+            _presenter.SelectOptionsTab(NoiseType.VerticalGradient);
 
             _viewMockery.VerifyNoiseMapImageUpdated();
         }

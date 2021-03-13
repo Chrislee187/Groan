@@ -13,6 +13,7 @@ namespace GroanUI
         
         float MinThresholdLabel { set; }
         float MaxThresholdLabel { set; }
+        int PerlinScaleLabel { set; }
 
         void ShowOptionsTabFor(NoiseType noiseType);
         void ShowDefaultOptionsTab();

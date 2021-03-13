@@ -66,6 +66,11 @@ namespace GroanUI
             set => maxThresholdValue.Text = value.ToString(CultureInfo.InvariantCulture);
         }
 
+        public int PerlinScaleLabel
+        {
+            set => perlinScaleLabel.Text = value.ToString(CultureInfo.InvariantCulture);
+        }
+
 
         public void ShowDefaultOptionsTab()
         {
@@ -84,18 +89,20 @@ namespace GroanUI
         {
             noiseTypeComboBox.SelectedIndexChanged -= noiseTypeComboBox_SelectedIndexChanged;
             optionTabControl.SelectedIndexChanged -= optionTabControl_SelectedIndexChanged;
+            perlinScale.Scroll -= perlinScale_Scroll;
         }
         public void EnableChangeEvents()
         {
             noiseTypeComboBox.SelectedIndexChanged += noiseTypeComboBox_SelectedIndexChanged;
             optionTabControl.SelectedIndexChanged += optionTabControl_SelectedIndexChanged;
+            perlinScale.Scroll += perlinScale_Scroll;
         }
 
         #endregion
 
         private void noiseTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            _presenter.NoiseTypeSelected(((ListItem<NoiseType, string>) noiseTypeComboBox.SelectedItem).ID);
+            _presenter.SelectNoiseType(((ListItem<NoiseType, string>) noiseTypeComboBox.SelectedItem).ID);
         }
 
         private void invertNoiseMap_CheckedChanged(object sender, EventArgs e)
@@ -103,19 +110,23 @@ namespace GroanUI
             _presenter.InvertNoise();
         }
 
+        private void mapRefreshTimer_Tick(object sender, EventArgs e)
+        {
+
+        }
         private void optionTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             var tab = ((TabControl) sender).SelectedTab;
 
-            if (tab.Tag == null)
+            if (tab?.Tag == null)
             {
-                _presenter.SelectDefaultOptionsTab();
+                _presenter.SelectDefaultNoise();
             }
             else
             {
-                var nt = Enum.Parse<NoiseType>(tab.Tag.ToString());
+                var nt = Enum.Parse<NoiseType>(tab.Tag.ToString()!);
 
-                _presenter.OptionsTabSelected(nt);
+                _presenter.SelectOptionsTab(nt);
             }
         }
         private void minThreshold_Scroll(object sender, ScrollEventArgs e)
@@ -128,6 +139,11 @@ namespace GroanUI
             _presenter.SetMaxThreshold(e.NewValue);
         }
 
+        private void perlinScale_Scroll(object sender, ScrollEventArgs e)
+        {
+            _presenter.SetPerlinScale(e.NewValue);
+        }
+
 
         private readonly Dictionary<NoiseType, TabPage> _configTabsIndex = new();
         private void IndexConfigTabs()
@@ -136,7 +152,7 @@ namespace GroanUI
             {
                 if (tab?.Tag != null)
                 {
-                    var nt = Enum.Parse<NoiseType>(tab.Tag.ToString());
+                    var nt = Enum.Parse<NoiseType>(tab.Tag.ToString()!);
                     _configTabsIndex.Add(nt, tab);
                 }
             }

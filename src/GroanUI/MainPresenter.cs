@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace GroanUI
 {
@@ -21,7 +24,7 @@ namespace GroanUI
             View.NoiseTypes = _model.NoiseTypes;
         }
 
-        public void NoiseTypeSelected(NoiseType noiseType)
+        public void SelectNoiseType(NoiseType noiseType)
         {
             _model.SelectedNoiseType = noiseType;
 
@@ -29,23 +32,22 @@ namespace GroanUI
             
             View.SelectedNoise = noiseType;
             View.ShowOptionsTabFor(noiseType);
-            RedrawNoiseMap();
+            InstantNoiseMapRedraw();
             
             View.EnableChangeEvents();
         }
-        public void OptionsTabSelected(NoiseType noiseType)
+        public void SelectOptionsTab(NoiseType noiseType)
         {
             View.DisableChangeEvents();
             _model.SelectedNoiseType = noiseType;
             
             View.SelectedNoise = noiseType;
             
-            RedrawNoiseMap();
+            InstantNoiseMapRedraw();
             
             View.EnableChangeEvents();
         }
-        
-        public void SelectDefaultOptionsTab()
+        public void SelectDefaultNoise()
         {
             View.DisableChangeEvents();
 
@@ -53,21 +55,19 @@ namespace GroanUI
             
             View.ShowDefaultOptionsTab();
 
-            RedrawNoiseMap();
+            InstantNoiseMapRedraw();
             
             View.EnableChangeEvents();
         }
-        
         public void InvertNoise()
         {
             View.DisableChangeEvents();
             
             _model.InvertMap = !_model.InvertMap;
-            RedrawNoiseMap();
+            InstantNoiseMapRedraw();
 
             View.EnableChangeEvents();
         }
-        
         public void SetMinThreshold(int value)
         {
             View.DisableChangeEvents();
@@ -75,11 +75,10 @@ namespace GroanUI
             _model.MinThreshold = (float)value / MainModel.ThresholdMaxValue;
             View.MinThresholdLabel = _model.MinThreshold;
             
-            RedrawNoiseMap();
+            DelayedNoiseMapRedraw();
 
             View.EnableChangeEvents();
         }
-
         public void SetMaxThreshold(int value)
         {
             View.DisableChangeEvents();
@@ -87,16 +86,23 @@ namespace GroanUI
             _model.MaxThreshold = (float)value / MainModel.ThresholdMaxValue;
             View.MaxThresholdLabel = _model.MaxThreshold;
 
-            RedrawNoiseMap();
+            DelayedNoiseMapRedraw();
 
             View.EnableChangeEvents();
         }
-        private void RedrawNoiseMap()
+        public void SetPerlinScale(int value)
         {
-            View.NoiseMapImage = CreateNoiseBitmap(_model.SelectedNoiseType, _model.MapSize, _model.InvertMap);
+            if (value == _model.PerlinScale) return;
+            View.DisableChangeEvents();
+
+            _model.PerlinScale = value;
+            View.PerlinScaleLabel = _model.PerlinScale;
+            DelayedNoiseMapRedraw();
+
+            View.EnableChangeEvents();
         }
 
-        private Bitmap CreateNoiseBitmap(NoiseType noiseType, Size size, bool invert)
+        private Bitmap CreateNoiseBitmap(NoiseType noiseType, Size size)
         {
             var bmp = new Bitmap(
                 size.Width,
@@ -104,25 +110,18 @@ namespace GroanUI
                 PixelFormat.Format32bppRgb);
 
             var noise = _noiseProvider[noiseType];
-            var cfg = _configProviders[_model.SelectedNoiseType](_model);
 
-            for (var y = 0; y < size.Height - 1; y++)
-            {
-                for (var x = 0; x < size.Width - 1; x++)
-                {
-                    bmp.SetPixel(x, y, noise.Plot(x, y, bmp, cfg));
-                }
-            }
+            var noiseConfig = _configProviders[noiseType];
+
+            noise.Plot(bmp, noiseConfig(_model));
 
             return bmp;
         }
 
-        private readonly Dictionary<NoiseType, Func<MainModel, NoiseConfig>> _configProviders =
-            new()
+        private readonly DefaultReturnDictionary<NoiseType, Func<MainModel, NoiseConfig>> _configProviders =
+            new (DefaultConfigProvider)
             {
-                {NoiseType.HorizontalGradient, DefaultConfigProvider},
-                {NoiseType.VerticalGradient, DefaultConfigProvider},
-                {NoiseType.Random, DefaultConfigProvider}
+                {NoiseType.Perlin, m => new PerlinConfig(m.InvertMap, m.MinThreshold, m.MaxThreshold, m.PerlinScale)}
             };
 
         private static NoiseConfig DefaultConfigProvider(MainModel model) 
@@ -134,84 +133,53 @@ namespace GroanUI
                 { NoiseType.HorizontalGradient, new HGradientPlotter() },
                 { NoiseType.VerticalGradient, new VGradientPlotter() },
                 { NoiseType.Random, new SystemRandomPlotter() },
+                { NoiseType.Perlin, new PerlinPlotter() },
             };
 
-    }
+        private Task _refreshNoiseMapTask;
+        private CancellationTokenSource _refreshTaskToken;
 
-    public class NoiseConfig
-    {
-        public NoiseConfig(bool invert, float minThreshold, float maxThreshold)
+        private void DelayedNoiseMapRedraw()
         {
-            Invert = invert;
-            MinThreshold = minThreshold;
-            MaxThreshold = maxThreshold;
-        }
-
-        public bool Invert { get; }
-        public float MinThreshold { get; }
-        public float MaxThreshold { get; }
-    }
-
-    public abstract class NoisePlotter
-    {
-        public enum ColorChannel
-        {
-            Alpha, Red, Green, Blue
-        }
-
-        // TODO: Move inversePlot int to a config object
-
-        public abstract Color Plot(int x, int y, Bitmap b, NoiseConfig cfg);
-
-        protected float ConstrainToThreshold(float val, NoiseConfig cfg)
-        {
-            return (val < cfg.MinThreshold || val > cfg.MaxThreshold)
-                ? 0f
-                : val;
-        }
-        protected static Color SetChannelValue(int value, ColorChannel channel = ColorChannel.Alpha)
-        {
-            return channel switch
+            if (_refreshNoiseMapTask == null)
             {
-                ColorChannel.Alpha => Color.FromArgb(value, value, value, value),
-                ColorChannel.Red => Color.FromArgb(0, value, 0, 0),
-                ColorChannel.Green => Color.FromArgb(0, 0, value, 0),
-                ColorChannel.Blue => Color.FromArgb(0, 0, 0, value),
-                _ => throw new ArgumentOutOfRangeException(nameof(channel), channel, null)
-            };
+                _refreshTaskToken = new CancellationTokenSource();
+            }
+            else
+            {
+                _refreshTaskToken.Cancel();
+                _refreshTaskToken = new CancellationTokenSource();
+            }
+
+            _refreshNoiseMapTask = Task.Delay(10, _refreshTaskToken.Token)
+                .ContinueWith(t => InstantNoiseMapRedraw(), _refreshTaskToken.Token);
         }
+
+        private void InstantNoiseMapRedraw()
+            => View.NoiseMapImage = CreateNoiseBitmap(_model.SelectedNoiseType, _model.MapSize);
+
     }
 
-    public class SystemRandomPlotter : NoisePlotter
+    public class DefaultReturnDictionary<TKey, TValue> : Dictionary<TKey, TValue>
     {
-        private static readonly Random Random = new Random();
-
-        public override Color Plot(int x, int y, Bitmap b, NoiseConfig cfg)
+        public DefaultReturnDictionary(TValue dflt)
         {
-            var val = (cfg.Invert ? 1f : 0f) - (float)Random.NextDouble();
-            val = ConstrainToThreshold(Math.Abs(val), cfg);
-            return SetChannelValue((int) (255 * val));
+            _default = dflt;
         }
-    }
 
-    public class HGradientPlotter : NoisePlotter
-    {
-        public override Color Plot(int x, int y, Bitmap b, NoiseConfig cfg)
-        {
-            var progress = (cfg.Invert ? 1f : 0f) - (float) x / b.Width;
-            
-            var val = ConstrainToThreshold(Math.Abs(progress), cfg);
-            return SetChannelValue((int) (255 * val));
-        }
-    }
+        private TValue _default;
 
-    public class VGradientPlotter : NoisePlotter
-    {
-        public override Color Plot(int x, int y, Bitmap b, NoiseConfig cfg)
+        public new TValue this[TKey i]
         {
-            var progress = (cfg.Invert ? 1f : 0f) - (float)y / b.Height;
-            var val = ConstrainToThreshold(Math.Abs(progress), cfg);
-            return SetChannelValue((int)(255 * val));
+            get
+            {
+                if (TryGetValue(i, out var value))
+                {
+                    return value;
+                }
+
+                return _default;
+            }
         }
     }
 }
