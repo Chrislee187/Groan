@@ -15,7 +15,7 @@ namespace GroanUI.Tests
 
         public IMainView Object => _viewMock.Object;
 
-        public void SetupVerifyEventsDisabled()
+        public void SetupChangeEventManagementChecks()
         {
             var disabledCalled = false;
             var enabledCalled = false;
@@ -34,7 +34,7 @@ namespace GroanUI.Tests
                 });
         }
 
-        public void VerifyEventsDisabled() 
+        public void VerifyChangeEventsManaged() 
         {
             var failMessage = $"Value changed events not correctly managed by the Presenter. Surround Presenter actions with calls to {nameof(IMainView.DisableChangeEvents)}() and {nameof(IMainView.EnableChangeEvents)}() to avoid problems caused by cascading 'changed' or 'selected' style events";
             _viewMock.Verify((v)
@@ -69,7 +69,11 @@ namespace GroanUI.Tests
         public void VerifySelectedNoiseUpdated(NoiseType nt)
             => _viewMock.VerifySet(m
                 => m.SelectedNoise = nt, Times.Once);
-        
+        public void VerifyPerlinScaleLabelUpdated() =>
+            _viewMock.VerifySet(m
+                => m.PerlinScaleLabel = It.IsAny<int>(), Times.AtLeast(2)); // Init and change
+
+
         public void VerifyPerlinAmplitudeLabelUpdated() =>
             _viewMock.VerifySet(m
                 => m.PerlinAmplitudeLabel = It.IsAny<float>(), Times.AtLeast(2)); // Init and change
@@ -78,5 +82,9 @@ namespace GroanUI.Tests
             _viewMock.VerifySet(m
                 => m.PerlinFrequencyLabel = It.IsAny<float>(), Times.AtLeast(2)); // Init and change
 
+        public void VerifyDefaultOptionsShown()
+        {
+            _viewMock.Verify(m => m.ShowDefaultOptionsTab(), Times.Once);
+        }
     }
 }

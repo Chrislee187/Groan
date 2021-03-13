@@ -24,17 +24,17 @@ namespace GroanUI.Tests
             _model = new MainModelBuilder().Build();
             _model.MapSize = new Size(1, 1);
             _viewMockery = new MainViewMockery();
-            _presenter = new MainPresenter(_model, new Mock<NoiseFactory>().Object);
+            _presenter = new MainPresenter(_model, new Mock<INoiseFactory>().Object);
             _presenter.SetView(_viewMockery.Object);
             _presenter.Init();
 
-            _viewMockery.SetupVerifyEventsDisabled();
+            _viewMockery.SetupChangeEventManagementChecks();
         }
 
         [TearDown]
         public void TearDown()
         {
-            _viewMockery.VerifyEventsDisabled();
+            _viewMockery.VerifyChangeEventsManaged();
         }
 
         [Test]
@@ -104,6 +104,24 @@ namespace GroanUI.Tests
         }
 
         [Test]
+        public void OneBitToggle_updates_the_model()
+        {
+            _model.OneBit.ShouldBeFalse();
+
+            _presenter.OneBitToggle();
+
+            _model.OneBit.ShouldBeTrue();
+        }
+
+        [Test]
+        public void OneBitToggle_updates_the_NoiseMap()
+        {
+            _presenter.OneBitToggle();
+
+            _viewMockery.VerifyNoiseMapImageUpdated();
+        }
+
+        [Test]
         public void SetMinThreshold_updates_the_model()
         {
             _presenter.SetMinThreshold(500);
@@ -146,6 +164,28 @@ namespace GroanUI.Tests
         public void SetMaxThreshold_updates_the_NoiseMap()
         {
             _presenter.SetMaxThreshold(500);
+
+            _viewMockery.VerifyNoiseMapImageUpdated();
+        }
+
+        [Test]
+        public void SetPerlinScale_updates_the_Model()
+        {
+            _presenter.SetPerlinScale(3);
+
+            _model.PerlinScale.ShouldBe(3);
+        }
+        [Test]
+        public void SetPerlinScale_updates_the_PerlinAmplitudeLabel()
+        {
+            _presenter.SetPerlinScale(3);
+
+            _viewMockery.VerifyPerlinScaleLabelUpdated();
+        }
+        [Test]
+        public void SetPerlinScale_updates_the_NoiseMap()
+        {
+            _presenter.SetPerlinScale(3);
 
             _viewMockery.VerifyNoiseMapImageUpdated();
         }
@@ -194,6 +234,30 @@ namespace GroanUI.Tests
             _presenter.SetPerlinFrequency(3);
 
             _viewMockery.VerifyNoiseMapImageUpdated();
+        }
+
+        [Test]
+        public void SelectDefaultNoise_updates_the_NoiseMap()
+        {
+            _presenter.SelectDefaultNoise();
+
+            _viewMockery.VerifyNoiseMapImageUpdated();
+        }
+
+        [Test]
+        public void SelectDefaultNoise_updates_the_Model()
+        {
+            _presenter.SelectDefaultNoise();
+
+            _model.SelectedNoiseType.ShouldBe(NoiseType.HorizontalGradient);
+        }
+
+        [Test]
+        public void SelectDefaultNoise_updates_the_OptionsTab()
+        {
+            _presenter.SelectDefaultNoise();
+
+            _viewMockery.VerifyDefaultOptionsShown();
         }
     }
 }
