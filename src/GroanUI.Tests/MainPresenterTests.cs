@@ -35,7 +35,7 @@ namespace GroanUI.Tests
         {
             _presenter.NoiseTypeSelected(NoiseType.VerticalGradient);
             
-            _viewMockery.OptionsTabUpdated(NoiseType.VerticalGradient);
+            _viewMockery.VerifyOptionsTabUpdated(NoiseType.VerticalGradient);
         }
 
         [Test]
@@ -43,7 +43,7 @@ namespace GroanUI.Tests
         {
             _presenter.NoiseTypeSelected(NoiseType.VerticalGradient);
 
-            _viewMockery.NoiseMapImageUpdated();
+            _viewMockery.VerifyNoiseMapImageUpdated();
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace GroanUI.Tests
         {
             _presenter.OptionsTabSelected(NoiseType.VerticalGradient);
 
-            _viewMockery.SelectedNoiseUpdated(NoiseType.VerticalGradient);
+            _viewMockery.VerifySelectedNoiseUpdated(NoiseType.VerticalGradient);
         }
 
         [Test]
@@ -75,7 +75,7 @@ namespace GroanUI.Tests
         {
             _presenter.OptionsTabSelected(NoiseType.VerticalGradient);
 
-            _viewMockery.NoiseMapImageUpdated();
+            _viewMockery.VerifyNoiseMapImageUpdated();
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace GroanUI.Tests
         {
             _presenter.InvertNoise();
 
-            _viewMockery.NoiseMapImageUpdated();
+            _viewMockery.VerifyNoiseMapImageUpdated();
         }
 
         [Test]
@@ -109,7 +109,7 @@ namespace GroanUI.Tests
         {
             _presenter.SetMinThreshold(500);
 
-            _viewMockery.MinThresholdLabelUpdated();
+            _viewMockery.VerifyMinThresholdLabelUpdated();
         }
 
         [Test]
@@ -117,7 +117,7 @@ namespace GroanUI.Tests
         {
             _presenter.SetMinThreshold(500);
 
-            _viewMockery.NoiseMapImageUpdated();
+            _viewMockery.VerifyNoiseMapImageUpdated();
         }
 
         [Test]
@@ -133,14 +133,14 @@ namespace GroanUI.Tests
         {
             _presenter.SetMaxThreshold(500);
 
-            _viewMockery.MaxThresholdLabelUpdated();
+            _viewMockery.VerifyMaxThresholdLabelUpdated();
         }
         [Test]
         public void SetMaxThreshold_updates_the_NoiseMap()
         {
             _presenter.SetMaxThreshold(500);
 
-            _viewMockery.NoiseMapImageUpdated();
+            _viewMockery.VerifyNoiseMapImageUpdated();
         }
     }
 }

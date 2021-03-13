@@ -38,7 +38,7 @@ namespace GroanUI.Tests
                 => v.EnableChangeEvents(), Times.Once);
         }
 
-        public void OptionsTabUpdated(NoiseType nt)
+        public void VerifyOptionsTabUpdated(NoiseType nt)
         {
             _viewMock.Verify(m
                 => m.ShowOptionsTabFor(
@@ -46,25 +46,19 @@ namespace GroanUI.Tests
                         => nt2 == nt))
             );
         }
-        public void MinThresholdLabelUpdated() =>
+        public void VerifyMinThresholdLabelUpdated() =>
             _viewMock.VerifySet(m
                 => m.MinThresholdLabel = It.IsAny<float>(), Times.Once);
-        public void MaxThresholdLabelUpdated() =>
+        public void VerifyMaxThresholdLabelUpdated() =>
             _viewMock.VerifySet(m
                 => m.MaxThresholdLabel = It.IsAny<float>(), Times.Once);
 
-        public void NoiseMapImageUpdated() =>
+        public void VerifyNoiseMapImageUpdated() =>
             _viewMock.VerifySet(m
                 => m.NoiseMapImage = It.IsAny<Bitmap>(), Times.Once);
 
-        public void SelectedNoiseUpdated(NoiseType nt)
+        public void VerifySelectedNoiseUpdated(NoiseType nt)
             => _viewMock.VerifySet(m
                 => m.SelectedNoise = nt, Times.Once);
-
-        public void VerifyAll()
-        {
-            
-            _viewMock.VerifyAll();
-        }
     }
 }
