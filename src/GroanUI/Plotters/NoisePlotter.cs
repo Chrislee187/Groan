@@ -19,14 +19,14 @@ namespace GroanUI.Plotters
                 for (var x = 0; x < b.Width - 1; x++)
                 {
                     var plotValue = PlotValue(x, y, b.Size, cfg);
-                    plotValue = ConfigureValue(plotValue, cfg);
+                    plotValue = ApplyOptionalProcessing(plotValue, cfg);
 
                     b.SetPixel(x, y, SetChannelValue((int)(255 * plotValue)));
                 }
             }
         }
 
-        protected float ConfigureValue(float value, NoiseConfig cfg)
+        protected float ApplyOptionalProcessing(float value, NoiseConfig cfg)
         {
             value = ConstrainToThresholds(value, cfg);
             value = (cfg.Invert ? 1f : 0f) - value;

@@ -261,5 +261,38 @@ namespace GroanUI.Tests
 
             _viewMockery.VerifyDefaultOptionsShown();
         }
+
+        [Test]
+        public void SetXOffset_updates_the_NoiseMap()
+        {
+            _presenter.SetXOffset(1);
+
+            _viewMockery.VerifyNoiseMapImageUpdated();
+        }
+
+        [Test]
+        public void SetXOffset_updates_the_Model()
+        {
+            _presenter.SetXOffset(1);
+
+            _model.XOffset.ShouldBe(1);
+        }
+
+        [Test]
+        public void SetYOffset_updates_the_NoiseMap()
+        {
+            _presenter.SetYOffset(1);
+
+            _viewMockery.VerifyNoiseMapImageUpdated();
+        }
+
+        [Test]
+        public void SetYOffset_updates_the_Model()
+        {
+            _presenter.SetYOffset(1);
+
+            _model.YOffset.ShouldBe(1);
+        }
+
     }
 }

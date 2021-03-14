@@ -45,6 +45,11 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.yOffsetLabel = new System.Windows.Forms.Label();
+            this.yOffset = new System.Windows.Forms.HScrollBar();
+            this.label2 = new System.Windows.Forms.Label();
+            this.xOffsetLabel = new System.Windows.Forms.Label();
+            this.xOffset = new System.Windows.Forms.HScrollBar();
             this.perlinScaleLabel = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -83,7 +88,7 @@
             // 
             // refreshButton
             // 
-            this.refreshButton.Location = new System.Drawing.Point(819, 425);
+            this.refreshButton.Location = new System.Drawing.Point(786, 414);
             this.refreshButton.Name = "refreshButton";
             this.refreshButton.Size = new System.Drawing.Size(90, 27);
             this.refreshButton.TabIndex = 2;
@@ -100,7 +105,7 @@
             this.postProcessingGroupBox.Controls.Add(this.maxThreshold);
             this.postProcessingGroupBox.Controls.Add(this.minThreshold);
             this.postProcessingGroupBox.Controls.Add(this.invertNoiseMap);
-            this.postProcessingGroupBox.Location = new System.Drawing.Point(444, 314);
+            this.postProcessingGroupBox.Location = new System.Drawing.Point(446, 302);
             this.postProcessingGroupBox.Name = "postProcessingGroupBox";
             this.postProcessingGroupBox.Size = new System.Drawing.Size(433, 105);
             this.postProcessingGroupBox.TabIndex = 5;
@@ -223,6 +228,11 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.yOffsetLabel);
+            this.tabPage2.Controls.Add(this.yOffset);
+            this.tabPage2.Controls.Add(this.label2);
+            this.tabPage2.Controls.Add(this.xOffsetLabel);
+            this.tabPage2.Controls.Add(this.xOffset);
             this.tabPage2.Controls.Add(this.perlinScaleLabel);
             this.tabPage2.Controls.Add(this.label7);
             this.tabPage2.Controls.Add(this.label5);
@@ -240,6 +250,53 @@
             this.tabPage2.Tag = "Perlin";
             this.tabPage2.Text = "Perlin";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // yOffsetLabel
+            // 
+            this.yOffsetLabel.AutoSize = true;
+            this.yOffsetLabel.Location = new System.Drawing.Point(276, 95);
+            this.yOffsetLabel.Name = "yOffsetLabel";
+            this.yOffsetLabel.Size = new System.Drawing.Size(34, 15);
+            this.yOffsetLabel.TabIndex = 30;
+            this.yOffsetLabel.Text = "0.001";
+            // 
+            // yOffset
+            // 
+            this.yOffset.Location = new System.Drawing.Point(231, 91);
+            this.yOffset.Maximum = 1001;
+            this.yOffset.Name = "yOffset";
+            this.yOffset.Size = new System.Drawing.Size(105, 19);
+            this.yOffset.TabIndex = 29;
+            this.yOffset.Value = 25;
+            this.yOffset.Scroll += new System.Windows.Forms.ScrollEventHandler(this.yOffset_Scroll);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(7, 95);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(39, 15);
+            this.label2.TabIndex = 28;
+            this.label2.Text = "Offset";
+            // 
+            // xOffsetLabel
+            // 
+            this.xOffsetLabel.AutoSize = true;
+            this.xOffsetLabel.Location = new System.Drawing.Point(167, 95);
+            this.xOffsetLabel.Name = "xOffsetLabel";
+            this.xOffsetLabel.Size = new System.Drawing.Size(34, 15);
+            this.xOffsetLabel.TabIndex = 27;
+            this.xOffsetLabel.Text = "0.001";
+            // 
+            // xOffset
+            // 
+            this.xOffset.Location = new System.Drawing.Point(122, 91);
+            this.xOffset.Maximum = 1001;
+            this.xOffset.Name = "xOffset";
+            this.xOffset.Size = new System.Drawing.Size(105, 19);
+            this.xOffset.TabIndex = 26;
+            this.xOffset.Value = 25;
+            this.xOffset.Scroll += new System.Windows.Forms.ScrollEventHandler(this.xOffset_Scroll);
             // 
             // perlinScaleLabel
             // 
@@ -330,12 +387,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(921, 478);
+            this.ClientSize = new System.Drawing.Size(889, 455);
             this.Controls.Add(this.optionTabControl);
             this.Controls.Add(this.postProcessingGroupBox);
             this.Controls.Add(this.refreshButton);
             this.Controls.Add(this.noiseTypeComboBox);
             this.Controls.Add(this.previewPictureBox);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.previewPictureBox)).EndInit();
@@ -378,6 +437,11 @@
         private System.Windows.Forms.Label perlinAmplitudeValueLabel;
         private System.Windows.Forms.HScrollBar perlinAmplitude;
         private System.Windows.Forms.Label perlinScaleLabel;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label xOffsetLabel;
+        private System.Windows.Forms.HScrollBar xOffset;
+        private System.Windows.Forms.Label yOffsetLabel;
+        private System.Windows.Forms.HScrollBar yOffset;
     }
 }
 

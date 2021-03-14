@@ -26,135 +26,175 @@ namespace GroanUI.Views.Main
             View.MaxThreshold = (int)_model.MaxThreshold * 1000;
             View.MinThresholdLabel = _model.MinThreshold;
             View.MaxThresholdLabel = _model.MaxThreshold;
+            View.PerlinScale = _model.PerlinScale;
             View.PerlinScaleLabel = _model.PerlinScale;
             View.PerlinAmplitudeLabel = _model.PerlinAmplitude;
             View.PerlinFrequencyLabel = _model.PerlinFrequency;
-            View.PerlinAmplitudeScrollValue = (int) (_model.PerlinAmplitude * 100f);
-            View.PerlinFrequencyScrollValue = (int) (_model.PerlinFrequency * 100f);
+            View.PerlinAmplitudeScrollValue = (int)(_model.PerlinAmplitude * 100f);
+            View.PerlinFrequencyScrollValue = (int)(_model.PerlinFrequency * 100f);
+            View.XOffsetLabel = _model.XOffset;
+            View.YOffset = _model.XOffset;
+            View.YOffsetLabel = _model.YOffset;
+            View.XOffset = _model.XOffset;
         }
 
         public void SelectNoiseType(NoiseType noiseType)
         {
-            _model.SelectedNoiseType = noiseType;
-
-            View.DisableChangeEvents();
-            
-            View.SelectedNoise = noiseType;
-            View.ShowOptionsTabFor(noiseType);
-            InstantNoiseMapRedraw();
-            
-            View.EnableChangeEvents();
+            RunWithoutChangeEvents(() =>
+            {
+                _model.SelectedNoiseType = noiseType;
+                View.SelectedNoise = noiseType;
+                View.ShowOptionsTabFor(noiseType);
+                InstantNoiseMapRedraw();
+            });
         }
+
         public void SelectOptionsTab(NoiseType noiseType)
         {
-            View.DisableChangeEvents();
-            _model.SelectedNoiseType = noiseType;
-            
-            View.SelectedNoise = noiseType;
-            
-            InstantNoiseMapRedraw();
-            
-            View.EnableChangeEvents();
+            RunWithoutChangeEvents(() =>
+            {
+                _model.SelectedNoiseType = noiseType;
+
+                View.SelectedNoise = noiseType;
+
+                InstantNoiseMapRedraw();
+            });
         }
+
         public void SelectDefaultNoise()
         {
-            View.DisableChangeEvents();
+            RunWithoutChangeEvents(() =>
+            {
+                _model.SelectedNoiseType = NoiseType.HorizontalGradient;
 
-            _model.SelectedNoiseType = NoiseType.HorizontalGradient;
-            
-            View.ShowDefaultOptionsTab();
+                View.ShowDefaultOptionsTab();
 
-            InstantNoiseMapRedraw();
-            
-            View.EnableChangeEvents();
+                InstantNoiseMapRedraw();
+            });
         }
+
         public void InvertNoise()
         {
-            View.DisableChangeEvents();
-            
-            _model.InvertMap = !_model.InvertMap;
-            InstantNoiseMapRedraw();
+            RunWithoutChangeEvents(() =>
+            {
 
-            View.EnableChangeEvents();
+                _model.InvertMap = !_model.InvertMap;
+                InstantNoiseMapRedraw();
+
+            });
         }
+
         public void OneBitToggle()
         {
-            View.DisableChangeEvents();
-            _model.OneBit = !_model.OneBit;
-            InstantNoiseMapRedraw();
+            RunWithoutChangeEvents(() =>
+            {
+                _model.OneBit = !_model.OneBit;
+                InstantNoiseMapRedraw();
 
-            View.EnableChangeEvents();
+            });
         }
 
         public void SetMinThreshold(int value)
         {
-            View.DisableChangeEvents();
+            RunWithoutChangeEvents(() =>
+            {
+                _model.MinThreshold = (float) value / MainModel.ThresholdMaxValue;
+                View.MinThresholdLabel = _model.MinThreshold;
 
-            _model.MinThreshold = (float)value / MainModel.ThresholdMaxValue;
-            View.MinThresholdLabel = _model.MinThreshold;
-            
-            DelayedNoiseMapRedraw();
+                DelayedNoiseMapRedraw();
 
-            View.EnableChangeEvents();
+            });
         }
+
         public void SetMaxThreshold(int value)
         {
-            View.DisableChangeEvents();
+            RunWithoutChangeEvents(() =>
+            {
 
-            _model.MaxThreshold = (float)value / MainModel.ThresholdMaxValue;
-            View.MaxThresholdLabel = _model.MaxThreshold;
+                _model.MaxThreshold = (float) value / MainModel.ThresholdMaxValue;
+                View.MaxThresholdLabel = _model.MaxThreshold;
 
-            DelayedNoiseMapRedraw();
+                DelayedNoiseMapRedraw();
 
-            View.EnableChangeEvents();
+            });
         }
+
         public void SetPerlinScale(int value)
         {
             if (value == _model.PerlinScale) return;
-            View.DisableChangeEvents();
+            RunWithoutChangeEvents(() =>
+            {
 
-            _model.PerlinScale = value;
-            View.PerlinScaleLabel = _model.PerlinScale;
-            DelayedNoiseMapRedraw();
+                _model.PerlinScale = value;
+                View.PerlinScaleLabel = _model.PerlinScale;
+                DelayedNoiseMapRedraw();
 
-            View.EnableChangeEvents();
+            });
         }
+
         public void SetPerlinAmplitude(int value)
         {
-            View.DisableChangeEvents();
+            RunWithoutChangeEvents(() =>
+            {
 
-            _model.PerlinAmplitude = (float)value / 100;
-            View.PerlinAmplitudeLabel = _model.PerlinAmplitude;
+                _model.PerlinAmplitude = (float) value / 100;
+                View.PerlinAmplitudeLabel = _model.PerlinAmplitude;
 
-            DelayedNoiseMapRedraw();
+                DelayedNoiseMapRedraw();
 
-            View.EnableChangeEvents();
+            });
         }
+
         public void SetPerlinFrequency(int value)
         {
-            View.DisableChangeEvents();
+            RunWithoutChangeEvents(() =>
+            {
 
-            _model.PerlinFrequency = (float)value / 100;
-            View.PerlinFrequencyLabel = _model.PerlinFrequency;
+                _model.PerlinFrequency = (float) value / 100;
+                View.PerlinFrequencyLabel = _model.PerlinFrequency;
 
-            DelayedNoiseMapRedraw();
-
-            View.EnableChangeEvents();
+                DelayedNoiseMapRedraw();
+            });
         }
 
+        public void SetXOffset(int value)
+        {
+            RunWithoutChangeEvents(() =>
+            {
+                _model.XOffset = value;
+                View.XOffsetLabel = _model.XOffset;
+
+                DelayedNoiseMapRedraw();
+            });
+        }
+
+        public void SetYOffset(int value)
+        {
+            RunWithoutChangeEvents(() =>
+            {
+                _model.YOffset = value;
+                View.YOffsetLabel = _model.YOffset;
+
+                DelayedNoiseMapRedraw();
+
+            });
+        }
 
         private readonly DefaultDictionary<NoiseType, Func<MainModel, NoiseConfig>> _configProviders =
-            new (DefaultConfigProvider)
+            new(DefaultConfigProvider)
             {
-                {NoiseType.Perlin, m => new PerlinConfig(
-                    m.InvertMap, m.MinThreshold, m.MaxThreshold, m.OneBit, 
-                    m.PerlinScale, m.PerlinAmplitude, m.PerlinFrequency)}
+                {
+                    NoiseType.Perlin,
+                    m => new PerlinConfig(
+                         m.InvertMap, m.MinThreshold, m.MaxThreshold, m.OneBit,
+                         m.PerlinScale, m.PerlinAmplitude, m.PerlinFrequency
+                         ,m.XOffset, m.YOffset)
+                }
             };
 
-        private static NoiseConfig DefaultConfigProvider(MainModel model) 
+        private static NoiseConfig DefaultConfigProvider(MainModel model)
             => new(model.InvertMap, model.MinThreshold, model.MaxThreshold, model.OneBit);
-
-
+        
         /// <summary>
         /// Introduce a small delay before refreshing the noise map to allow further
         /// changes to the config. i.e. When scrolling a scrollbar to change a value
@@ -162,8 +202,8 @@ namespace GroanUI.Views.Main
         /// a laggy UX. The delay is reset every time the Redraw is called.
         ///  </summary>
         public static int MapRefreshDelayMs = 10;
-        private CancellationTokenSource _refreshTaskToken = new();
 
+        private CancellationTokenSource _refreshTaskToken = new();
         private void DelayedNoiseMapRedraw()
         {
             if (MapRefreshDelayMs > 0)
@@ -182,5 +222,12 @@ namespace GroanUI.Views.Main
 
         private void InstantNoiseMapRedraw()
             => View.NoiseMapImage = _noiseFactory.CreateNoiseBitmap(_model.SelectedNoiseType, _model.MapSize, _configProviders[_model.SelectedNoiseType](_model));
+
+        private void RunWithoutChangeEvents(Action action)
+        {
+            View.DisableChangeEvents();
+            action();
+            View.EnableChangeEvents();
+        }
     }
 }

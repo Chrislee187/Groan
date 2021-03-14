@@ -21,6 +21,12 @@ namespace GroanUI.Views.Main
         int PerlinFrequencyScrollValue { set; }
         int MinThreshold { set; }
         int MaxThreshold { set; }
+        int PerlinScale { set; }
+        int XOffsetLabel {set; }
+        int YOffsetLabel { set; }
+        int XOffset {set; }
+        int YOffset {set; }
+
 
         void ShowOptionsTabFor(NoiseType noiseType);
         void ShowDefaultOptionsTab();

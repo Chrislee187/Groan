@@ -96,6 +96,21 @@ namespace GroanUI.Views.Main
             set => maxThreshold.Value = value;
         }
 
+        public int PerlinScale
+        {
+            set => perlinScale.Value = value;
+        }
+
+        public int XOffsetLabel
+        {
+            set => xOffsetLabel.Text = value.ToString();
+        }
+
+        public int YOffsetLabel
+        {
+            set => yOffsetLabel.Text = value.ToString();
+        }
+
         public int PerlinScaleLabel
         {
             set => perlinScaleLabel.Text = value.ToString(CultureInfo.InvariantCulture);
@@ -124,6 +139,17 @@ namespace GroanUI.Views.Main
             optionTabControl.SelectedTab = optionTabControl.TabPages[0];
             noiseTypeComboBox.SelectedIndex = 0;
         }
+
+        public int XOffset
+        {
+            set => xOffset.Value = value;
+        }
+
+        public int YOffset
+        {
+            set => yOffset.Value = value;
+        }
+
 
         public void ShowOptionsTabFor(NoiseType noiseType) =>
             optionTabControl.SelectedTab = 
@@ -190,10 +216,20 @@ namespace GroanUI.Views.Main
         private void perlinFrequencyHScrollBar_Scroll(object sender, ScrollEventArgs e) 
             => _presenter.SetPerlinFrequency(e.NewValue);
 
+        private void xOffset_Scroll(object sender, ScrollEventArgs e)
+        {
+            _presenter.SetXOffset(e.NewValue);
+        }
+
+        private void yOffset_Scroll(object sender, ScrollEventArgs e)
+        {
+            _presenter.SetYOffset(e.NewValue);
+        }
+
         #endregion
 
         #region Lookup indexes
-        
+
         private readonly Dictionary<NoiseType, TabPage> _configTabsIndex = new();
         private void IndexConfigTabs()
         {
@@ -217,11 +253,6 @@ namespace GroanUI.Views.Main
         }
 
         #endregion
-
-        private void hScrollBar1_Scroll(object sender, ScrollEventArgs e)
-        {
-
-        }
     }
 
 }

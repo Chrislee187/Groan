@@ -16,31 +16,28 @@ namespace GroanUI.Plotters
         public override void Plot(Bitmap b, NoiseConfig cfg)
         {
             var pcfg = (PerlinConfig) cfg;
-            var theOffset = Vector2.Zero;
             var maxNoiseHeight = float.MinValue;
             var minNoiseHeight = float.MaxValue;
 
             var noiseMap = new float[b.Width, b.Height];
 
-            var octaves = PerlinDefaultNumberOfOctaves;
-            var seed = 0;
-            var scale = pcfg.Scale;
-            var persistence = PerlinDefaultPersistence;
-            var lacunarity = PerlinDefaultLacunarity;
-            var octaveOffsets = CreateOctaves(octaves, theOffset, seed);
+            // var octaves = PerlinDefaultNumberOfOctaves;
+            // var seed = 0;
+            // var scale = pcfg.Scale;
+            // var persistence = PerlinDefaultPersistence;
+            // var lacunarity = PerlinDefaultLacunarity;
+            // var octaveOffsets = CreateOctaves(octaves, theOffset, seed);
             for (int y = 0; y < b.Height; y++)
             {
                 for (int x = 0; x < b.Width; x++)
                 {
-                    var noiseHeight = CalculatePerlinNoise(x , y , scale, persistence, lacunarity, octaveOffsets,
-                        pcfg.Amplitude, pcfg.Frequency);
+                    var noiseHeight = CalculatePerlinNoise(x , y, pcfg);
 
                     maxNoiseHeight = Math.Max(noiseHeight, maxNoiseHeight);
                     minNoiseHeight = Math.Min(noiseHeight, minNoiseHeight);
 
                     noiseMap[x, y] = noiseHeight;
                 }
-
             }
 
             for (int y = 0; y < b.Height; y++)
@@ -48,7 +45,7 @@ namespace GroanUI.Plotters
                 for (int x = 0; x < b.Width; x++)
                 {
                     var plotValue = InverseLerp(minNoiseHeight, maxNoiseHeight, noiseMap[x, y]);
-                    plotValue = ConfigureValue(plotValue, cfg);
+                    plotValue = ApplyOptionalProcessing(plotValue, cfg);
 
                     b.SetPixel(x, y, SetChannelValue((int)(255 * plotValue)));
                 }
@@ -76,18 +73,15 @@ namespace GroanUI.Plotters
         }
 
 
-        private static float CalculatePerlinNoise(float x, float y, float scale, float persistence,
-            float lacunarity,
-            Vector2[] octaveOffsets,
-            float amplitude = 1f,
-            float frequency = 1f)
+        private static float CalculatePerlinNoise(float x, float y, PerlinConfig cfg)
         {
             // NOTE: Higher the freq, further apart sample points will be, which means height values will change more rapidly
 
-            var noiseHeight = 0f;
-            return Noise.Generate(
-                x / scale,
-                y / scale) * amplitude;
+            var sampleX = (x + cfg.XOffset) / cfg.Scale * cfg.Frequency;
+            var sampleY = (y + cfg.YOffset) / cfg.Scale * cfg.Frequency;
+            
+            return Noise.Generate(sampleX, sampleY);
+            
             // return Noise.Generate(
             //     x / scale * frequency,
             //     y /scale * frequency) * amplitude;

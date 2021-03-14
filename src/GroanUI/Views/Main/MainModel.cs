@@ -23,6 +23,8 @@ namespace GroanUI.Views.Main
         public bool OneBit { get; set; }
         public float PerlinAmplitude { get; set; }
         public float PerlinFrequency { get; set; }
+        public int XOffset { get; set; }
+        public int YOffset { get; set; }
 
         public MainModel()
         {
@@ -44,6 +46,8 @@ namespace GroanUI.Views.Main
             OneBit = false;
             PerlinAmplitude = 1f;
             PerlinFrequency = 3f;
+            XOffset = 0;
+            YOffset = 0;
         }
     }
 
