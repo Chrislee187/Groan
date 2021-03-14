@@ -85,22 +85,25 @@ namespace GroanUI.Plotters
             // NOTE: Higher the freq, further apart sample points will be, which means height values will change more rapidly
 
             var noiseHeight = 0f;
-
-            for (var i = 0; i < octaveOffsets.Length; i++)
-            {
-                var sampleX = x / scale * frequency + octaveOffsets[i]
-                    .X;
-                var sampleY = y / scale * frequency + octaveOffsets[i]
-                    .Y;
-
-                var perlinValue = Noise.Generate(sampleX, sampleY) * 2 - 1; // Make in the range -1 : 1
-                noiseHeight += perlinValue * amplitude;
-
-                amplitude *= persistence;
-                frequency *= lacunarity;
-            }
-
-            return noiseHeight;
+            return Noise.Generate(
+                x / scale,
+                y / scale) * amplitude;
+            // return Noise.Generate(
+            //     x / scale * frequency,
+            //     y /scale * frequency) * amplitude;
+            // for (var i = 0; i < octaveOffsets.Length; i++)
+            // {
+            //     var sampleX = x / scale * frequency + octaveOffsets[i].X;
+            //     var sampleY = y / scale * frequency + octaveOffsets[i].Y;
+            //
+            //     var perlinValue = Noise.Generate(sampleX, sampleY) * 2 - 1; // Make in the range -1 : 1
+            //     noiseHeight += perlinValue * amplitude;
+            //
+            //     amplitude *= persistence;
+            //     frequency *= lacunarity;
+            // }
+            //
+            // return noiseHeight;
         }
 
 

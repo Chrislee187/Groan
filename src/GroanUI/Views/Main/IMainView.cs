@@ -19,6 +19,8 @@ namespace GroanUI.Views.Main
         float PerlinFrequencyLabel { set; }
         int PerlinAmplitudeScrollValue { set; }
         int PerlinFrequencyScrollValue { set; }
+        int MinThreshold { set; }
+        int MaxThreshold { set; }
 
         void ShowOptionsTabFor(NoiseType noiseType);
         void ShowDefaultOptionsTab();

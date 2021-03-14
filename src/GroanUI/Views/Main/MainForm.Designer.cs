@@ -45,14 +45,13 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.perlinScaleLabel = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.perlinFrequencyValueLabel = new System.Windows.Forms.Label();
-            this.perlinFrequencyHScrollBar = new System.Windows.Forms.HScrollBar();
+            this.perlinFrequency = new System.Windows.Forms.HScrollBar();
             this.perlinAmplitudeValueLabel = new System.Windows.Forms.Label();
-            this.perlinAmplitudeHScrollBar = new System.Windows.Forms.HScrollBar();
-            this.xOffsetScrollBar = new System.Windows.Forms.HScrollBar();
-            this.perlinScaleLabel = new System.Windows.Forms.Label();
+            this.perlinAmplitude = new System.Windows.Forms.HScrollBar();
             this.label6 = new System.Windows.Forms.Label();
             this.perlinScale = new System.Windows.Forms.HScrollBar();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -165,7 +164,6 @@
             this.maxThreshold.Maximum = 1000;
             this.maxThreshold.Name = "maxThreshold";
             this.maxThreshold.Size = new System.Drawing.Size(214, 19);
-            this.maxThreshold.SmallChange = 5;
             this.maxThreshold.TabIndex = 6;
             this.maxThreshold.Value = 1000;
             this.maxThreshold.Scroll += new System.Windows.Forms.ScrollEventHandler(this.maxThreshold_Scroll);
@@ -225,14 +223,13 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.perlinScaleLabel);
             this.tabPage2.Controls.Add(this.label7);
             this.tabPage2.Controls.Add(this.label5);
             this.tabPage2.Controls.Add(this.perlinFrequencyValueLabel);
-            this.tabPage2.Controls.Add(this.perlinFrequencyHScrollBar);
+            this.tabPage2.Controls.Add(this.perlinFrequency);
             this.tabPage2.Controls.Add(this.perlinAmplitudeValueLabel);
-            this.tabPage2.Controls.Add(this.perlinAmplitudeHScrollBar);
-            this.tabPage2.Controls.Add(this.xOffsetScrollBar);
-            this.tabPage2.Controls.Add(this.perlinScaleLabel);
+            this.tabPage2.Controls.Add(this.perlinAmplitude);
             this.tabPage2.Controls.Add(this.label6);
             this.tabPage2.Controls.Add(this.perlinScale);
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
@@ -244,10 +241,20 @@
             this.tabPage2.Text = "Perlin";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // perlinScaleLabel
+            // 
+            this.perlinScaleLabel.AutoSize = true;
+            this.perlinScaleLabel.BackColor = System.Drawing.Color.Transparent;
+            this.perlinScaleLabel.Location = new System.Drawing.Point(217, 19);
+            this.perlinScaleLabel.Name = "perlinScaleLabel";
+            this.perlinScaleLabel.Size = new System.Drawing.Size(34, 15);
+            this.perlinScaleLabel.TabIndex = 25;
+            this.perlinScaleLabel.Text = "0.001";
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 139);
+            this.label7.Location = new System.Drawing.Point(7, 68);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(62, 15);
             this.label7.TabIndex = 23;
@@ -256,7 +263,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 111);
+            this.label5.Location = new System.Drawing.Point(6, 44);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(63, 15);
             this.label5.TabIndex = 13;
@@ -265,56 +272,40 @@
             // perlinFrequencyValueLabel
             // 
             this.perlinFrequencyValueLabel.AutoSize = true;
-            this.perlinFrequencyValueLabel.Location = new System.Drawing.Point(219, 139);
+            this.perlinFrequencyValueLabel.Location = new System.Drawing.Point(218, 68);
             this.perlinFrequencyValueLabel.Name = "perlinFrequencyValueLabel";
             this.perlinFrequencyValueLabel.Size = new System.Drawing.Size(34, 15);
             this.perlinFrequencyValueLabel.TabIndex = 22;
             this.perlinFrequencyValueLabel.Text = "0.001";
             // 
-            // perlinFrequencyHScrollBar
+            // perlinFrequency
             // 
-            this.perlinFrequencyHScrollBar.Location = new System.Drawing.Point(121, 135);
-            this.perlinFrequencyHScrollBar.Maximum = 1001;
-            this.perlinFrequencyHScrollBar.Name = "perlinFrequencyHScrollBar";
-            this.perlinFrequencyHScrollBar.Size = new System.Drawing.Size(214, 19);
-            this.perlinFrequencyHScrollBar.TabIndex = 21;
-            this.perlinFrequencyHScrollBar.Value = 25;
-            this.perlinFrequencyHScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.perlinFrequencyHScrollBar_Scroll);
+            this.perlinFrequency.Location = new System.Drawing.Point(122, 64);
+            this.perlinFrequency.Maximum = 1001;
+            this.perlinFrequency.Name = "perlinFrequency";
+            this.perlinFrequency.Size = new System.Drawing.Size(214, 19);
+            this.perlinFrequency.TabIndex = 21;
+            this.perlinFrequency.Value = 25;
+            this.perlinFrequency.Scroll += new System.Windows.Forms.ScrollEventHandler(this.perlinFrequencyHScrollBar_Scroll);
             // 
             // perlinAmplitudeValueLabel
             // 
             this.perlinAmplitudeValueLabel.AutoSize = true;
-            this.perlinAmplitudeValueLabel.Location = new System.Drawing.Point(219, 111);
+            this.perlinAmplitudeValueLabel.Location = new System.Drawing.Point(217, 44);
             this.perlinAmplitudeValueLabel.Name = "perlinAmplitudeValueLabel";
             this.perlinAmplitudeValueLabel.Size = new System.Drawing.Size(34, 15);
             this.perlinAmplitudeValueLabel.TabIndex = 20;
             this.perlinAmplitudeValueLabel.Text = "0.001";
             // 
-            // perlinAmplitudeHScrollBar
+            // perlinAmplitude
             // 
-            this.perlinAmplitudeHScrollBar.Location = new System.Drawing.Point(121, 107);
-            this.perlinAmplitudeHScrollBar.Maximum = 1001;
-            this.perlinAmplitudeHScrollBar.Name = "perlinAmplitudeHScrollBar";
-            this.perlinAmplitudeHScrollBar.Size = new System.Drawing.Size(214, 19);
-            this.perlinAmplitudeHScrollBar.TabIndex = 19;
-            this.perlinAmplitudeHScrollBar.Value = 25;
-            this.perlinAmplitudeHScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.perlinAmplitudeHScrollBar_Scroll);
-            // 
-            // xOffsetScrollBar
-            // 
-            this.xOffsetScrollBar.Location = new System.Drawing.Point(0, 0);
-            this.xOffsetScrollBar.Name = "xOffsetScrollBar";
-            this.xOffsetScrollBar.Size = new System.Drawing.Size(80, 17);
-            this.xOffsetScrollBar.TabIndex = 24;
-            // 
-            // perlinScaleLabel
-            // 
-            this.perlinScaleLabel.AutoSize = true;
-            this.perlinScaleLabel.Location = new System.Drawing.Point(219, 19);
-            this.perlinScaleLabel.Name = "perlinScaleLabel";
-            this.perlinScaleLabel.Size = new System.Drawing.Size(34, 15);
-            this.perlinScaleLabel.TabIndex = 13;
-            this.perlinScaleLabel.Text = "0.001";
+            this.perlinAmplitude.Location = new System.Drawing.Point(121, 40);
+            this.perlinAmplitude.Maximum = 1001;
+            this.perlinAmplitude.Name = "perlinAmplitude";
+            this.perlinAmplitude.Size = new System.Drawing.Size(214, 19);
+            this.perlinAmplitude.TabIndex = 19;
+            this.perlinAmplitude.Value = 25;
+            this.perlinAmplitude.Scroll += new System.Windows.Forms.ScrollEventHandler(this.perlinAmplitudeHScrollBar_Scroll);
             // 
             // label6
             // 
@@ -328,7 +319,7 @@
             // perlinScale
             // 
             this.perlinScale.Location = new System.Drawing.Point(121, 15);
-            this.perlinScale.Maximum = 1001;
+            this.perlinScale.Maximum = 1000;
             this.perlinScale.Name = "perlinScale";
             this.perlinScale.Size = new System.Drawing.Size(214, 19);
             this.perlinScale.TabIndex = 11;
@@ -376,18 +367,17 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label maxThresholdValue;
-        private System.Windows.Forms.Label perlinScaleLabel;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.HScrollBar perlinScale;
         private System.Windows.Forms.CheckBox oneBitCheckBox;
         private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.HScrollBar xOffsetScrollBar;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label perlinFrequencyValueLabel;
-        private System.Windows.Forms.HScrollBar perlinFrequencyHScrollBar;
+        private System.Windows.Forms.HScrollBar perlinFrequency;
         private System.Windows.Forms.Label perlinAmplitudeValueLabel;
-        private System.Windows.Forms.HScrollBar perlinAmplitudeHScrollBar;
+        private System.Windows.Forms.HScrollBar perlinAmplitude;
+        private System.Windows.Forms.Label perlinScaleLabel;
     }
 }
 

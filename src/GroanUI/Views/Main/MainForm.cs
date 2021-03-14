@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
+using System.Linq;
 using System.Windows.Forms;
 using GroanUI.Util;
 
@@ -26,8 +27,28 @@ namespace GroanUI.Views.Main
             _presenter.Init();
             IndexNoiseTypesDropDown();
 
+            FixScrollBarMaximumValues();
+
+            // maxThreshold.Maximum += maxThreshold.LargeChange - 1;
         }
-        
+
+        private void FixScrollBarMaximumValues()
+        {
+            // NOTE: There is some weirdness around scroll control Maximum values,
+            // see https://stackoverflow.com/questions/2882789/net-vertical-scrollbar-not-respecting-maximum-property
+
+            void Fix(ScrollBar scrollBar)
+            {
+                scrollBar.Maximum += scrollBar.LargeChange - 1;
+            }
+            
+            Fix(minThreshold);
+            Fix(maxThreshold);
+            Fix(perlinAmplitude);
+            Fix(perlinFrequency);
+            Fix(perlinScale);
+        }
+
         #region View implementation
 
         public string ViewTitle { set => Text = value; }
@@ -66,6 +87,15 @@ namespace GroanUI.Views.Main
             set => maxThresholdValue.Text = value.ToString(CultureInfo.InvariantCulture);
         }
 
+        public int MinThreshold
+        {
+            set => minThreshold.Value = value;
+        }
+        public int MaxThreshold
+        {
+            set => maxThreshold.Value = value;
+        }
+
         public int PerlinScaleLabel
         {
             set => perlinScaleLabel.Text = value.ToString(CultureInfo.InvariantCulture);
@@ -77,7 +107,7 @@ namespace GroanUI.Views.Main
         }
         public int PerlinAmplitudeScrollValue
         {
-            set => perlinAmplitudeHScrollBar.Value = value;
+            set => perlinAmplitude.Value = value;
         }
 
         public float PerlinFrequencyLabel
@@ -86,7 +116,7 @@ namespace GroanUI.Views.Main
         }
         public int PerlinFrequencyScrollValue
         {
-            set => perlinFrequencyHScrollBar.Value = value;
+            set => perlinFrequency.Value = value;
         }
 
         public void ShowDefaultOptionsTab()
@@ -146,8 +176,10 @@ namespace GroanUI.Views.Main
         private void minThreshold_Scroll(object sender, ScrollEventArgs e) 
             => _presenter.SetMinThreshold(e.NewValue);
 
-        private void maxThreshold_Scroll(object sender, ScrollEventArgs e) 
-            => _presenter.SetMaxThreshold(e.NewValue);
+        private void maxThreshold_Scroll(object sender, ScrollEventArgs e)
+        {
+            _presenter.SetMaxThreshold(e.NewValue);
+        }
 
         private void perlinScale_Scroll(object sender, ScrollEventArgs e) 
             => _presenter.SetPerlinScale(e.NewValue);
@@ -186,6 +218,10 @@ namespace GroanUI.Views.Main
 
         #endregion
 
+        private void hScrollBar1_Scroll(object sender, ScrollEventArgs e)
+        {
+
+        }
     }
 
 }

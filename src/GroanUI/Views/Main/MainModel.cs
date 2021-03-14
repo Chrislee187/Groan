@@ -26,7 +26,7 @@ namespace GroanUI.Views.Main
 
         public MainModel()
         {
-            ViewTitle = "Noise Map Generator";
+            ViewTitle = "Noise Map Visualiser";
             NoiseTypes = new List<ListItem<NoiseType, string>>
             {
                 new(NoiseType.HorizontalGradient, "Horizontal Gradient")
@@ -37,8 +37,8 @@ namespace GroanUI.Views.Main
             MapSize = new Size(400, 400);
             SelectedNoiseType = NoiseTypes.First().ID;
 
-            MinThreshold = 0.2f;
-            MaxThreshold = 0.8f;
+            MinThreshold = 0f;
+            MaxThreshold = 1f;
 
             PerlinScale = PerlinPlotter.PerlinDefaultScale;
             OneBit = false;

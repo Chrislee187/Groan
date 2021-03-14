@@ -22,6 +22,8 @@ namespace GroanUI.Views.Main
             View.ViewTitle = _model.ViewTitle;
             View.MapSize = _model.MapSize;
             View.NoiseTypes = _model.NoiseTypes;
+            View.MinThreshold = (int)_model.MinThreshold * 1000;
+            View.MaxThreshold = (int)_model.MaxThreshold * 1000;
             View.MinThresholdLabel = _model.MinThreshold;
             View.MaxThresholdLabel = _model.MaxThreshold;
             View.PerlinScaleLabel = _model.PerlinScale;
