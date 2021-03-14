@@ -1,4 +1,6 @@
 using System.Drawing;
+using GroanUI.Plotters;
+using GroanUI.Views.Main;
 using Moq;
 using NUnit.Framework;
 using Shouldly;

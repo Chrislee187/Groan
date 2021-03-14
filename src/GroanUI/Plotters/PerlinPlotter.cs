@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Numerics;
 
-namespace GroanUI
+namespace GroanUI.Plotters
 {
     public class PerlinPlotter : NoisePlotter
     {
@@ -93,7 +93,7 @@ namespace GroanUI
                 var sampleY = y / scale * frequency + octaveOffsets[i]
                     .Y;
 
-                var perlinValue = SimplexNoise.Noise.Generate(sampleX, sampleY) * 2 - 1; // Make in the range -1 : 1
+                var perlinValue = Noise.Generate(sampleX, sampleY) * 2 - 1; // Make in the range -1 : 1
                 noiseHeight += perlinValue * amplitude;
 
                 amplitude *= persistence;

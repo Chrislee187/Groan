@@ -1,4 +1,4 @@
-﻿namespace GroanUI
+﻿namespace GroanUI.Views.Main
 {
     partial class MainForm
     {

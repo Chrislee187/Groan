@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using GroanUI.Plotters;
+using GroanUI.Util;
 
-namespace GroanUI
+namespace GroanUI.Views.Main
 {
     public class MainPresenter : BasePresenter<IMainView>
     {

@@ -1,11 +1,15 @@
 using System;
 using System.Windows.Forms;
+using GroanUI.Plotters;
+using GroanUI.Views.Main;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace GroanUI
 {
     static class Program
     {
+        private static IServiceProvider ServiceProvider { get; set; }
+
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
@@ -18,7 +22,7 @@ namespace GroanUI
             ConfigureServices();
             Application.Run((Form)ServiceProvider.GetService(typeof(MainForm)));
         }
-        internal static IServiceProvider ServiceProvider { get; set; }
+
         static void ConfigureServices()
         {
             var services = new ServiceCollection();

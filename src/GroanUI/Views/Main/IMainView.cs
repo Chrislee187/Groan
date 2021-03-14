@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using GroanUI.Util;
 
-namespace GroanUI
+namespace GroanUI.Views.Main
 {
     public interface IMainView 
     {

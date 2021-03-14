@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace GroanUI
+namespace GroanUI.Plotters
 {
     public class SystemRandomPlotter : NoisePlotter
     {

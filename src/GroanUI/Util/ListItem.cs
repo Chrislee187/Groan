@@ -1,4 +1,4 @@
-﻿namespace GroanUI
+﻿namespace GroanUI.Util
 {
     public class ListItem<TId, TValue>
     {

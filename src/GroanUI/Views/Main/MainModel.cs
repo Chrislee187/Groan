@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using GroanUI.Plotters;
+using GroanUI.Util;
 
-namespace GroanUI
+namespace GroanUI.Views.Main
 {
     public class MainModel
     {

@@ -1,4 +1,4 @@
-﻿namespace GroanUI
+﻿namespace GroanUI.Plotters
 {
     public class NoiseConfig
     {

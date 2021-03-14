@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Drawing;
 
-namespace GroanUI
+namespace GroanUI.Plotters
 {
     public abstract class NoisePlotter
     {
-        public enum ColorChannel
+        protected enum ColorChannel
         {
             Alpha, Red, Green, Blue
         }

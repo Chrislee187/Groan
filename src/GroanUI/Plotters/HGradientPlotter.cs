@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace GroanUI
+namespace GroanUI.Plotters
 {
     public class HGradientPlotter : NoisePlotter
     {

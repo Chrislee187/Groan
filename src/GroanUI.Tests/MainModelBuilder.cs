@@ -1,3 +1,5 @@
+using GroanUI.Views.Main;
+
 namespace GroanUI.Tests
 {
     public class MainModelBuilder

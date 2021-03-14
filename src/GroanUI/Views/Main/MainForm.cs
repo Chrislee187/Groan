@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
+using GroanUI.Util;
 
-namespace GroanUI
+namespace GroanUI.Views.Main
 {
     public partial class MainForm : Form, IMainView
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GroanUI
+namespace GroanUI.Util
 {
     /// <summary>
     /// A standard dictionary but returns the default value supplied at construction
