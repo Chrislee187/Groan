@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.previewPictureBox = new System.Windows.Forms.PictureBox();
-            this.noiseTypeComboBox = new System.Windows.Forms.ComboBox();
+            this.NoiseMapPreview = new System.Windows.Forms.PictureBox();
+            this.NoiseTypeComboBox = new System.Windows.Forms.ComboBox();
             this.refreshButton = new System.Windows.Forms.Button();
             this.postProcessingGroupBox = new System.Windows.Forms.GroupBox();
             this.scaleLabel = new System.Windows.Forms.Label();
@@ -56,31 +56,31 @@
             this.xOffsetLabel = new System.Windows.Forms.Label();
             this.xOffset = new System.Windows.Forms.HScrollBar();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.previewPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NoiseMapPreview)).BeginInit();
             this.postProcessingGroupBox.SuspendLayout();
             this.optionTabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // previewPictureBox
+            // NoiseMapPreview
             // 
-            this.previewPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.previewPictureBox.Location = new System.Drawing.Point(22, 41);
-            this.previewPictureBox.Name = "previewPictureBox";
-            this.previewPictureBox.Size = new System.Drawing.Size(400, 400);
-            this.previewPictureBox.TabIndex = 0;
-            this.previewPictureBox.TabStop = false;
+            this.NoiseMapPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.NoiseMapPreview.Location = new System.Drawing.Point(22, 41);
+            this.NoiseMapPreview.Name = "NoiseMapPreview";
+            this.NoiseMapPreview.Size = new System.Drawing.Size(400, 400);
+            this.NoiseMapPreview.TabIndex = 0;
+            this.NoiseMapPreview.TabStop = false;
             // 
-            // noiseTypeComboBox
+            // NoiseTypeComboBox
             // 
-            this.noiseTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.noiseTypeComboBox.FormattingEnabled = true;
-            this.noiseTypeComboBox.Location = new System.Drawing.Point(22, 12);
-            this.noiseTypeComboBox.Name = "noiseTypeComboBox";
-            this.noiseTypeComboBox.Size = new System.Drawing.Size(400, 23);
-            this.noiseTypeComboBox.TabIndex = 1;
-            this.noiseTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.noiseTypeComboBox_SelectedIndexChanged);
+            this.NoiseTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.NoiseTypeComboBox.FormattingEnabled = true;
+            this.NoiseTypeComboBox.Location = new System.Drawing.Point(22, 12);
+            this.NoiseTypeComboBox.Name = "NoiseTypeComboBox";
+            this.NoiseTypeComboBox.Size = new System.Drawing.Size(400, 23);
+            this.NoiseTypeComboBox.TabIndex = 1;
+            this.NoiseTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.NoiseTypeComboBox_SelectedIndexChanged);
             // 
             // refreshButton
             // 
@@ -151,7 +151,7 @@
             this.oneBitCheckBox.Text = "One-bit";
             this.toolTip1.SetToolTip(this.oneBitCheckBox, "Make the value 0 or 1 before converting to a Color");
             this.oneBitCheckBox.UseVisualStyleBackColor = true;
-            this.oneBitCheckBox.CheckedChanged += new System.EventHandler(this.oneBitCheckBox_CheckedChanged);
+            this.oneBitCheckBox.CheckedChanged += new System.EventHandler(this.OneBitCheckBox_CheckedChanged);
             // 
             // maxThresholdValue
             // 
@@ -199,7 +199,7 @@
             this.maxThreshold.Size = new System.Drawing.Size(214, 19);
             this.maxThreshold.TabIndex = 6;
             this.maxThreshold.Value = 1000;
-            this.maxThreshold.Scroll += new System.Windows.Forms.ScrollEventHandler(this.maxThreshold_Scroll);
+            this.maxThreshold.Scroll += new System.Windows.Forms.ScrollEventHandler(this.MaxThreshold_Scroll);
             // 
             // minThreshold
             // 
@@ -208,7 +208,7 @@
             this.minThreshold.Name = "minThreshold";
             this.minThreshold.Size = new System.Drawing.Size(214, 19);
             this.minThreshold.TabIndex = 5;
-            this.minThreshold.Scroll += new System.Windows.Forms.ScrollEventHandler(this.minThreshold_Scroll);
+            this.minThreshold.Scroll += new System.Windows.Forms.ScrollEventHandler(this.MinThreshold_Scroll);
             // 
             // invertNoiseMap
             // 
@@ -221,7 +221,7 @@
             this.invertNoiseMap.Text = "Invert";
             this.toolTip1.SetToolTip(this.invertNoiseMap, "Invert the plot value before converting to Color");
             this.invertNoiseMap.UseVisualStyleBackColor = true;
-            this.invertNoiseMap.CheckedChanged += new System.EventHandler(this.invertNoiseMap_CheckedChanged);
+            this.invertNoiseMap.CheckedChanged += new System.EventHandler(this.InvertNoiseMap_CheckedChanged);
             // 
             // optionTabControl
             // 
@@ -232,7 +232,7 @@
             this.optionTabControl.SelectedIndex = 0;
             this.optionTabControl.Size = new System.Drawing.Size(434, 204);
             this.optionTabControl.TabIndex = 6;
-            this.optionTabControl.SelectedIndexChanged += new System.EventHandler(this.optionTabControl_SelectedIndexChanged);
+            this.optionTabControl.SelectedIndexChanged += new System.EventHandler(this.OptionTabControl_SelectedIndexChanged);
             // 
             // tabPage1
             // 
@@ -289,7 +289,7 @@
             this.toolTip1.SetToolTip(this.lacunaritySlider, "asdasd");
             this.lacunaritySlider.ToolTipText = "The lacunarity is the frequency multiplier between successive octaves. For best r" +
     "esults, set the lacunarity to a number between 1.5 and 3.5.";
-            this.lacunaritySlider.Scroll += new System.EventHandler<System.EventArgs>(this.lacunaritySlider_Scroll);
+            this.lacunaritySlider.Scroll += new System.EventHandler<System.EventArgs>(this.LacunaritySlider_Scroll);
             // 
             // perlinFrequency
             // 
@@ -306,7 +306,7 @@
             this.perlinFrequency.SmallChange = 10;
             this.perlinFrequency.TabIndex = 31;
             this.perlinFrequency.ToolTipText = "Gets or sets the frequency of the first octave.";
-            this.perlinFrequency.Scroll += new System.EventHandler<System.EventArgs>(this.perlinFrequency_Scroll);
+            this.perlinFrequency.Scroll += new System.EventHandler<System.EventArgs>(this.PerlinFrequency_Scroll);
             // 
             // yOffsetLabel
             // 
@@ -325,7 +325,7 @@
             this.yOffset.Size = new System.Drawing.Size(105, 19);
             this.yOffset.TabIndex = 29;
             this.yOffset.Value = 25;
-            this.yOffset.Scroll += new System.Windows.Forms.ScrollEventHandler(this.yOffset_Scroll);
+            this.yOffset.Scroll += new System.Windows.Forms.ScrollEventHandler(this.YOffset_Scroll);
             // 
             // label2
             // 
@@ -353,7 +353,7 @@
             this.xOffset.Size = new System.Drawing.Size(105, 19);
             this.xOffset.TabIndex = 26;
             this.xOffset.Value = 25;
-            this.xOffset.Scroll += new System.Windows.Forms.ScrollEventHandler(this.xOffset_Scroll);
+            this.xOffset.Scroll += new System.Windows.Forms.ScrollEventHandler(this.XOffset_Scroll);
             // 
             // MainForm
             // 
@@ -363,13 +363,13 @@
             this.Controls.Add(this.optionTabControl);
             this.Controls.Add(this.postProcessingGroupBox);
             this.Controls.Add(this.refreshButton);
-            this.Controls.Add(this.noiseTypeComboBox);
-            this.Controls.Add(this.previewPictureBox);
+            this.Controls.Add(this.NoiseTypeComboBox);
+            this.Controls.Add(this.NoiseMapPreview);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.previewPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NoiseMapPreview)).EndInit();
             this.postProcessingGroupBox.ResumeLayout(false);
             this.postProcessingGroupBox.PerformLayout();
             this.optionTabControl.ResumeLayout(false);
@@ -383,8 +383,8 @@
 
         #endregion
 
-        private System.Windows.Forms.PictureBox previewPictureBox;
-        private System.Windows.Forms.ComboBox noiseTypeComboBox;
+        private System.Windows.Forms.PictureBox NoiseMapPreview;
+        private System.Windows.Forms.ComboBox NoiseTypeComboBox;
         private System.Windows.Forms.Button refreshButton;
         private System.Windows.Forms.GroupBox postProcessingGroupBox;
         private System.Windows.Forms.CheckBox invertNoiseMap;

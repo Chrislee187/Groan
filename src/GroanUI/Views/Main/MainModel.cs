@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using GroanUI.Plotters;
 using GroanUI.Util;
 
 namespace GroanUI.Views.Main
@@ -27,6 +26,10 @@ namespace GroanUI.Views.Main
         public float PerlinLacunarity { get; set; }
         public float PerlinFrequency { get; set; }
 
+
+        public DecimalSlider.Configuration[] SliderSetups { get; set; }
+    
+
         public MainModel()
         {
             ViewTitle = "Noise Map Visualiser";
@@ -46,7 +49,26 @@ namespace GroanUI.Views.Main
             PerlinLacunarity = 2f;
             XOffset = 0;
             YOffset = 0;
+
+            var SliderConversionFactor = 100f;
+            SliderSetups = new [] {
+                new DecimalSlider.Configuration(
+                    Sliders.PerlinFrequency,
+                    PerlinFrequency,
+                    1, 500,
+                    SliderConversionFactor),
+                new DecimalSlider.Configuration(
+                    Sliders.PerlinLacunarity,
+                    PerlinLacunarity,
+                    1, 500,
+                    SliderConversionFactor),
+            };
         }
+    }
+    public enum Sliders
+    {
+        PerlinFrequency,
+        PerlinLacunarity
     }
 
     public enum NoiseType

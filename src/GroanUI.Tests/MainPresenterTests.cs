@@ -16,8 +16,6 @@ namespace GroanUI.Tests
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            MainPresenter.MapRefreshDelayMs.ShouldBeGreaterThan(0, "UX is degraded when using the sliders to change values without a refresh delay");
-            MainPresenter.MapRefreshDelayMs = 0; // NOTE: Remove the UX improvement refresh delay for the purposes of testing
         }
 
         [SetUp]
@@ -26,7 +24,7 @@ namespace GroanUI.Tests
             _model = new MainModelBuilder().Build();
             _model.MapSize = new Size(1, 1);
             _viewMockery = new MainViewMockery();
-            _presenter = new MainPresenter(_model, new Mock<INoiseFactory>().Object);
+            _presenter = new MainPresenter(_model, new Mock<INoiseFactory>().Object,0);
             _presenter.SetView(_viewMockery.Object);
             _presenter.Init();
 

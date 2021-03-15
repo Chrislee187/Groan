@@ -1,15 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using GroanUI.Views.Main;
 
 namespace GroanUI.Plotters
 {
-    public interface INoiseFactory
-    {
-        Bitmap CreateNoiseBitmap(NoiseType noiseType, Size size, NoiseConfig cfg);
-    }
-
     public class NoiseFactory : INoiseFactory
     {
         public Bitmap CreateNoiseBitmap(NoiseType noiseType, Size size, NoiseConfig cfg)
@@ -20,9 +14,12 @@ namespace GroanUI.Plotters
         private readonly Dictionary<NoiseType, NoiseMapMaker> _noiseProvider
             = new()
             {
-                { NoiseType.Perlin, new PerlinNoiseMapMaker() },
+                {NoiseType.Perlin, new PerlinNoiseMapMaker()},
             };
+    }
 
-
+    public interface INoiseFactory
+    {
+        Bitmap CreateNoiseBitmap(NoiseType noiseType, Size size, NoiseConfig cfg);
     }
 }

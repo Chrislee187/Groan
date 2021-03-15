@@ -39,7 +39,7 @@ namespace GroanUI.Views.Main
             // NOTE: There is some weirdness around scroll control Maximum values,
             // see https://stackoverflow.com/questions/2882789/net-vertical-scrollbar-not-respecting-maximum-property
 
-            void Fix(ScrollBar scrollBar)
+            static void Fix(ScrollBar scrollBar)
             {
                 scrollBar.Maximum += scrollBar.LargeChange - 1;
             }
@@ -58,25 +58,25 @@ namespace GroanUI.Views.Main
         {
             set
             {
-                if (!Equals(noiseTypeComboBox.DataSource, value))
+                if (!Equals(NoiseTypeComboBox.DataSource, value))
                 {
-                    noiseTypeComboBox.DataSource = value;
+                    NoiseTypeComboBox.DataSource = value;
                 }
-                noiseTypeComboBox.DisplayMember = nameof(ListItem<NoiseType, string>.Value);
+                NoiseTypeComboBox.DisplayMember = nameof(ListItem<NoiseType, string>.Value);
             }
         }
 
-        public Size MapSize { set => previewPictureBox.Size = value; }
+        public Size MapSize { set => NoiseMapPreview.Size = value; }
 
-        public Bitmap NoiseMapImage { set => previewPictureBox.Image = value; }
+        public Bitmap NoiseMapImage { set => NoiseMapPreview.Image = value; }
 
         public NoiseType SelectedNoise
         {
             set =>
-                noiseTypeComboBox.SelectedItem =
+                NoiseTypeComboBox.SelectedItem =
                     _noiseTypesListItemIndex.TryGetValue(value, out var item)
                         ? item
-                        : noiseTypeComboBox.Items[0];
+                        : NoiseTypeComboBox.Items[0];
         }
 
         public float MinThresholdLabel
@@ -132,7 +132,7 @@ namespace GroanUI.Views.Main
         public void ShowDefaultOptionsTab()
         {
             optionTabControl.SelectedTab = optionTabControl.TabPages[0];
-            noiseTypeComboBox.SelectedIndex = 0;
+            NoiseTypeComboBox.SelectedIndex = 0;
         }
 
         public void ShowOptionsTabFor(NoiseType noiseType) =>
@@ -143,16 +143,16 @@ namespace GroanUI.Views.Main
 
         public void DisableChangeEvents()
         {
-            noiseTypeComboBox.SelectedIndexChanged -= noiseTypeComboBox_SelectedIndexChanged;
-            optionTabControl.SelectedIndexChanged -= optionTabControl_SelectedIndexChanged;
-            noiseScale.Scroll -= noiseScale_Scroll;
+            NoiseTypeComboBox.SelectedIndexChanged -= NoiseTypeComboBox_SelectedIndexChanged;
+            optionTabControl.SelectedIndexChanged -= OptionTabControl_SelectedIndexChanged;
+            noiseScale.Scroll -= NoiseScale_Scroll;
         }
 
         public void EnableChangeEvents()
         {
-            noiseTypeComboBox.SelectedIndexChanged += noiseTypeComboBox_SelectedIndexChanged;
-            optionTabControl.SelectedIndexChanged += optionTabControl_SelectedIndexChanged;
-            noiseScale.Scroll += noiseScale_Scroll;
+            NoiseTypeComboBox.SelectedIndexChanged += NoiseTypeComboBox_SelectedIndexChanged;
+            optionTabControl.SelectedIndexChanged += OptionTabControl_SelectedIndexChanged;
+            noiseScale.Scroll += NoiseScale_Scroll;
         }
 
         public void SetupSliders(params DecimalSlider.Configuration[] sliderSetup)
@@ -176,16 +176,16 @@ namespace GroanUI.Views.Main
 
         #region Control events
 
-        private void noiseTypeComboBox_SelectedIndexChanged(object sender, EventArgs e) 
-            => _presenter.SelectNoiseType(((ListItem<NoiseType, string>) noiseTypeComboBox.SelectedItem).ID);
+        private void NoiseTypeComboBox_SelectedIndexChanged(object sender, EventArgs e) 
+            => _presenter.SelectNoiseType(((ListItem<NoiseType, string>) NoiseTypeComboBox.SelectedItem).ID);
 
-        private void invertNoiseMap_CheckedChanged(object sender, EventArgs e) 
+        private void InvertNoiseMap_CheckedChanged(object sender, EventArgs e) 
             => _presenter.InvertNoise();
 
-        private void oneBitCheckBox_CheckedChanged(object sender, EventArgs e) 
+        private void OneBitCheckBox_CheckedChanged(object sender, EventArgs e) 
             => _presenter.OneBitToggle();
 
-        private void optionTabControl_SelectedIndexChanged(object sender, EventArgs e)
+        private void OptionTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             var tab = ((TabControl) sender).SelectedTab;
 
@@ -205,33 +205,33 @@ namespace GroanUI.Views.Main
             }
         }
 
-        private void minThreshold_Scroll(object sender, ScrollEventArgs e) 
+        private void MinThreshold_Scroll(object sender, ScrollEventArgs e) 
             => _presenter.SetMinThreshold(e.NewValue);
 
-        private void maxThreshold_Scroll(object sender, ScrollEventArgs e)
+        private void MaxThreshold_Scroll(object sender, ScrollEventArgs e)
         {
             _presenter.SetMaxThreshold(e.NewValue);
         }
 
-        private void noiseScale_Scroll(object sender, ScrollEventArgs e) 
+        private void NoiseScale_Scroll(object sender, ScrollEventArgs e) 
             => _presenter.SetNoiseScale(e.NewValue);
 
-        private void lacunaritySlider_Scroll(object sender, EventArgs e)
+        private void LacunaritySlider_Scroll(object sender, EventArgs e)
         {
             _presenter.SetPerlinLacunarity((sender as DecimalSlider).Value);
         }
 
-        private void perlinFrequency_Scroll(object sender, EventArgs e)
+        private void PerlinFrequency_Scroll(object sender, EventArgs e)
         {
             _presenter.SetPerlinFrequency((sender as DecimalSlider).Value);
         }
 
-        private void xOffset_Scroll(object sender, ScrollEventArgs e)
+        private void XOffset_Scroll(object sender, ScrollEventArgs e)
         {
             _presenter.SetXOffset(e.NewValue);
         }
 
-        private void yOffset_Scroll(object sender, ScrollEventArgs e)
+        private void YOffset_Scroll(object sender, ScrollEventArgs e)
         {
             _presenter.SetYOffset(e.NewValue);
         }
@@ -261,17 +261,12 @@ namespace GroanUI.Views.Main
         private readonly Dictionary<NoiseType, ListItem<NoiseType, string>> _noiseTypesListItemIndex =  new ();
         private void IndexNoiseTypesListItems()
         {
-            foreach (ListItem<NoiseType, string> listItem in noiseTypeComboBox.Items)
+            foreach (ListItem<NoiseType, string> listItem in NoiseTypeComboBox.Items)
             {
                 _noiseTypesListItemIndex.Add(listItem.ID, listItem);
             }
         }
 
-        public enum Sliders
-        {
-            PerlinFrequency,
-            PerlinLacunarity
-        }
         private Dictionary<Sliders, Control> _sliderControls;
         private void IndexDecimalSliders()
         {

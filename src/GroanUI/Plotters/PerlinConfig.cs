@@ -12,7 +12,6 @@
         {
             Lacunarity = lacunarity;
             Frequency = frequency;
-
         }
     }
 }

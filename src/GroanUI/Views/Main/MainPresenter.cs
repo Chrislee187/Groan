@@ -10,20 +10,29 @@ namespace GroanUI.Views.Main
     {
         private readonly INoiseFactory _noiseFactory;
         private readonly MainModel _model;
-
-        public MainPresenter(MainModel model, INoiseFactory noiseFactory)
+        private readonly int _mapRefreshDelayMs = 10;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="noiseFactory"></param>
+        /// <param name="mapRefreshDelayMs">Introduce a small delay before refreshing the noise map to allow further
+        /// changes to the config. i.e. When scrolling a scrollbar to change a value
+        /// the redraw is not finished by the time the next scroll event arrive and produces
+        /// a laggy UX. The delay is reset every time the Redraw is called.</param>
+        public MainPresenter(MainModel model, INoiseFactory noiseFactory, int mapRefreshDelayMs=10)
         {
             _noiseFactory = noiseFactory;
             _model = model;
+            _mapRefreshDelayMs = mapRefreshDelayMs;
         }
-
         public override void Init()
         {
             View.ViewTitle = _model.ViewTitle;
             View.MapSize = _model.MapSize;
 
             View.NoiseTypes = _model.NoiseTypes;
-            View.SetupSliders(SliderSetups());
+            View.SetupSliders(_model.SliderSetups);
 
             View.NoiseScale = _model.NoiseScale;
             View.NoiseScaleLabel = (int)_model.NoiseScale;
@@ -39,25 +48,6 @@ namespace GroanUI.Views.Main
             
             View.YOffsetLabel = _model.YOffset;
             View.XOffset = _model.XOffset;
-        }
-
-        private DecimalSlider.Configuration[] SliderSetups()
-        {
-            var SliderConversionFactor = 100f;
-            return new []
-            {
-                new DecimalSlider.Configuration(
-                    MainForm.Sliders.PerlinFrequency,
-                    _model.PerlinFrequency,
-                    1, 500,
-                    SliderConversionFactor),
-                new DecimalSlider.Configuration(
-                    MainForm.Sliders.PerlinLacunarity,
-                    _model.PerlinLacunarity,
-                    1, 500,
-                    SliderConversionFactor),
-
-            };
         }
 
         public void SelectNoiseType(NoiseType noiseType)
@@ -164,17 +154,16 @@ namespace GroanUI.Views.Main
         public void SetNoiseScale(int value)
         {
             if (value == _model.NoiseScale) return;
+
             RunWithoutChangeEvents(() =>
             {
-
                 _model.NoiseScale = (float) value / 100;
                 View.NoiseScaleLabel = _model.NoiseScale;
                 DelayedNoiseMapRedraw();
 
             });
         }
-
-
+        
         public void SetXOffset(int value)
         {
             RunWithoutChangeEvents(() =>
@@ -212,24 +201,16 @@ namespace GroanUI.Views.Main
         private static NoiseConfig DefaultConfigProvider(MainModel model)
             => new(model.InvertMap, model.MinThreshold, model.MaxThreshold, model.OneBit, model.NoiseScale, model.XOffset, model.YOffset);
         
-        /// <summary>
-        /// Introduce a small delay before refreshing the noise map to allow further
-        /// changes to the config. i.e. When scrolling a scrollbar to change a value
-        /// the redraw is not finished by the time the next scroll event arrive and produces
-        /// a laggy UX. The delay is reset every time the Redraw is called.
-        ///  </summary>
-        public static int MapRefreshDelayMs = 10;
-
-        private CancellationTokenSource _refreshTaskToken = new();
+        private CancellationTokenSource _cancelRefreshToken = new();
         private void DelayedNoiseMapRedraw()
         {
-            if (MapRefreshDelayMs > 0)
+            if (_mapRefreshDelayMs > 0)
             {
-                _refreshTaskToken.Cancel();
-                _refreshTaskToken = new CancellationTokenSource();
+                _cancelRefreshToken.Cancel();
+                _cancelRefreshToken = new CancellationTokenSource();
 
-                Task.Delay(MapRefreshDelayMs, _refreshTaskToken.Token)
-                    .ContinueWith(_ => InstantNoiseMapRedraw(), _refreshTaskToken.Token);
+                Task.Delay(_mapRefreshDelayMs, _cancelRefreshToken.Token)
+                    .ContinueWith(_ => InstantNoiseMapRedraw(), _cancelRefreshToken.Token);
             }
             else
             {

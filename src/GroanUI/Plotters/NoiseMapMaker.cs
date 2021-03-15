@@ -52,7 +52,7 @@ namespace GroanUI.Plotters
             }
         }
 
-        protected float ApplyOptionalProcessing(float value, NoiseConfig cfg)
+        protected static float ApplyOptionalProcessing(float value, NoiseConfig cfg)
         {
             value = ConstrainToThresholds(value, cfg);
             value = (cfg.Invert ? 1f : 0f) - value;
@@ -61,7 +61,7 @@ namespace GroanUI.Plotters
             return Math.Abs(value);
 
         }
-        protected float ConstrainToThresholds(float val, NoiseConfig cfg)
+        protected static float ConstrainToThresholds(float val, NoiseConfig cfg)
         {
             return (val < cfg.MinThreshold || val > cfg.MaxThreshold)
                 ? 0f
