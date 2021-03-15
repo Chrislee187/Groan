@@ -11,19 +11,7 @@ namespace GroanUI.Views.Main
         public Size MapSize { set; }
         public Bitmap NoiseMapImage { set; }
         NoiseType SelectedNoise { set; }
-        
-        float MinThresholdLabel { set; }
-        float MaxThresholdLabel { set; }
-        float NoiseScaleLabel { set; }
-
-        int MinThreshold { set; }
-        int MaxThreshold { set; }
-        float NoiseScale { set; }
-        int XOffsetLabel {set; }
-        int YOffsetLabel { set; }
-        int XOffset {set; }
-        int YOffset {set; }
-
+        bool GenerateGrayscale { set; }
 
         void ShowOptionsTabFor(NoiseType noiseType);
         void ShowDefaultOptionsTab();

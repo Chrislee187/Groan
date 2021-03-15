@@ -53,14 +53,6 @@ namespace GroanUI.Tests
             );
         }
         
-        public void VerifyMinThresholdLabelUpdated() =>
-            _viewMock.VerifySet(m
-                => m.MinThresholdLabel = It.IsAny<float>(), Times.AtLeast(2)); // Init and change
-        
-        public void VerifyMaxThresholdLabelUpdated() =>
-            _viewMock.VerifySet(m
-                => m.MaxThresholdLabel = It.IsAny<float>(), Times.AtLeast(2)); // Init and change
-        
         public void VerifyNoiseMapImageUpdated()
         {
             _viewMock.VerifySet(m
@@ -70,11 +62,6 @@ namespace GroanUI.Tests
         public void VerifySelectedNoiseUpdated(NoiseType nt)
             => _viewMock.VerifySet(m
                 => m.SelectedNoise = nt, Times.Once);
-        public void VerifyPerlinScaleLabelUpdated() =>
-            _viewMock.VerifySet(m
-                => m.NoiseScaleLabel = It.IsAny<float>(), Times.AtLeast(2)); // Init and change
-
-
         public void VerifyDefaultOptionsShown()
         {
             _viewMock.Verify(m => m.ShowDefaultOptionsTab(), Times.Once);

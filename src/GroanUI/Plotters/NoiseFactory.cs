@@ -6,15 +6,13 @@ namespace GroanUI.Plotters
 {
     public class NoiseFactory : INoiseFactory
     {
-        public Bitmap CreateNoiseBitmap(NoiseType noiseType, Size size, NoiseConfig cfg)
-        {
-            return _noiseProvider[noiseType].GetBitmap(size, cfg);
-        }
+        public Bitmap CreateNoiseBitmap(NoiseType noiseType, Size size, NoiseConfig cfg) 
+            => _noiseProvider[noiseType].GetBitmap(size, cfg);
 
-        private readonly Dictionary<NoiseType, NoiseMapMaker> _noiseProvider
+        private readonly Dictionary<NoiseType, NoiseBuilder> _noiseProvider
             = new()
             {
-                {NoiseType.Perlin, new PerlinNoiseMapMaker()},
+                {NoiseType.Perlin, new PerlinNoiseBuilder()},
             };
     }
 

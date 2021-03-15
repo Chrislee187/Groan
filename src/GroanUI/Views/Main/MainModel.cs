@@ -23,12 +23,15 @@ namespace GroanUI.Views.Main
         public int XOffset { get; set; }
         public int YOffset { get; set; }
 
-        public float PerlinLacunarity { get; set; }
-        public float PerlinFrequency { get; set; }
+        public float Lacunarity { get; set; }
+        public float Frequency { get; set; }
+        public float Persistance { get; set; }
+        public int Octaves { get; set; }
+        public bool GenerateGrayscale { get; set; }
 
 
         public DecimalSlider.Configuration[] SliderSetups { get; set; }
-    
+
 
         public MainModel()
         {
@@ -40,35 +43,52 @@ namespace GroanUI.Views.Main
             MapSize = new Size(400, 400);
             SelectedNoiseType = NoiseTypes.First().ID;
 
+            Frequency = 1f;
+            Lacunarity = 2f;
+            Persistance = 1f;
+            Octaves = 6;
+            GenerateGrayscale = true;
+
             MinThreshold = 0f;
             MaxThreshold = 1f;
-
             NoiseScale = 1f;
             OneBit = false;
-            PerlinFrequency = 1f;
-            PerlinLacunarity = 2f;
             XOffset = 0;
             YOffset = 0;
 
             var SliderConversionFactor = 100f;
             SliderSetups = new [] {
                 new DecimalSlider.Configuration(
-                    Sliders.PerlinFrequency,
-                    PerlinFrequency,
+                    Sliders.Frequency,
+                    Frequency,
                     1, 500,
                     SliderConversionFactor),
                 new DecimalSlider.Configuration(
-                    Sliders.PerlinLacunarity,
-                    PerlinLacunarity,
+                    Sliders.Lacunarity,
+                    Lacunarity,
                     1, 500,
                     SliderConversionFactor),
+                new DecimalSlider.Configuration(
+                    Sliders.Persistance,
+                    Persistance,
+                    0, 200,
+                    SliderConversionFactor),
+                new DecimalSlider.Configuration(
+                    Sliders.Octaves,
+                    Octaves,
+                    1, 15,
+                    1
+                    , 1, 1),
+
             };
         }
     }
     public enum Sliders
     {
-        PerlinFrequency,
-        PerlinLacunarity
+        Frequency,
+        Lacunarity,
+        Persistance,
+        Octaves
     }
 
     public enum NoiseType

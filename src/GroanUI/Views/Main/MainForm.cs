@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Globalization;
 using System.Windows.Forms;
 using GroanUI.Util;
 
@@ -28,28 +27,8 @@ namespace GroanUI.Views.Main
             IndexNoiseTypesListItems();
 
             _presenter.Init();
-
-            FixScrollBarMaximumValues();
         }
-
-        private void FixScrollBarMaximumValues()
-        {
-            // TODO: Move these to the DecimalSlider
-
-            // NOTE: There is some weirdness around scroll control Maximum values,
-            // see https://stackoverflow.com/questions/2882789/net-vertical-scrollbar-not-respecting-maximum-property
-
-            static void Fix(ScrollBar scrollBar)
-            {
-                scrollBar.Maximum += scrollBar.LargeChange - 1;
-            }
-            
-            Fix(minThreshold);
-            Fix(maxThreshold);
-            Fix(noiseScale);
-        }
-
-
+        
         #region View implementation
 
         public string ViewTitle { set => Text = value; }
@@ -79,55 +58,7 @@ namespace GroanUI.Views.Main
                         : NoiseTypeComboBox.Items[0];
         }
 
-        public float MinThresholdLabel
-        {
-            set => minThresholdValue.Text = value.ToString(CultureInfo.InvariantCulture);
-        }
-
-        public float MaxThresholdLabel
-        {
-            set => maxThresholdValue.Text = value.ToString(CultureInfo.InvariantCulture);
-        }
-
-        public int MinThreshold
-        {
-            set => minThreshold.Value = value;
-        }
-
-        public int MaxThreshold
-        {
-            set => maxThreshold.Value = value;
-        }
-
-        public float NoiseScale
-        {
-            set => noiseScale.Value = (int) value * 100;
-        }
-
-        public float NoiseScaleLabel
-        {
-            set => scaleLabel.Text = value.ToString(CultureInfo.InvariantCulture);
-        }
-
-        public int XOffset
-        {
-            set => xOffset.Value = value;
-        }
-
-        public int XOffsetLabel
-        {
-            set => xOffsetLabel.Text = value.ToString();
-        }
-
-        public int YOffsetLabel
-        {
-            set => yOffsetLabel.Text = value.ToString();
-        }
-
-        public int YOffset
-        {
-            set => yOffset.Value = value;
-        }
+        public bool GenerateGrayscale { set => Grayscale.Checked = value; }
 
         public void ShowDefaultOptionsTab()
         {
@@ -141,18 +72,18 @@ namespace GroanUI.Views.Main
                     ? tab 
                     : optionTabControl.TabPages[0];
 
+
+
         public void DisableChangeEvents()
         {
             NoiseTypeComboBox.SelectedIndexChanged -= NoiseTypeComboBox_SelectedIndexChanged;
             optionTabControl.SelectedIndexChanged -= OptionTabControl_SelectedIndexChanged;
-            noiseScale.Scroll -= NoiseScale_Scroll;
         }
 
         public void EnableChangeEvents()
         {
             NoiseTypeComboBox.SelectedIndexChanged += NoiseTypeComboBox_SelectedIndexChanged;
             optionTabControl.SelectedIndexChanged += OptionTabControl_SelectedIndexChanged;
-            noiseScale.Scroll += NoiseScale_Scroll;
         }
 
         public void SetupSliders(params DecimalSlider.Configuration[] sliderSetup)
@@ -205,36 +136,20 @@ namespace GroanUI.Views.Main
             }
         }
 
-        private void MinThreshold_Scroll(object sender, ScrollEventArgs e) 
-            => _presenter.SetMinThreshold(e.NewValue);
+        private void Frequency_Scroll(object sender, EventArgs e) 
+            => _presenter.SetFrequency(((DecimalSlider) sender).Value);
 
-        private void MaxThreshold_Scroll(object sender, ScrollEventArgs e)
-        {
-            _presenter.SetMaxThreshold(e.NewValue);
-        }
+        private void Lacunarity_Scroll(object sender, EventArgs e) 
+            => _presenter.SetLacunarity(((DecimalSlider) sender).Value);
 
-        private void NoiseScale_Scroll(object sender, ScrollEventArgs e) 
-            => _presenter.SetNoiseScale(e.NewValue);
+        private void Persistance_Scroll(object sender, EventArgs e)
+            => _presenter.SetPersistance(((DecimalSlider) sender).Value);
 
-        private void LacunaritySlider_Scroll(object sender, EventArgs e)
-        {
-            _presenter.SetPerlinLacunarity((sender as DecimalSlider).Value);
-        }
+        private void Octaves_Scroll(object sender, EventArgs e)
+            => _presenter.SetOctaves((int)((DecimalSlider) sender).Value);
 
-        private void PerlinFrequency_Scroll(object sender, EventArgs e)
-        {
-            _presenter.SetPerlinFrequency((sender as DecimalSlider).Value);
-        }
-
-        private void XOffset_Scroll(object sender, ScrollEventArgs e)
-        {
-            _presenter.SetXOffset(e.NewValue);
-        }
-
-        private void YOffset_Scroll(object sender, ScrollEventArgs e)
-        {
-            _presenter.SetYOffset(e.NewValue);
-        }
+        private void Grayscale_CheckedChanged(object sender, EventArgs e)
+            => _presenter.SetGrayscale(((CheckBox) sender).Checked);
 
         #endregion
 
@@ -272,12 +187,13 @@ namespace GroanUI.Views.Main
         {
             _sliderControls = new()
             {
-                { Sliders.PerlinFrequency, perlinFrequency },
-                { Sliders.PerlinLacunarity, lacunaritySlider },
+                { Sliders.Frequency, Frequency },
+                { Sliders.Lacunarity, Lacunarity },
+                { Sliders.Persistance, Persistance },
+                { Sliders.Octaves, Octaves},
             };
         }
 
         #endregion
     }
-
 }

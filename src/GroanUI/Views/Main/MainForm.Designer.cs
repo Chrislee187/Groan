@@ -33,29 +33,18 @@
             this.NoiseTypeComboBox = new System.Windows.Forms.ComboBox();
             this.refreshButton = new System.Windows.Forms.Button();
             this.postProcessingGroupBox = new System.Windows.Forms.GroupBox();
-            this.scaleLabel = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.noiseScale = new System.Windows.Forms.HScrollBar();
             this.oneBitCheckBox = new System.Windows.Forms.CheckBox();
-            this.maxThresholdValue = new System.Windows.Forms.Label();
-            this.minThresholdValue = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.maxThreshold = new System.Windows.Forms.HScrollBar();
-            this.minThreshold = new System.Windows.Forms.HScrollBar();
             this.invertNoiseMap = new System.Windows.Forms.CheckBox();
             this.optionTabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.lacunaritySlider = new GroanUI.Views.DecimalSlider();
-            this.perlinFrequency = new GroanUI.Views.DecimalSlider();
-            this.yOffsetLabel = new System.Windows.Forms.Label();
-            this.yOffset = new System.Windows.Forms.HScrollBar();
-            this.label2 = new System.Windows.Forms.Label();
-            this.xOffsetLabel = new System.Windows.Forms.Label();
-            this.xOffset = new System.Windows.Forms.HScrollBar();
+            this.Octaves = new GroanUI.Views.DecimalSlider();
+            this.Persistance = new GroanUI.Views.DecimalSlider();
+            this.Lacunarity = new GroanUI.Views.DecimalSlider();
+            this.Frequency = new GroanUI.Views.DecimalSlider();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.Grayscale = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NoiseMapPreview)).BeginInit();
             this.postProcessingGroupBox.SuspendLayout();
             this.optionTabControl.SuspendLayout();
@@ -93,58 +82,21 @@
             // 
             // postProcessingGroupBox
             // 
-            this.postProcessingGroupBox.Controls.Add(this.scaleLabel);
-            this.postProcessingGroupBox.Controls.Add(this.label6);
-            this.postProcessingGroupBox.Controls.Add(this.noiseScale);
+            this.postProcessingGroupBox.Controls.Add(this.Grayscale);
             this.postProcessingGroupBox.Controls.Add(this.oneBitCheckBox);
-            this.postProcessingGroupBox.Controls.Add(this.maxThresholdValue);
-            this.postProcessingGroupBox.Controls.Add(this.minThresholdValue);
-            this.postProcessingGroupBox.Controls.Add(this.label4);
-            this.postProcessingGroupBox.Controls.Add(this.label3);
-            this.postProcessingGroupBox.Controls.Add(this.maxThreshold);
-            this.postProcessingGroupBox.Controls.Add(this.minThreshold);
             this.postProcessingGroupBox.Controls.Add(this.invertNoiseMap);
-            this.postProcessingGroupBox.Location = new System.Drawing.Point(442, 219);
+            this.postProcessingGroupBox.Location = new System.Drawing.Point(444, 12);
             this.postProcessingGroupBox.Name = "postProcessingGroupBox";
-            this.postProcessingGroupBox.Size = new System.Drawing.Size(433, 189);
+            this.postProcessingGroupBox.Size = new System.Drawing.Size(433, 154);
             this.postProcessingGroupBox.TabIndex = 5;
             this.postProcessingGroupBox.TabStop = false;
-            this.postProcessingGroupBox.Text = "Post processing options";
-            // 
-            // scaleLabel
-            // 
-            this.scaleLabel.AutoSize = true;
-            this.scaleLabel.BackColor = System.Drawing.Color.Transparent;
-            this.scaleLabel.Location = new System.Drawing.Point(219, 97);
-            this.scaleLabel.Name = "scaleLabel";
-            this.scaleLabel.Size = new System.Drawing.Size(34, 15);
-            this.scaleLabel.TabIndex = 28;
-            this.scaleLabel.Text = "0.001";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 97);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(64, 15);
-            this.label6.TabIndex = 27;
-            this.label6.Text = "NoiseScale";
-            // 
-            // noiseScale
-            // 
-            this.noiseScale.Location = new System.Drawing.Point(121, 93);
-            this.noiseScale.Maximum = 100000;
-            this.noiseScale.Minimum = 1;
-            this.noiseScale.Name = "noiseScale";
-            this.noiseScale.Size = new System.Drawing.Size(214, 19);
-            this.noiseScale.TabIndex = 26;
-            this.noiseScale.Value = 25;
+            this.postProcessingGroupBox.Text = "Common options";
             // 
             // oneBitCheckBox
             // 
             this.oneBitCheckBox.AutoSize = true;
             this.oneBitCheckBox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.oneBitCheckBox.Location = new System.Drawing.Point(68, 22);
+            this.oneBitCheckBox.Location = new System.Drawing.Point(214, 104);
             this.oneBitCheckBox.Name = "oneBitCheckBox";
             this.oneBitCheckBox.Size = new System.Drawing.Size(67, 19);
             this.oneBitCheckBox.TabIndex = 12;
@@ -153,68 +105,11 @@
             this.oneBitCheckBox.UseVisualStyleBackColor = true;
             this.oneBitCheckBox.CheckedChanged += new System.EventHandler(this.OneBitCheckBox_CheckedChanged);
             // 
-            // maxThresholdValue
-            // 
-            this.maxThresholdValue.AutoSize = true;
-            this.maxThresholdValue.Location = new System.Drawing.Point(219, 68);
-            this.maxThresholdValue.Name = "maxThresholdValue";
-            this.maxThresholdValue.Size = new System.Drawing.Size(34, 15);
-            this.maxThresholdValue.TabIndex = 11;
-            this.maxThresholdValue.Text = "1.000";
-            // 
-            // minThresholdValue
-            // 
-            this.minThresholdValue.AutoSize = true;
-            this.minThresholdValue.Location = new System.Drawing.Point(219, 45);
-            this.minThresholdValue.Name = "minThresholdValue";
-            this.minThresholdValue.Size = new System.Drawing.Size(34, 15);
-            this.minThresholdValue.TabIndex = 10;
-            this.minThresholdValue.Text = "0.001";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 64);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(106, 15);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "Maxium Threshold";
-            this.toolTip1.SetToolTip(this.label4, "Values above this will be set to 1 for the plot");
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 45);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(104, 15);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "Minium Threshold";
-            this.toolTip1.SetToolTip(this.label3, "Values below this will be set to zero for the plot");
-            // 
-            // maxThreshold
-            // 
-            this.maxThreshold.Location = new System.Drawing.Point(121, 64);
-            this.maxThreshold.Maximum = 1000;
-            this.maxThreshold.Name = "maxThreshold";
-            this.maxThreshold.Size = new System.Drawing.Size(214, 19);
-            this.maxThreshold.TabIndex = 6;
-            this.maxThreshold.Value = 1000;
-            this.maxThreshold.Scroll += new System.Windows.Forms.ScrollEventHandler(this.MaxThreshold_Scroll);
-            // 
-            // minThreshold
-            // 
-            this.minThreshold.Location = new System.Drawing.Point(121, 41);
-            this.minThreshold.Maximum = 1000;
-            this.minThreshold.Name = "minThreshold";
-            this.minThreshold.Size = new System.Drawing.Size(214, 19);
-            this.minThreshold.TabIndex = 5;
-            this.minThreshold.Scroll += new System.Windows.Forms.ScrollEventHandler(this.MinThreshold_Scroll);
-            // 
             // invertNoiseMap
             // 
             this.invertNoiseMap.AutoSize = true;
             this.invertNoiseMap.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.invertNoiseMap.Location = new System.Drawing.Point(6, 22);
+            this.invertNoiseMap.Location = new System.Drawing.Point(152, 104);
             this.invertNoiseMap.Name = "invertNoiseMap";
             this.invertNoiseMap.Size = new System.Drawing.Size(56, 19);
             this.invertNoiseMap.TabIndex = 4;
@@ -227,7 +122,7 @@
             // 
             this.optionTabControl.Controls.Add(this.tabPage1);
             this.optionTabControl.Controls.Add(this.tabPage2);
-            this.optionTabControl.Location = new System.Drawing.Point(442, 9);
+            this.optionTabControl.Location = new System.Drawing.Point(444, 187);
             this.optionTabControl.Name = "optionTabControl";
             this.optionTabControl.SelectedIndex = 0;
             this.optionTabControl.Size = new System.Drawing.Size(434, 204);
@@ -257,13 +152,10 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage2.Controls.Add(this.lacunaritySlider);
-            this.tabPage2.Controls.Add(this.perlinFrequency);
-            this.tabPage2.Controls.Add(this.yOffsetLabel);
-            this.tabPage2.Controls.Add(this.yOffset);
-            this.tabPage2.Controls.Add(this.label2);
-            this.tabPage2.Controls.Add(this.xOffsetLabel);
-            this.tabPage2.Controls.Add(this.xOffset);
+            this.tabPage2.Controls.Add(this.Octaves);
+            this.tabPage2.Controls.Add(this.Persistance);
+            this.tabPage2.Controls.Add(this.Lacunarity);
+            this.tabPage2.Controls.Add(this.Frequency);
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -272,88 +164,90 @@
             this.tabPage2.Tag = "Perlin";
             this.tabPage2.Text = "Perlin";
             // 
-            // lacunaritySlider
+            // Octaves
             // 
-            this.lacunaritySlider.AutoSize = true;
-            this.lacunaritySlider.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.lacunaritySlider.Label = "Lacunarity";
-            this.lacunaritySlider.LargeChange = 100;
-            this.lacunaritySlider.Location = new System.Drawing.Point(10, 30);
-            this.lacunaritySlider.Margin = new System.Windows.Forms.Padding(1);
-            this.lacunaritySlider.Maximum = 10;
-            this.lacunaritySlider.Minimum = 0;
-            this.lacunaritySlider.Name = "lacunaritySlider";
-            this.lacunaritySlider.Size = new System.Drawing.Size(321, 20);
-            this.lacunaritySlider.SmallChange = 10;
-            this.lacunaritySlider.TabIndex = 32;
-            this.toolTip1.SetToolTip(this.lacunaritySlider, "asdasd");
-            this.lacunaritySlider.ToolTipText = "The lacunarity is the frequency multiplier between successive octaves. For best r" +
+            this.Octaves.AutoSize = true;
+            this.Octaves.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.Octaves.Label = "Octaves";
+            this.Octaves.LargeChange = 100;
+            this.Octaves.Location = new System.Drawing.Point(10, 74);
+            this.Octaves.Margin = new System.Windows.Forms.Padding(1);
+            this.Octaves.Maximum = 10;
+            this.Octaves.Minimum = 0;
+            this.Octaves.Name = "Octaves";
+            this.Octaves.Size = new System.Drawing.Size(321, 20);
+            this.Octaves.SmallChange = 10;
+            this.Octaves.TabIndex = 34;
+            this.Octaves.ToolTipText = "The number of octaves controls the amount of detail in the Perlin noise. The larg" +
+    "er the number of octaves, the more time required to calculate the Perlin-noise v" +
+    "alue.";
+            this.Octaves.Scroll += new System.EventHandler<System.EventArgs>(this.Octaves_Scroll);
+            // 
+            // Persistance
+            // 
+            this.Persistance.AutoSize = true;
+            this.Persistance.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.Persistance.Label = "Persistance";
+            this.Persistance.LargeChange = 100;
+            this.Persistance.Location = new System.Drawing.Point(10, 52);
+            this.Persistance.Margin = new System.Windows.Forms.Padding(1);
+            this.Persistance.Maximum = 10;
+            this.Persistance.Minimum = 0;
+            this.Persistance.Name = "Persistance";
+            this.Persistance.Size = new System.Drawing.Size(321, 20);
+            this.Persistance.SmallChange = 10;
+            this.Persistance.TabIndex = 33;
+            this.Persistance.ToolTipText = "The persistence value controls the roughness of the Perlin noise. For best result" +
+    "s, set the persistence to a number between 0.0 and 1.0.";
+            this.Persistance.Scroll += new System.EventHandler<System.EventArgs>(this.Persistance_Scroll);
+            // 
+            // Lacunarity
+            // 
+            this.Lacunarity.AutoSize = true;
+            this.Lacunarity.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.Lacunarity.Label = "Lacunarity";
+            this.Lacunarity.LargeChange = 100;
+            this.Lacunarity.Location = new System.Drawing.Point(10, 30);
+            this.Lacunarity.Margin = new System.Windows.Forms.Padding(1);
+            this.Lacunarity.Maximum = 10;
+            this.Lacunarity.Minimum = 0;
+            this.Lacunarity.Name = "Lacunarity";
+            this.Lacunarity.Size = new System.Drawing.Size(321, 20);
+            this.Lacunarity.SmallChange = 10;
+            this.Lacunarity.TabIndex = 32;
+            this.Lacunarity.ToolTipText = "The lacunarity is the frequency multiplier between successive octaves. For best r" +
     "esults, set the lacunarity to a number between 1.5 and 3.5.";
-            this.lacunaritySlider.Scroll += new System.EventHandler<System.EventArgs>(this.LacunaritySlider_Scroll);
+            this.Lacunarity.Scroll += new System.EventHandler<System.EventArgs>(this.Lacunarity_Scroll);
             // 
-            // perlinFrequency
+            // Frequency
             // 
-            this.perlinFrequency.AutoSize = true;
-            this.perlinFrequency.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.perlinFrequency.Label = "Frequency";
-            this.perlinFrequency.LargeChange = 100;
-            this.perlinFrequency.Location = new System.Drawing.Point(10, 8);
-            this.perlinFrequency.Margin = new System.Windows.Forms.Padding(1);
-            this.perlinFrequency.Maximum = 10;
-            this.perlinFrequency.Minimum = 0;
-            this.perlinFrequency.Name = "perlinFrequency";
-            this.perlinFrequency.Size = new System.Drawing.Size(321, 20);
-            this.perlinFrequency.SmallChange = 10;
-            this.perlinFrequency.TabIndex = 31;
-            this.perlinFrequency.ToolTipText = "Gets or sets the frequency of the first octave.";
-            this.perlinFrequency.Scroll += new System.EventHandler<System.EventArgs>(this.PerlinFrequency_Scroll);
+            this.Frequency.AutoSize = true;
+            this.Frequency.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.Frequency.Label = "Frequency";
+            this.Frequency.LargeChange = 100;
+            this.Frequency.Location = new System.Drawing.Point(10, 8);
+            this.Frequency.Margin = new System.Windows.Forms.Padding(1);
+            this.Frequency.Maximum = 10;
+            this.Frequency.Minimum = 0;
+            this.Frequency.Name = "Frequency";
+            this.Frequency.Size = new System.Drawing.Size(321, 20);
+            this.Frequency.SmallChange = 10;
+            this.Frequency.TabIndex = 31;
+            this.Frequency.ToolTipText = "The frequency of the first octave.";
+            this.Frequency.Scroll += new System.EventHandler<System.EventArgs>(this.Frequency_Scroll);
             // 
-            // yOffsetLabel
+            // Grayscale
             // 
-            this.yOffsetLabel.AutoSize = true;
-            this.yOffsetLabel.Location = new System.Drawing.Point(288, 147);
-            this.yOffsetLabel.Name = "yOffsetLabel";
-            this.yOffsetLabel.Size = new System.Drawing.Size(34, 15);
-            this.yOffsetLabel.TabIndex = 30;
-            this.yOffsetLabel.Text = "0.001";
-            // 
-            // yOffset
-            // 
-            this.yOffset.Location = new System.Drawing.Point(243, 143);
-            this.yOffset.Maximum = 1001;
-            this.yOffset.Name = "yOffset";
-            this.yOffset.Size = new System.Drawing.Size(105, 19);
-            this.yOffset.TabIndex = 29;
-            this.yOffset.Value = 25;
-            this.yOffset.Scroll += new System.Windows.Forms.ScrollEventHandler(this.YOffset_Scroll);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(19, 147);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(39, 15);
-            this.label2.TabIndex = 28;
-            this.label2.Text = "Offset";
-            // 
-            // xOffsetLabel
-            // 
-            this.xOffsetLabel.AutoSize = true;
-            this.xOffsetLabel.Location = new System.Drawing.Point(179, 147);
-            this.xOffsetLabel.Name = "xOffsetLabel";
-            this.xOffsetLabel.Size = new System.Drawing.Size(34, 15);
-            this.xOffsetLabel.TabIndex = 27;
-            this.xOffsetLabel.Text = "0.001";
-            // 
-            // xOffset
-            // 
-            this.xOffset.Location = new System.Drawing.Point(134, 143);
-            this.xOffset.Maximum = 1001;
-            this.xOffset.Name = "xOffset";
-            this.xOffset.Size = new System.Drawing.Size(105, 19);
-            this.xOffset.TabIndex = 26;
-            this.xOffset.Value = 25;
-            this.xOffset.Scroll += new System.Windows.Forms.ScrollEventHandler(this.XOffset_Scroll);
+            this.Grayscale.AutoSize = true;
+            this.Grayscale.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Grayscale.Location = new System.Drawing.Point(14, 22);
+            this.Grayscale.Name = "Grayscale";
+            this.Grayscale.Size = new System.Drawing.Size(76, 19);
+            this.Grayscale.TabIndex = 13;
+            this.Grayscale.Text = "Grayscale";
+            this.toolTip1.SetToolTip(this.Grayscale, "Invert the plot value before converting to Color");
+            this.Grayscale.UseVisualStyleBackColor = true;
+            this.Grayscale.CheckedChanged += new System.EventHandler(this.Grayscale_CheckedChanged);
             // 
             // MainForm
             // 
@@ -392,24 +286,13 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.HScrollBar minThreshold;
-        private System.Windows.Forms.HScrollBar maxThreshold;
-        private System.Windows.Forms.Label minThresholdValue;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label maxThresholdValue;
         private System.Windows.Forms.CheckBox oneBitCheckBox;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label xOffsetLabel;
-        private System.Windows.Forms.HScrollBar xOffset;
-        private System.Windows.Forms.Label yOffsetLabel;
-        private System.Windows.Forms.HScrollBar yOffset;
-        private System.Windows.Forms.Label scaleLabel;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.HScrollBar noiseScale;
-        private DecimalSlider perlinFrequency;
         public System.Windows.Forms.ToolTip toolTip1;
-        private DecimalSlider lacunaritySlider;
+        private DecimalSlider Frequency;
+        private DecimalSlider Lacunarity;
+        private DecimalSlider Persistance;
+        private DecimalSlider Octaves;
+        private System.Windows.Forms.CheckBox Grayscale;
     }
 }
 

@@ -2,10 +2,10 @@
 {
     public class NoiseConfig
     {
-        public NoiseConfig(bool invert, 
-            float minThreshold, float maxThreshold, 
+        public NoiseConfig(bool invert,
+            float minThreshold, float maxThreshold,
             bool oneBit, float scale,
-            int xOffset, int yOffset)
+            int xOffset, int yOffset, bool grayscale)
         {
             Invert = invert;
             MinThreshold = minThreshold;
@@ -14,6 +14,8 @@
             Scale = scale;
             XOffset = xOffset;
             YOffset = yOffset;
+
+            OutputGrayscale = grayscale;
         }
 
         public bool Invert { get; }
@@ -23,7 +25,6 @@
         public float Scale { get; }
         public int XOffset { get; }
         public int YOffset { get; }
-
-
+        public bool OutputGrayscale { get; set; }
     }
 }

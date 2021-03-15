@@ -122,102 +122,33 @@ namespace GroanUI.Tests
         }
 
         [Test]
-        public void SetMinThreshold_updates_the_model()
+        public void SetLacunarity_updates_the_Model()
         {
-            _presenter.SetMinThreshold(500);
+            _presenter.SetLacunarity(3);
 
-            _model.MinThreshold.ShouldBe(0.5f);
+            _model.Lacunarity.ShouldBe(3);
         }
 
         [Test]
-        public void SetMinThreshold_updates_the_MinThresholdLabel()
+        public void SetLacunarity_updates_the_NoiseMap()
         {
-            _presenter.SetMinThreshold(500);
-
-            _viewMockery.VerifyMinThresholdLabelUpdated();
-        }
-
-        [Test]
-        public void SetMinThreshold_updates_the_NoiseMap()
-        {
-            _presenter.SetMinThreshold(500);
+            _presenter.SetLacunarity(3);
 
             _viewMockery.VerifyNoiseMapImageUpdated();
         }
 
         [Test]
-        public void SetMaxThreshold_updates_the_model()
+        public void SetFrequency_updates_the_Model()
         {
-            _presenter.SetMaxThreshold(750);
+            _presenter.SetFrequency(0.03f);
 
-            _model.MaxThreshold.ShouldBe(0.75f);
+            _model.Frequency.ShouldBe(0.03f);
         }
 
         [Test]
-        public void SetMaxThreshold_updates_the_MaxThresholdLabel()
+        public void SetFrequency_updates_the_NoiseMap()
         {
-            _presenter.SetMaxThreshold(500);
-
-            _viewMockery.VerifyMaxThresholdLabelUpdated();
-        }
-        [Test]
-        public void SetMaxThreshold_updates_the_NoiseMap()
-        {
-            _presenter.SetMaxThreshold(500);
-
-            _viewMockery.VerifyNoiseMapImageUpdated();
-        }
-
-        [Test]
-        public void SetPerlinScale_updates_the_Model()
-        {
-            _presenter.SetNoiseScale(10);
-
-            _model.NoiseScale.ShouldBe(0.1f);
-        }
-        [Test]
-        public void SetPerlinScale_updates_the_PerlinLacunarityLabel()
-        {
-            _presenter.SetNoiseScale(10);
-
-            _viewMockery.VerifyPerlinScaleLabelUpdated();
-        }
-        [Test]
-        public void SetPerlinScale_updates_the_NoiseMap()
-        {
-            _presenter.SetNoiseScale(3);
-
-            _viewMockery.VerifyNoiseMapImageUpdated();
-        }
-
-        [Test]
-        public void SetPerlinLacunarity_updates_the_Model()
-        {
-            _presenter.SetPerlinLacunarity(3);
-
-            _model.PerlinLacunarity.ShouldBe(3);
-        }
-
-        [Test]
-        public void SetPerlinLacunarity_updates_the_NoiseMap()
-        {
-            _presenter.SetPerlinLacunarity(3);
-
-            _viewMockery.VerifyNoiseMapImageUpdated();
-        }
-
-        [Test]
-        public void SetPerlinFrequency_updates_the_Model()
-        {
-            _presenter.SetPerlinFrequency(0.03f);
-
-            _model.PerlinFrequency.ShouldBe(0.03f);
-        }
-
-        [Test]
-        public void SetPerlinFrequency_updates_the_NoiseMap()
-        {
-            _presenter.SetPerlinFrequency(3);
+            _presenter.SetFrequency(3);
 
             _viewMockery.VerifyNoiseMapImageUpdated();
         }
@@ -246,37 +177,7 @@ namespace GroanUI.Tests
             _viewMockery.VerifyDefaultOptionsShown();
         }
 
-        [Test]
-        public void SetXOffset_updates_the_NoiseMap()
-        {
-            _presenter.SetXOffset(1);
 
-            _viewMockery.VerifyNoiseMapImageUpdated();
-        }
-
-        [Test]
-        public void SetXOffset_updates_the_Model()
-        {
-            _presenter.SetXOffset(1);
-
-            _model.XOffset.ShouldBe(1);
-        }
-
-        [Test]
-        public void SetYOffset_updates_the_NoiseMap()
-        {
-            _presenter.SetYOffset(1);
-
-            _viewMockery.VerifyNoiseMapImageUpdated();
-        }
-
-        [Test]
-        public void SetYOffset_updates_the_Model()
-        {
-            _presenter.SetYOffset(1);
-
-            _model.YOffset.ShouldBe(1);
-        }
 
     }
 }

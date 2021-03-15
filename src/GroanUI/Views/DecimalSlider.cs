@@ -20,7 +20,6 @@ namespace GroanUI.Views
                 ValueLabel.Text = _sliderConfig.ModelValue.ToString();
             }
         }
-
         public int Minimum { get => TrackBar.Minimum; set => TrackBar.Minimum = value; }
         public int Maximum { get => TrackBar.Maximum; set => TrackBar.Maximum = value; }
         public int SmallChange { get => TrackBar.SmallChange; set => TrackBar.SmallChange = value; }
@@ -28,7 +27,6 @@ namespace GroanUI.Views
 
         private EventHandler<EventArgs> onScroll;
         private Configuration _sliderConfig;
-
 
         [Browsable(true)]
         [Category("Action")]
@@ -46,7 +44,6 @@ namespace GroanUI.Views
         public DecimalSlider()
         {
             InitializeComponent();
-
         }
 
         private void SetTooltips(string text)
