@@ -1,10 +1,36 @@
 ﻿using System;
 using System.Drawing;
+using SharpNoise;
+using SharpNoise.Utilities.Imaging;
+using Color = System.Drawing.Color;
 
 namespace GroanUI.Plotters
 {
-    public abstract class NoisePlotter
+    public abstract class NoiseMapMaker
     {
+
+        protected abstract NoiseMap BuildNoise(Size size, NoiseConfig cfg);
+        public virtual double[,] GetMap(Size size, NoiseConfig cfg)
+        {
+            var pcfg = cfg as PerlinConfig;
+            var noise = BuildNoise(size, pcfg);
+            var map = ToArray(size, noise);
+            return map;
+        }
+        public virtual NoiseMap GetNoiseMap(Size size, NoiseConfig cfg)
+        {
+            return BuildNoise(size, cfg as PerlinConfig);
+        }
+
+        public virtual Bitmap GetBitmap(Size size, NoiseConfig cfg)
+        {
+            var map = GetNoiseMap(size, cfg);
+            if (map.IsEmpty) return new Bitmap(1, 1);
+            return CreateGrayscaleBitmap(size, map);
+        }
+
+
+
         protected enum ColorChannel
         {
             Alpha, Red, Green, Blue
@@ -51,6 +77,37 @@ namespace GroanUI.Plotters
                 ColorChannel.Blue => Color.FromArgb(0, 0, 0, value),
                 _ => throw new ArgumentOutOfRangeException(nameof(channel), channel, null)
             };
+        }
+
+        protected static Bitmap CreateGrayscaleBitmap(Size size, NoiseMap map)
+        {
+            var image = new SharpNoise.Utilities.Imaging.Image(size.Width, size.Height);
+            var renderer = new ImageRenderer
+            {
+                SourceNoiseMap = map,
+                DestinationImage = image
+            };
+
+            renderer.BuildGrayscaleGradient();
+
+            renderer.Render();
+
+            return image.ToGdiBitmap();
+        }
+
+        protected static double[,] ToArray(Size size, NoiseMap noise)
+        {
+            var map = new double[size.Width, size.Height];
+
+            for (int y = 0; y < size.Height; y++)
+            {
+                for (int x = 0; x < size.Width; x++)
+                {
+                    map[x, y] = noise[x, y];
+                }
+            }
+
+            return map;
         }
     }
 }

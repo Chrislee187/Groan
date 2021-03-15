@@ -2,23 +2,17 @@
 {
     public class PerlinConfig : NoiseConfig
     {
-        public int Scale { get; }
-        public float Amplitude { get; }
         public float Frequency { get; }
-        public int XOffset { get; }
-        public int YOffset { get; }
+        public float Lacunarity { get; }
 
-        public PerlinConfig(bool invert, float minThreshold, float maxThreshold, bool oneBit,
-            int scale,
-            float amplitude, float frequency,
+        public PerlinConfig(bool invert, float minThreshold, float maxThreshold, bool oneBit, float scale,
+            float lacunarity, float frequency,
             int xOffset, int yOffset
-        ) : base(invert, minThreshold, maxThreshold, oneBit)
+        ) : base(invert, minThreshold, maxThreshold, oneBit, scale, xOffset, yOffset)
         {
-            Scale = scale < 1 ? 1 : scale;
-            Amplitude = amplitude;
+            Lacunarity = lacunarity;
             Frequency = frequency;
-            XOffset = xOffset;
-            YOffset = yOffset;
+
         }
     }
 }

@@ -72,16 +72,8 @@ namespace GroanUI.Tests
                 => m.SelectedNoise = nt, Times.Once);
         public void VerifyPerlinScaleLabelUpdated() =>
             _viewMock.VerifySet(m
-                => m.PerlinScaleLabel = It.IsAny<int>(), Times.AtLeast(2)); // Init and change
+                => m.NoiseScaleLabel = It.IsAny<float>(), Times.AtLeast(2)); // Init and change
 
-
-        public void VerifyPerlinAmplitudeLabelUpdated() =>
-            _viewMock.VerifySet(m
-                => m.PerlinAmplitudeLabel = It.IsAny<float>(), Times.AtLeast(2)); // Init and change
-        
-        public void VerifyPerlinFrequencyLabelUpdated() =>
-            _viewMock.VerifySet(m
-                => m.PerlinFrequencyLabel = It.IsAny<float>(), Times.AtLeast(2)); // Init and change
 
         public void VerifyDefaultOptionsShown()
         {

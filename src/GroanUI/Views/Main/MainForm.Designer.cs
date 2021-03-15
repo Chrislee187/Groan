@@ -33,6 +33,9 @@
             this.noiseTypeComboBox = new System.Windows.Forms.ComboBox();
             this.refreshButton = new System.Windows.Forms.Button();
             this.postProcessingGroupBox = new System.Windows.Forms.GroupBox();
+            this.scaleLabel = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.noiseScale = new System.Windows.Forms.HScrollBar();
             this.oneBitCheckBox = new System.Windows.Forms.CheckBox();
             this.maxThresholdValue = new System.Windows.Forms.Label();
             this.minThresholdValue = new System.Windows.Forms.Label();
@@ -45,20 +48,13 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.lacunaritySlider = new GroanUI.Views.DecimalSlider();
+            this.perlinFrequency = new GroanUI.Views.DecimalSlider();
             this.yOffsetLabel = new System.Windows.Forms.Label();
             this.yOffset = new System.Windows.Forms.HScrollBar();
             this.label2 = new System.Windows.Forms.Label();
             this.xOffsetLabel = new System.Windows.Forms.Label();
             this.xOffset = new System.Windows.Forms.HScrollBar();
-            this.perlinScaleLabel = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.perlinFrequencyValueLabel = new System.Windows.Forms.Label();
-            this.perlinFrequency = new System.Windows.Forms.HScrollBar();
-            this.perlinAmplitudeValueLabel = new System.Windows.Forms.Label();
-            this.perlinAmplitude = new System.Windows.Forms.HScrollBar();
-            this.label6 = new System.Windows.Forms.Label();
-            this.perlinScale = new System.Windows.Forms.HScrollBar();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.previewPictureBox)).BeginInit();
             this.postProcessingGroupBox.SuspendLayout();
@@ -97,6 +93,9 @@
             // 
             // postProcessingGroupBox
             // 
+            this.postProcessingGroupBox.Controls.Add(this.scaleLabel);
+            this.postProcessingGroupBox.Controls.Add(this.label6);
+            this.postProcessingGroupBox.Controls.Add(this.noiseScale);
             this.postProcessingGroupBox.Controls.Add(this.oneBitCheckBox);
             this.postProcessingGroupBox.Controls.Add(this.maxThresholdValue);
             this.postProcessingGroupBox.Controls.Add(this.minThresholdValue);
@@ -105,12 +104,41 @@
             this.postProcessingGroupBox.Controls.Add(this.maxThreshold);
             this.postProcessingGroupBox.Controls.Add(this.minThreshold);
             this.postProcessingGroupBox.Controls.Add(this.invertNoiseMap);
-            this.postProcessingGroupBox.Location = new System.Drawing.Point(446, 302);
+            this.postProcessingGroupBox.Location = new System.Drawing.Point(442, 219);
             this.postProcessingGroupBox.Name = "postProcessingGroupBox";
-            this.postProcessingGroupBox.Size = new System.Drawing.Size(433, 105);
+            this.postProcessingGroupBox.Size = new System.Drawing.Size(433, 189);
             this.postProcessingGroupBox.TabIndex = 5;
             this.postProcessingGroupBox.TabStop = false;
             this.postProcessingGroupBox.Text = "Post processing options";
+            // 
+            // scaleLabel
+            // 
+            this.scaleLabel.AutoSize = true;
+            this.scaleLabel.BackColor = System.Drawing.Color.Transparent;
+            this.scaleLabel.Location = new System.Drawing.Point(219, 97);
+            this.scaleLabel.Name = "scaleLabel";
+            this.scaleLabel.Size = new System.Drawing.Size(34, 15);
+            this.scaleLabel.TabIndex = 28;
+            this.scaleLabel.Text = "0.001";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 97);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(64, 15);
+            this.label6.TabIndex = 27;
+            this.label6.Text = "NoiseScale";
+            // 
+            // noiseScale
+            // 
+            this.noiseScale.Location = new System.Drawing.Point(121, 93);
+            this.noiseScale.Maximum = 100000;
+            this.noiseScale.Minimum = 1;
+            this.noiseScale.Name = "noiseScale";
+            this.noiseScale.Size = new System.Drawing.Size(214, 19);
+            this.noiseScale.TabIndex = 26;
+            this.noiseScale.Value = 25;
             // 
             // oneBitCheckBox
             // 
@@ -202,7 +230,7 @@
             this.optionTabControl.Location = new System.Drawing.Point(442, 9);
             this.optionTabControl.Name = "optionTabControl";
             this.optionTabControl.SelectedIndex = 0;
-            this.optionTabControl.Size = new System.Drawing.Size(434, 287);
+            this.optionTabControl.Size = new System.Drawing.Size(434, 204);
             this.optionTabControl.TabIndex = 6;
             this.optionTabControl.SelectedIndexChanged += new System.EventHandler(this.optionTabControl_SelectedIndexChanged);
             // 
@@ -212,7 +240,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(426, 259);
+            this.tabPage1.Size = new System.Drawing.Size(426, 176);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Default";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -228,33 +256,62 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage2.Controls.Add(this.lacunaritySlider);
+            this.tabPage2.Controls.Add(this.perlinFrequency);
             this.tabPage2.Controls.Add(this.yOffsetLabel);
             this.tabPage2.Controls.Add(this.yOffset);
             this.tabPage2.Controls.Add(this.label2);
             this.tabPage2.Controls.Add(this.xOffsetLabel);
             this.tabPage2.Controls.Add(this.xOffset);
-            this.tabPage2.Controls.Add(this.perlinScaleLabel);
-            this.tabPage2.Controls.Add(this.label7);
-            this.tabPage2.Controls.Add(this.label5);
-            this.tabPage2.Controls.Add(this.perlinFrequencyValueLabel);
-            this.tabPage2.Controls.Add(this.perlinFrequency);
-            this.tabPage2.Controls.Add(this.perlinAmplitudeValueLabel);
-            this.tabPage2.Controls.Add(this.perlinAmplitude);
-            this.tabPage2.Controls.Add(this.label6);
-            this.tabPage2.Controls.Add(this.perlinScale);
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(426, 259);
+            this.tabPage2.Size = new System.Drawing.Size(426, 176);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Tag = "Perlin";
             this.tabPage2.Text = "Perlin";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // lacunaritySlider
+            // 
+            this.lacunaritySlider.AutoSize = true;
+            this.lacunaritySlider.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.lacunaritySlider.Label = "Lacunarity";
+            this.lacunaritySlider.LargeChange = 100;
+            this.lacunaritySlider.Location = new System.Drawing.Point(10, 30);
+            this.lacunaritySlider.Margin = new System.Windows.Forms.Padding(1);
+            this.lacunaritySlider.Maximum = 10;
+            this.lacunaritySlider.Minimum = 0;
+            this.lacunaritySlider.Name = "lacunaritySlider";
+            this.lacunaritySlider.Size = new System.Drawing.Size(321, 20);
+            this.lacunaritySlider.SmallChange = 10;
+            this.lacunaritySlider.TabIndex = 32;
+            this.toolTip1.SetToolTip(this.lacunaritySlider, "asdasd");
+            this.lacunaritySlider.ToolTipText = "The lacunarity is the frequency multiplier between successive octaves. For best r" +
+    "esults, set the lacunarity to a number between 1.5 and 3.5.";
+            this.lacunaritySlider.Scroll += new System.EventHandler<System.EventArgs>(this.lacunaritySlider_Scroll);
+            // 
+            // perlinFrequency
+            // 
+            this.perlinFrequency.AutoSize = true;
+            this.perlinFrequency.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.perlinFrequency.Label = "Frequency";
+            this.perlinFrequency.LargeChange = 100;
+            this.perlinFrequency.Location = new System.Drawing.Point(10, 8);
+            this.perlinFrequency.Margin = new System.Windows.Forms.Padding(1);
+            this.perlinFrequency.Maximum = 10;
+            this.perlinFrequency.Minimum = 0;
+            this.perlinFrequency.Name = "perlinFrequency";
+            this.perlinFrequency.Size = new System.Drawing.Size(321, 20);
+            this.perlinFrequency.SmallChange = 10;
+            this.perlinFrequency.TabIndex = 31;
+            this.perlinFrequency.ToolTipText = "Gets or sets the frequency of the first octave.";
+            this.perlinFrequency.Scroll += new System.EventHandler<System.EventArgs>(this.perlinFrequency_Scroll);
             // 
             // yOffsetLabel
             // 
             this.yOffsetLabel.AutoSize = true;
-            this.yOffsetLabel.Location = new System.Drawing.Point(276, 95);
+            this.yOffsetLabel.Location = new System.Drawing.Point(288, 147);
             this.yOffsetLabel.Name = "yOffsetLabel";
             this.yOffsetLabel.Size = new System.Drawing.Size(34, 15);
             this.yOffsetLabel.TabIndex = 30;
@@ -262,7 +319,7 @@
             // 
             // yOffset
             // 
-            this.yOffset.Location = new System.Drawing.Point(231, 91);
+            this.yOffset.Location = new System.Drawing.Point(243, 143);
             this.yOffset.Maximum = 1001;
             this.yOffset.Name = "yOffset";
             this.yOffset.Size = new System.Drawing.Size(105, 19);
@@ -273,7 +330,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 95);
+            this.label2.Location = new System.Drawing.Point(19, 147);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(39, 15);
             this.label2.TabIndex = 28;
@@ -282,7 +339,7 @@
             // xOffsetLabel
             // 
             this.xOffsetLabel.AutoSize = true;
-            this.xOffsetLabel.Location = new System.Drawing.Point(167, 95);
+            this.xOffsetLabel.Location = new System.Drawing.Point(179, 147);
             this.xOffsetLabel.Name = "xOffsetLabel";
             this.xOffsetLabel.Size = new System.Drawing.Size(34, 15);
             this.xOffsetLabel.TabIndex = 27;
@@ -290,98 +347,13 @@
             // 
             // xOffset
             // 
-            this.xOffset.Location = new System.Drawing.Point(122, 91);
+            this.xOffset.Location = new System.Drawing.Point(134, 143);
             this.xOffset.Maximum = 1001;
             this.xOffset.Name = "xOffset";
             this.xOffset.Size = new System.Drawing.Size(105, 19);
             this.xOffset.TabIndex = 26;
             this.xOffset.Value = 25;
             this.xOffset.Scroll += new System.Windows.Forms.ScrollEventHandler(this.xOffset_Scroll);
-            // 
-            // perlinScaleLabel
-            // 
-            this.perlinScaleLabel.AutoSize = true;
-            this.perlinScaleLabel.BackColor = System.Drawing.Color.Transparent;
-            this.perlinScaleLabel.Location = new System.Drawing.Point(217, 19);
-            this.perlinScaleLabel.Name = "perlinScaleLabel";
-            this.perlinScaleLabel.Size = new System.Drawing.Size(34, 15);
-            this.perlinScaleLabel.TabIndex = 25;
-            this.perlinScaleLabel.Text = "0.001";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(7, 68);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(62, 15);
-            this.label7.TabIndex = 23;
-            this.label7.Text = "Frequency";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 44);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(63, 15);
-            this.label5.TabIndex = 13;
-            this.label5.Text = "Amplitude";
-            // 
-            // perlinFrequencyValueLabel
-            // 
-            this.perlinFrequencyValueLabel.AutoSize = true;
-            this.perlinFrequencyValueLabel.Location = new System.Drawing.Point(218, 68);
-            this.perlinFrequencyValueLabel.Name = "perlinFrequencyValueLabel";
-            this.perlinFrequencyValueLabel.Size = new System.Drawing.Size(34, 15);
-            this.perlinFrequencyValueLabel.TabIndex = 22;
-            this.perlinFrequencyValueLabel.Text = "0.001";
-            // 
-            // perlinFrequency
-            // 
-            this.perlinFrequency.Location = new System.Drawing.Point(122, 64);
-            this.perlinFrequency.Maximum = 1001;
-            this.perlinFrequency.Name = "perlinFrequency";
-            this.perlinFrequency.Size = new System.Drawing.Size(214, 19);
-            this.perlinFrequency.TabIndex = 21;
-            this.perlinFrequency.Value = 25;
-            this.perlinFrequency.Scroll += new System.Windows.Forms.ScrollEventHandler(this.perlinFrequencyHScrollBar_Scroll);
-            // 
-            // perlinAmplitudeValueLabel
-            // 
-            this.perlinAmplitudeValueLabel.AutoSize = true;
-            this.perlinAmplitudeValueLabel.Location = new System.Drawing.Point(217, 44);
-            this.perlinAmplitudeValueLabel.Name = "perlinAmplitudeValueLabel";
-            this.perlinAmplitudeValueLabel.Size = new System.Drawing.Size(34, 15);
-            this.perlinAmplitudeValueLabel.TabIndex = 20;
-            this.perlinAmplitudeValueLabel.Text = "0.001";
-            // 
-            // perlinAmplitude
-            // 
-            this.perlinAmplitude.Location = new System.Drawing.Point(121, 40);
-            this.perlinAmplitude.Maximum = 1001;
-            this.perlinAmplitude.Name = "perlinAmplitude";
-            this.perlinAmplitude.Size = new System.Drawing.Size(214, 19);
-            this.perlinAmplitude.TabIndex = 19;
-            this.perlinAmplitude.Value = 25;
-            this.perlinAmplitude.Scroll += new System.Windows.Forms.ScrollEventHandler(this.perlinAmplitudeHScrollBar_Scroll);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 19);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(34, 15);
-            this.label6.TabIndex = 12;
-            this.label6.Text = "Scale";
-            // 
-            // perlinScale
-            // 
-            this.perlinScale.Location = new System.Drawing.Point(121, 15);
-            this.perlinScale.Maximum = 1000;
-            this.perlinScale.Name = "perlinScale";
-            this.perlinScale.Size = new System.Drawing.Size(214, 19);
-            this.perlinScale.TabIndex = 11;
-            this.perlinScale.Value = 25;
-            this.perlinScale.Scroll += new System.Windows.Forms.ScrollEventHandler(this.perlinScale_Scroll);
             // 
             // MainForm
             // 
@@ -426,22 +398,18 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label maxThresholdValue;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.HScrollBar perlinScale;
         private System.Windows.Forms.CheckBox oneBitCheckBox;
-        private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label perlinFrequencyValueLabel;
-        private System.Windows.Forms.HScrollBar perlinFrequency;
-        private System.Windows.Forms.Label perlinAmplitudeValueLabel;
-        private System.Windows.Forms.HScrollBar perlinAmplitude;
-        private System.Windows.Forms.Label perlinScaleLabel;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label xOffsetLabel;
         private System.Windows.Forms.HScrollBar xOffset;
         private System.Windows.Forms.Label yOffsetLabel;
         private System.Windows.Forms.HScrollBar yOffset;
+        private System.Windows.Forms.Label scaleLabel;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.HScrollBar noiseScale;
+        private DecimalSlider perlinFrequency;
+        public System.Windows.Forms.ToolTip toolTip1;
+        private DecimalSlider lacunaritySlider;
     }
 }
 

@@ -19,22 +19,20 @@ namespace GroanUI.Views.Main
 
         public float MinThreshold { get; set; }
         public float MaxThreshold { get; set; }
-        public int PerlinScale { get; set; }
+        public float NoiseScale { get; set; }
         public bool OneBit { get; set; }
-        public float PerlinAmplitude { get; set; }
-        public float PerlinFrequency { get; set; }
         public int XOffset { get; set; }
         public int YOffset { get; set; }
+
+        public float PerlinLacunarity { get; set; }
+        public float PerlinFrequency { get; set; }
 
         public MainModel()
         {
             ViewTitle = "Noise Map Visualiser";
             NoiseTypes = new List<ListItem<NoiseType, string>>
             {
-                new(NoiseType.HorizontalGradient, "Horizontal Gradient")
-                ,new(NoiseType.VerticalGradient, "Vertical Gradient")
-                ,new(NoiseType.Random, "Random")
-                ,new(NoiseType.Perlin, "Perlin")
+                new(NoiseType.Perlin, "Perlin (SharpNoise)"),
             };
             MapSize = new Size(400, 400);
             SelectedNoiseType = NoiseTypes.First().ID;
@@ -42,10 +40,10 @@ namespace GroanUI.Views.Main
             MinThreshold = 0f;
             MaxThreshold = 1f;
 
-            PerlinScale = PerlinPlotter.PerlinDefaultScale;
+            NoiseScale = 1f;
             OneBit = false;
-            PerlinAmplitude = 1f;
-            PerlinFrequency = 3f;
+            PerlinFrequency = 1f;
+            PerlinLacunarity = 2f;
             XOffset = 0;
             YOffset = 0;
         }
@@ -53,9 +51,6 @@ namespace GroanUI.Views.Main
 
     public enum NoiseType
     {
-        HorizontalGradient,
-        VerticalGradient,
-        Random,
         Perlin
     }
 }

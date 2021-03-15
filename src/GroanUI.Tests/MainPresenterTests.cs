@@ -39,52 +39,52 @@ namespace GroanUI.Tests
             _viewMockery.VerifyChangeEventsManaged();
         }
 
-        [Test]
+        [Test, Ignore("Fix once have more than one noise type")]
         public void NoiseTypeSelected_updates_the_selected_OptionsTab()
         {
-            _presenter.SelectNoiseType(NoiseType.VerticalGradient);
-            
-            _viewMockery.VerifyOptionsTabUpdated(NoiseType.VerticalGradient);
+            // _presenter.SelectNoiseType(NoiseType.VerticalGradient);
+            //
+            // _viewMockery.VerifyOptionsTabUpdated(NoiseType.VerticalGradient);
         }
 
-        [Test]
+        [Test, Ignore("Fix once have more than one noise type")]
         public void NoiseTypeSelected_updates_the_NoiseMap()
         {
-            _presenter.SelectNoiseType(NoiseType.VerticalGradient);
-
-            _viewMockery.VerifyNoiseMapImageUpdated();
+            // _presenter.SelectNoiseType(NoiseType.VerticalGradient);
+            //
+            // _viewMockery.VerifyNoiseMapImageUpdated();
         }
 
-        [Test]
+        [Test, Ignore("Fix once have more than one noise type")]
         public void NoiseTypeSelected_updates_the_Model()
         {
-            _presenter.SelectNoiseType(NoiseType.VerticalGradient);
-
-            _model.SelectedNoiseType.ShouldBe(NoiseType.VerticalGradient);
+            // _presenter.SelectNoiseType(NoiseType.VerticalGradient);
+            //
+            // _model.SelectedNoiseType.ShouldBe(NoiseType.VerticalGradient);
         }
 
-        [Test]
+        [Test, Ignore("Fix once have more than one noise type")]
         public void OptionsTabSelected_updates_the_Model()
         {
-            _presenter.SelectOptionsTab(NoiseType.VerticalGradient);
-
-            _model.SelectedNoiseType.ShouldBe(NoiseType.VerticalGradient);
+            // _presenter.SelectOptionsTab(NoiseType.VerticalGradient);
+            //
+            // _model.SelectedNoiseType.ShouldBe(NoiseType.VerticalGradient);
         }
 
-        [Test]
+        [Test, Ignore("Fix once have more than one noise type")]
         public void OptionsTabSelected_updates_the_selected_NoiseType()
         {
-            _presenter.SelectOptionsTab(NoiseType.VerticalGradient);
-
-            _viewMockery.VerifySelectedNoiseUpdated(NoiseType.VerticalGradient);
+            // _presenter.SelectOptionsTab(NoiseType.VerticalGradient);
+            //
+            // _viewMockery.VerifySelectedNoiseUpdated(NoiseType.VerticalGradient);
         }
 
-        [Test]
+        [Test, Ignore("Fix once have more than one noise type")]
         public void OptionsTabSelected_updates_the_NoiseMap()
         {
-            _presenter.SelectOptionsTab(NoiseType.VerticalGradient);
-
-            _viewMockery.VerifyNoiseMapImageUpdated();
+            // _presenter.SelectOptionsTab(NoiseType.VerticalGradient);
+            //
+            // _viewMockery.VerifyNoiseMapImageUpdated();
         }
 
         [Test]
@@ -173,43 +173,37 @@ namespace GroanUI.Tests
         [Test]
         public void SetPerlinScale_updates_the_Model()
         {
-            _presenter.SetPerlinScale(3);
+            _presenter.SetNoiseScale(10);
 
-            _model.PerlinScale.ShouldBe(3);
+            _model.NoiseScale.ShouldBe(0.1f);
         }
         [Test]
-        public void SetPerlinScale_updates_the_PerlinAmplitudeLabel()
+        public void SetPerlinScale_updates_the_PerlinLacunarityLabel()
         {
-            _presenter.SetPerlinScale(3);
+            _presenter.SetNoiseScale(10);
 
             _viewMockery.VerifyPerlinScaleLabelUpdated();
         }
         [Test]
         public void SetPerlinScale_updates_the_NoiseMap()
         {
-            _presenter.SetPerlinScale(3);
+            _presenter.SetNoiseScale(3);
 
             _viewMockery.VerifyNoiseMapImageUpdated();
         }
 
         [Test]
-        public void SetPerlinAmplitude_updates_the_Model()
+        public void SetPerlinLacunarity_updates_the_Model()
         {
-            _presenter.SetPerlinAmplitude(3);
+            _presenter.SetPerlinLacunarity(3);
 
-            _model.PerlinAmplitude.ShouldBe(0.03f);
+            _model.PerlinLacunarity.ShouldBe(3);
         }
-        [Test]
-        public void SetPerlinAmplitude_updates_the_PerlinAmplitudeLabel()
-        {
-            _presenter.SetPerlinAmplitude(3);
 
-            _viewMockery.VerifyPerlinAmplitudeLabelUpdated();
-        }
         [Test]
-        public void SetPerlinAmplitude_updates_the_NoiseMap()
+        public void SetPerlinLacunarity_updates_the_NoiseMap()
         {
-            _presenter.SetPerlinAmplitude(3);
+            _presenter.SetPerlinLacunarity(3);
 
             _viewMockery.VerifyNoiseMapImageUpdated();
         }
@@ -217,17 +211,9 @@ namespace GroanUI.Tests
         [Test]
         public void SetPerlinFrequency_updates_the_Model()
         {
-            _presenter.SetPerlinFrequency(3);
+            _presenter.SetPerlinFrequency(0.03f);
 
             _model.PerlinFrequency.ShouldBe(0.03f);
-        }
-
-        [Test]
-        public void SetPerlinFrequency_updates_the_PerlinFrequencyLabel()
-        {
-            _presenter.SetPerlinFrequency(3);
-
-            _viewMockery.VerifyPerlinFrequencyLabelUpdated();
         }
 
         [Test]
@@ -246,12 +232,12 @@ namespace GroanUI.Tests
             _viewMockery.VerifyNoiseMapImageUpdated();
         }
 
-        [Test]
+        [Test, Ignore("Fix once have more than one noise type")]
         public void SelectDefaultNoise_updates_the_Model()
         {
-            _presenter.SelectDefaultNoise();
-
-            _model.SelectedNoiseType.ShouldBe(NoiseType.HorizontalGradient);
+            // _presenter.SelectDefaultNoise();
+            //
+            // _model.SelectedNoiseType.ShouldBe(NoiseType.HorizontalGradient);
         }
 
         [Test]

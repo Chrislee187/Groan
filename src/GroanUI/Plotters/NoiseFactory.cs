@@ -14,25 +14,13 @@ namespace GroanUI.Plotters
     {
         public Bitmap CreateNoiseBitmap(NoiseType noiseType, Size size, NoiseConfig cfg)
         {
-            var bmp = new Bitmap(
-                size.Width,
-                size.Height,
-                PixelFormat.Format32bppRgb);
-
-            var noise = _noiseProvider[noiseType];
-
-            noise.Plot(bmp, cfg);
-
-            return bmp;
+            return _noiseProvider[noiseType].GetBitmap(size, cfg);
         }
 
-        private readonly Dictionary<NoiseType, NoisePlotter> _noiseProvider
+        private readonly Dictionary<NoiseType, NoiseMapMaker> _noiseProvider
             = new()
             {
-                { NoiseType.HorizontalGradient, new HGradientPlotter() },
-                { NoiseType.VerticalGradient, new VGradientPlotter() },
-                { NoiseType.Random, new SystemRandomPlotter() },
-                { NoiseType.Perlin, new PerlinPlotter() },
+                { NoiseType.Perlin, new PerlinNoiseMapMaker() },
             };
 
 

@@ -21,21 +21,43 @@ namespace GroanUI.Views.Main
         {
             View.ViewTitle = _model.ViewTitle;
             View.MapSize = _model.MapSize;
+
             View.NoiseTypes = _model.NoiseTypes;
+            View.SetupSliders(SliderSetups());
+
+            View.NoiseScale = _model.NoiseScale;
+            View.NoiseScaleLabel = (int)_model.NoiseScale;
+
             View.MinThreshold = (int)_model.MinThreshold * 1000;
-            View.MaxThreshold = (int)_model.MaxThreshold * 1000;
             View.MinThresholdLabel = _model.MinThreshold;
+            
+            View.MaxThreshold = (int)_model.MaxThreshold * 1000;
             View.MaxThresholdLabel = _model.MaxThreshold;
-            View.PerlinScale = _model.PerlinScale;
-            View.PerlinScaleLabel = _model.PerlinScale;
-            View.PerlinAmplitudeLabel = _model.PerlinAmplitude;
-            View.PerlinFrequencyLabel = _model.PerlinFrequency;
-            View.PerlinAmplitudeScrollValue = (int)(_model.PerlinAmplitude * 100f);
-            View.PerlinFrequencyScrollValue = (int)(_model.PerlinFrequency * 100f);
+            
             View.XOffsetLabel = _model.XOffset;
             View.YOffset = _model.XOffset;
+            
             View.YOffsetLabel = _model.YOffset;
             View.XOffset = _model.XOffset;
+        }
+
+        private DecimalSlider.Configuration[] SliderSetups()
+        {
+            var SliderConversionFactor = 100f;
+            return new []
+            {
+                new DecimalSlider.Configuration(
+                    MainForm.Sliders.PerlinFrequency,
+                    _model.PerlinFrequency,
+                    1, 500,
+                    SliderConversionFactor),
+                new DecimalSlider.Configuration(
+                    MainForm.Sliders.PerlinLacunarity,
+                    _model.PerlinLacunarity,
+                    1, 500,
+                    SliderConversionFactor),
+
+            };
         }
 
         public void SelectNoiseType(NoiseType noiseType)
@@ -65,11 +87,31 @@ namespace GroanUI.Views.Main
         {
             RunWithoutChangeEvents(() =>
             {
-                _model.SelectedNoiseType = NoiseType.HorizontalGradient;
+                _model.SelectedNoiseType = NoiseType.Perlin;
 
                 View.ShowDefaultOptionsTab();
 
                 InstantNoiseMapRedraw();
+            });
+        }
+
+        public void SetPerlinLacunarity(float value)
+        {
+            RunWithoutChangeEvents(() =>
+            {
+                _model.PerlinLacunarity = value;
+
+                DelayedNoiseMapRedraw();
+            });
+        }
+
+        public void SetPerlinFrequency(float value)
+        {
+            RunWithoutChangeEvents(() =>
+            {
+                _model.PerlinFrequency = value;
+
+                DelayedNoiseMapRedraw();
             });
         }
 
@@ -119,43 +161,19 @@ namespace GroanUI.Views.Main
             });
         }
 
-        public void SetPerlinScale(int value)
+        public void SetNoiseScale(int value)
         {
-            if (value == _model.PerlinScale) return;
+            if (value == _model.NoiseScale) return;
             RunWithoutChangeEvents(() =>
             {
 
-                _model.PerlinScale = value;
-                View.PerlinScaleLabel = _model.PerlinScale;
+                _model.NoiseScale = (float) value / 100;
+                View.NoiseScaleLabel = _model.NoiseScale;
                 DelayedNoiseMapRedraw();
 
             });
         }
 
-        public void SetPerlinAmplitude(int value)
-        {
-            RunWithoutChangeEvents(() =>
-            {
-
-                _model.PerlinAmplitude = (float) value / 100;
-                View.PerlinAmplitudeLabel = _model.PerlinAmplitude;
-
-                DelayedNoiseMapRedraw();
-
-            });
-        }
-
-        public void SetPerlinFrequency(int value)
-        {
-            RunWithoutChangeEvents(() =>
-            {
-
-                _model.PerlinFrequency = (float) value / 100;
-                View.PerlinFrequencyLabel = _model.PerlinFrequency;
-
-                DelayedNoiseMapRedraw();
-            });
-        }
 
         public void SetXOffset(int value)
         {
@@ -176,7 +194,6 @@ namespace GroanUI.Views.Main
                 View.YOffsetLabel = _model.YOffset;
 
                 DelayedNoiseMapRedraw();
-
             });
         }
 
@@ -184,16 +201,16 @@ namespace GroanUI.Views.Main
             new(DefaultConfigProvider)
             {
                 {
-                    NoiseType.Perlin,
-                    m => new PerlinConfig(
-                         m.InvertMap, m.MinThreshold, m.MaxThreshold, m.OneBit,
-                         m.PerlinScale, m.PerlinAmplitude, m.PerlinFrequency
-                         ,m.XOffset, m.YOffset)
-                }
+                NoiseType.Perlin,
+                m => new PerlinConfig(
+                    m.InvertMap, m.MinThreshold, m.MaxThreshold, m.OneBit,
+                    m.NoiseScale, m.PerlinLacunarity, m.PerlinFrequency
+                    , m.XOffset, m.YOffset)
+            }
             };
 
         private static NoiseConfig DefaultConfigProvider(MainModel model)
-            => new(model.InvertMap, model.MinThreshold, model.MaxThreshold, model.OneBit);
+            => new(model.InvertMap, model.MinThreshold, model.MaxThreshold, model.OneBit, model.NoiseScale, model.XOffset, model.YOffset);
         
         /// <summary>
         /// Introduce a small delay before refreshing the noise map to allow further
@@ -230,4 +247,5 @@ namespace GroanUI.Views.Main
             View.EnableChangeEvents();
         }
     }
+
 }

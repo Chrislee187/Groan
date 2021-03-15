@@ -14,14 +14,11 @@ namespace GroanUI.Views.Main
         
         float MinThresholdLabel { set; }
         float MaxThresholdLabel { set; }
-        int PerlinScaleLabel { set; }
-        float PerlinAmplitudeLabel { set; }
-        float PerlinFrequencyLabel { set; }
-        int PerlinAmplitudeScrollValue { set; }
-        int PerlinFrequencyScrollValue { set; }
+        float NoiseScaleLabel { set; }
+
         int MinThreshold { set; }
         int MaxThreshold { set; }
-        int PerlinScale { set; }
+        float NoiseScale { set; }
         int XOffsetLabel {set; }
         int YOffsetLabel { set; }
         int XOffset {set; }
@@ -42,5 +39,7 @@ namespace GroanUI.Views.Main
         /// Reenable events that were disabled in <see cref="DisableChangeEvents"/>
         /// </summary>
         void EnableChangeEvents();
+
+        void SetupSliders(params DecimalSlider.Configuration[] sliderSetup);
     }
 }
