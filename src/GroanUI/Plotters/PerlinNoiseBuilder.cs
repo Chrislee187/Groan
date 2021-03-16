@@ -10,7 +10,7 @@ namespace GroanUI.Plotters
             var pcfg = (PerlinConfig) cfg;
             var noiseSource = new Perlin
             {
-                Seed = 0, //new Random().Next()
+                Seed = pcfg.Seed,
                 Frequency = pcfg.Frequency, 
                 Lacunarity = pcfg.Lacunarity, 
                 Persistence = pcfg.Persistance, 

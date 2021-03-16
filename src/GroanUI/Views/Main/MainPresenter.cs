@@ -33,7 +33,7 @@ namespace GroanUI.Views.Main
             View.MapSize = _model.MapSize;
             View.NoiseTypes = _model.NoiseTypes;
             View.GenerateGrayscale = _model.GenerateGrayscale;
-            View.Inverted = _model.InvertMap;
+            View.Inverted = _model.Invert;
             View.Rounded = _model.Round;
 
             View.SetupSliders(_model.SliderSetups);
@@ -127,7 +127,7 @@ namespace GroanUI.Views.Main
         {
             ExecuteAction(() =>
             {
-                _model.InvertMap = @checked;
+                _model.Invert = @checked;
             });
         }
         public void SetRounded(bool @checked)
@@ -138,20 +138,26 @@ namespace GroanUI.Views.Main
             });
         }
 
+        // Other actions
+        public void SetNewSeed()
+        {
+            ExecuteAction(() =>
+            {
+                _model.Seed = DateTime.Now.Ticks.GetHashCode();
+            }, true);
+        }
+
         private readonly DefaultDictionary<NoiseType, Func<MainModel, NoiseConfig>> _configProviders =
             new(DefaultConfigProvider)
             {
                 {
                 NoiseType.Perlin,
-                m => new PerlinConfig(m.GenerateGrayscale,
-                    m.InvertMap, m.MinThreshold, m.MaxThreshold, m.Round,
-                    m.NoiseScale, m.Lacunarity, m.Frequency, m.Persistance, m.Octaves
-                    , m.XOffset, m.YOffset)
+                m => new PerlinConfig(m.Lacunarity, m.Frequency, m.Persistance, m.Octaves, DefaultConfigProvider(m))
                 }
             };
 
         private static NoiseConfig DefaultConfigProvider(MainModel model)
-            => new(model.InvertMap, model.MinThreshold, model.MaxThreshold, model.Round, model.NoiseScale, model.XOffset, model.YOffset, model.GenerateGrayscale);
+            => new(model.Invert, model.MinThreshold, model.MaxThreshold, model.Round, model.NoiseScale, model.GenerateGrayscale, model.Seed);
         
         private CancellationTokenSource _cancelRefreshToken = new();
         private void DelayedNoiseMapRedraw()

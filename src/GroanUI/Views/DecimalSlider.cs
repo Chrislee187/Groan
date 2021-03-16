@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Globalization;
 using System.Windows.Forms;
 using GroanUI.Views.Main;
 
@@ -17,7 +18,7 @@ namespace GroanUI.Views
             {
                 if (_sliderConfig == null) return;
                 _sliderConfig.Set(value);
-                ValueLabel.Text = _sliderConfig.ModelValue.ToString();
+                ValueLabel.Text = _sliderConfig.ModelValue.ToString(CultureInfo.InvariantCulture);
             }
         }
         public int Minimum { get => TrackBar.Minimum; set => TrackBar.Minimum = value; }
@@ -60,21 +61,30 @@ namespace GroanUI.Views
             TrackBar.SmallChange = config.SmallStep;
             TrackBar.LargeChange = config.LargeStep;
             TrackBar.Value = config.Value;
-            ValueLabel.Text = config.ModelValue.ToString();
+            ValueLabel.Text = config.ModelValue.ToString(CultureInfo.InvariantCulture);
         }
 
         private void TrackBar_Scroll(object sender, EventArgs e)
         {
-            _sliderConfig.Set((sender as TrackBar).Value);
-            ValueLabel.Text = _sliderConfig.ModelValue.ToString();
+            _sliderConfig.Set(((TrackBar) sender).Value);
+            ValueLabel.Text = _sliderConfig.ModelValue.ToString(CultureInfo.InvariantCulture);
             onScroll?.Invoke(this, e);
         }
+
+        private void ResetValue_DoubleClick(object sender, EventArgs e)
+        {
+            _sliderConfig.ResetValue();
+            TrackBar.Value = _sliderConfig.Value;
+            ValueLabel.Text = _sliderConfig.ModelValue.ToString(CultureInfo.InvariantCulture);
+            onScroll?.Invoke(this, e);
+        }
+
         public class Configuration
         {
             private readonly float _modelToSliderFactor;
             public float ModelValue { get; private set; }
             public Sliders Slider { get; }
-            public float InitialModelValue { get; }
+            private float _initialModelValue;
             public int MinValue { get; }
             public int MaxValue { get; }
             public int SmallStep { get; }
@@ -82,29 +92,32 @@ namespace GroanUI.Views
             public int Value => (int)(ModelValue * _modelToSliderFactor);
             public Configuration(Sliders slider,
                 float initialValue,
-                int minValue, int maxValue,
-                float modelToSliderFactor,
-                int smallStep = 1, int largeStep = 10)
+                float minValue, float maxValue,
+                float smallStep = 0.01f, float largeStep = 0.1f,
+                int sliderPrecision = 2)
             {
-                _modelToSliderFactor = modelToSliderFactor;
+                _modelToSliderFactor = sliderPrecision == 0 ? 1 : (float)Math.Pow(10, sliderPrecision);
                 Slider = slider;
-                ModelValue = InitialModelValue = initialValue;
-                MinValue = minValue;
-                MaxValue = maxValue;
-                SmallStep = smallStep;
-                LargeStep = largeStep;
+                ModelValue = _initialModelValue = initialValue;
+                MinValue = (int) (minValue * _modelToSliderFactor);
+                MaxValue = (int) (maxValue * _modelToSliderFactor);
+                SmallStep = (int) Math.Min(smallStep * _modelToSliderFactor, 1);
+                LargeStep = (int)(largeStep * _modelToSliderFactor);
             }
 
-            public void Set(float modelValue)
+            internal void Set(float modelValue)
             {
                 ModelValue = modelValue;
             }
-            public void Set(int controlValue)
+            internal void Set(int controlValue)
             {
                 ModelValue = controlValue / _modelToSliderFactor;
             }
+            internal void ResetValue()
+            {
+                ModelValue = _initialModelValue;
+            }
         }
-
     }
 
 }

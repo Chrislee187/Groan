@@ -62,6 +62,9 @@
             this.NoiseMapPreview.Size = new System.Drawing.Size(400, 400);
             this.NoiseMapPreview.TabIndex = 0;
             this.NoiseMapPreview.TabStop = false;
+            this.NoiseMapPreview.Click += new System.EventHandler(this.NoiseMapPreview_Click);
+            this.toolTip1.SetToolTip(this.NoiseMapPreview, "Click to generate a new seed");
+
             // 
             // NoiseTypeComboBox
             // 
@@ -134,7 +137,7 @@
             // 
             this.Grayscale.AutoSize = true;
             this.Grayscale.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Grayscale.Location = new System.Drawing.Point(14, 22);
+            this.Grayscale.Location = new System.Drawing.Point(150, 129);
             this.Grayscale.Name = "Grayscale";
             this.Grayscale.Size = new System.Drawing.Size(76, 19);
             this.Grayscale.TabIndex = 13;
@@ -179,6 +182,7 @@
             this.optionTabControl.Size = new System.Drawing.Size(434, 204);
             this.optionTabControl.TabIndex = 6;
             this.optionTabControl.SelectedIndexChanged += new System.EventHandler(this.OptionTabControl_SelectedIndexChanged);
+            this.toolTip1.SetToolTip(this.optionTabControl, "Double click sliders to reset.");
             // 
             // tabPage1
             // 

@@ -2,20 +2,25 @@
 {
     public class NoiseConfig
     {
+        protected NoiseConfig(NoiseConfig cfg)
+        : this(cfg.Invert, cfg.MinThreshold, cfg.MaxThreshold, cfg.Round, cfg.Scale, cfg.OutputGrayscale, cfg.Seed)
+        {
+
+        }
         public NoiseConfig(bool invert,
             float minThreshold, float maxThreshold,
-            bool round, float scale,
-            int xOffset, int yOffset, bool grayscale)
+            bool round, 
+            float scale, 
+            bool grayscale, int seed)
         {
             Invert = invert;
             MinThreshold = minThreshold;
             MaxThreshold = maxThreshold;
             Round = round;
             Scale = scale;
-            XOffset = xOffset;
-            YOffset = yOffset;
 
             OutputGrayscale = grayscale;
+            Seed = seed;
         }
 
         public bool Invert { get; }
@@ -23,8 +28,7 @@
         public float MaxThreshold { get; }
         public bool Round { get; }
         public float Scale { get; }
-        public int XOffset { get; }
-        public int YOffset { get; }
-        public bool OutputGrayscale { get; set; }
+        public bool OutputGrayscale { get;  }
+        public int Seed { get;  }
     }
 }

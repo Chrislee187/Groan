@@ -54,10 +54,11 @@ namespace GroanUI.Views
             // 
             this.Caption.AutoSize = true;
             this.Caption.Location = new System.Drawing.Point(0, 2);
-            this.Caption.Name = "Label";
+            this.Caption.Name = "Caption";
             this.Caption.Size = new System.Drawing.Size(79, 15);
             this.Caption.TabIndex = 26;
             this.Caption.Text = "DecimalSlider";
+            this.Caption.DoubleClick += new System.EventHandler(this.ResetValue_DoubleClick);
             // 
             // ValueLabel
             // 
@@ -67,6 +68,7 @@ namespace GroanUI.Views
             this.ValueLabel.Size = new System.Drawing.Size(28, 15);
             this.ValueLabel.TabIndex = 25;
             this.ValueLabel.Text = "1.00";
+            this.ValueLabel.DoubleClick += new System.EventHandler(this.ResetValue_DoubleClick);
             // 
             // DecimalSlider
             // 
@@ -80,6 +82,7 @@ namespace GroanUI.Views
             this.Margin = new System.Windows.Forms.Padding(1);
             this.Name = "DecimalSlider";
             this.Size = new System.Drawing.Size(321, 20);
+            this.DoubleClick += new System.EventHandler(this.ResetValue_DoubleClick);
             ((System.ComponentModel.ISupportInitialize)(this.TrackBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

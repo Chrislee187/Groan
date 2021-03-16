@@ -205,5 +205,9 @@ namespace GroanUI.Views.Main
 
         #endregion
 
+        private void NoiseMapPreview_Click(object sender, EventArgs e)
+        {
+            _presenter.SetNewSeed();
+        }
     }
 }

@@ -88,17 +88,17 @@ namespace GroanUI.Tests
         [Test]
         public void InvertNoise_updates_the_model()
         {
-            _model.InvertMap.ShouldBeFalse();
+            _model.Invert.ShouldBeFalse();
 
-            _presenter.SetInverted();
+            _presenter.SetInverted(true);
 
-            _model.InvertMap.ShouldBeTrue();
+            _model.Invert.ShouldBeTrue();
         }
 
         [Test]
         public void InvertNoise_updates_the_NoiseMap()
         {
-            _presenter.SetInverted();
+            _presenter.SetInverted(true);
 
             _viewMockery.VerifyNoiseMapImageUpdated();
         }
@@ -108,7 +108,7 @@ namespace GroanUI.Tests
         {
             _model.Round.ShouldBeFalse();
 
-            _presenter.SetRounded();
+            _presenter.SetRounded(true);
 
             _model.Round.ShouldBeTrue();
         }
@@ -116,7 +116,7 @@ namespace GroanUI.Tests
         [Test]
         public void RoundToggle_updates_the_NoiseMap()
         {
-            _presenter.SetRounded();
+            _presenter.SetRounded(true);
 
             _viewMockery.VerifyNoiseMapImageUpdated();
         }
