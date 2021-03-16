@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Drawing;
+using System.Threading;
+using System.Threading.Tasks;
 using SharpNoise;
 using SharpNoise.Builders;
 using SharpNoise.Modules;
@@ -18,22 +20,50 @@ namespace GroanUI.Plotters
 
             var noiseMap = new NoiseMap(size.Width, size.Height);
 
-            Console.WriteLine(noiseMap[1,1]);
-
             var noiseMapBuilder = new PlaneNoiseMapBuilder
             {
                 DestNoiseMap = noiseMap,
                 SourceModule = noiseSource,
-                EnableSeamless = true
+                EnableSeamless = false
             };
 
             noiseMapBuilder.SetDestSize(noiseMap.Width, noiseMap.Height);
-            // noiseMapBuilder.SetBounds(-3, 3, -2, 2);
             noiseMapBuilder.SetBounds(0, 1, 0, 1);
-            noiseMapBuilder.Build();
 
+            noiseMapBuilder.Build();
+            PostProcessing(size, cfg, noiseMap);
             return noiseMap;
         }
+
+        private static void PostProcessing(Size size, NoiseConfig cfg, NoiseMap noiseMap)
+        {
+            if (RequiresPostProcessing(cfg))
+            {
+                var po = new ParallelOptions()
+                {
+                    CancellationToken = new CancellationToken(),
+                };
+                Parallel.For(0, size.Height, po, y =>
+                {
+                    for (int x = 0; x < size.Width; x++)
+                    {
+                        var v = noiseMap[x, y];
+
+                        v = v < cfg.MinThreshold ? cfg.MinThreshold : v;
+                        v = v > cfg.MaxThreshold ? cfg.MaxThreshold : v;
+                        v = (cfg.Invert ? 1f : 0f) - v;
+                        v = cfg.Round ? (int)Math.Round(v) : v;
+                        noiseMap[x,y] = Math.Abs(v);
+                    }
+                });
+            }
+        }
+
+        private static bool RequiresPostProcessing(NoiseConfig cfg)
+        {
+            return cfg.Invert || cfg.Round || cfg.MinThreshold > 0f || cfg.MaxThreshold < 1f;
+        }
+
         public virtual double[,] GetMap(Size size, NoiseConfig cfg)
         {
             var pcfg = cfg as PerlinConfig;
@@ -97,7 +127,7 @@ namespace GroanUI.Plotters
         {
             value = ConstrainToThresholds(value, cfg);
             value = (cfg.Invert ? 1f : 0f) - value;
-            value = cfg.OneBit ? (float)Math.Floor(value) : value;
+            value = cfg.Round ? (float)Math.Floor(value) : value;
 
             return Math.Abs(value);
 

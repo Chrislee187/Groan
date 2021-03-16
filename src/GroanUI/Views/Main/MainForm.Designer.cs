@@ -33,8 +33,11 @@
             this.NoiseTypeComboBox = new System.Windows.Forms.ComboBox();
             this.refreshButton = new System.Windows.Forms.Button();
             this.postProcessingGroupBox = new System.Windows.Forms.GroupBox();
-            this.oneBitCheckBox = new System.Windows.Forms.CheckBox();
-            this.invertNoiseMap = new System.Windows.Forms.CheckBox();
+            this.MaxValue = new GroanUI.Views.DecimalSlider();
+            this.MinValue = new GroanUI.Views.DecimalSlider();
+            this.Grayscale = new System.Windows.Forms.CheckBox();
+            this.Round = new System.Windows.Forms.CheckBox();
+            this.Invert = new System.Windows.Forms.CheckBox();
             this.optionTabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
@@ -44,7 +47,6 @@
             this.Lacunarity = new GroanUI.Views.DecimalSlider();
             this.Frequency = new GroanUI.Views.DecimalSlider();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.Grayscale = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NoiseMapPreview)).BeginInit();
             this.postProcessingGroupBox.SuspendLayout();
             this.optionTabControl.SuspendLayout();
@@ -82,9 +84,11 @@
             // 
             // postProcessingGroupBox
             // 
+            this.postProcessingGroupBox.Controls.Add(this.MaxValue);
+            this.postProcessingGroupBox.Controls.Add(this.MinValue);
             this.postProcessingGroupBox.Controls.Add(this.Grayscale);
-            this.postProcessingGroupBox.Controls.Add(this.oneBitCheckBox);
-            this.postProcessingGroupBox.Controls.Add(this.invertNoiseMap);
+            this.postProcessingGroupBox.Controls.Add(this.Round);
+            this.postProcessingGroupBox.Controls.Add(this.Invert);
             this.postProcessingGroupBox.Location = new System.Drawing.Point(444, 12);
             this.postProcessingGroupBox.Name = "postProcessingGroupBox";
             this.postProcessingGroupBox.Size = new System.Drawing.Size(433, 154);
@@ -92,31 +96,78 @@
             this.postProcessingGroupBox.TabStop = false;
             this.postProcessingGroupBox.Text = "Common options";
             // 
-            // oneBitCheckBox
+            // MaxValue
             // 
-            this.oneBitCheckBox.AutoSize = true;
-            this.oneBitCheckBox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.oneBitCheckBox.Location = new System.Drawing.Point(214, 104);
-            this.oneBitCheckBox.Name = "oneBitCheckBox";
-            this.oneBitCheckBox.Size = new System.Drawing.Size(67, 19);
-            this.oneBitCheckBox.TabIndex = 12;
-            this.oneBitCheckBox.Text = "One-bit";
-            this.toolTip1.SetToolTip(this.oneBitCheckBox, "Make the value 0 or 1 before converting to a Color");
-            this.oneBitCheckBox.UseVisualStyleBackColor = true;
-            this.oneBitCheckBox.CheckedChanged += new System.EventHandler(this.OneBitCheckBox_CheckedChanged);
+            this.MaxValue.AutoSize = true;
+            this.MaxValue.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.MaxValue.Label = "Max Value";
+            this.MaxValue.LargeChange = 100;
+            this.MaxValue.Location = new System.Drawing.Point(21, 70);
+            this.MaxValue.Margin = new System.Windows.Forms.Padding(1);
+            this.MaxValue.Maximum = 10;
+            this.MaxValue.Minimum = 0;
+            this.MaxValue.Name = "MaxValue";
+            this.MaxValue.Size = new System.Drawing.Size(321, 20);
+            this.MaxValue.SmallChange = 10;
+            this.MaxValue.TabIndex = 15;
+            this.MaxValue.ToolTipText = "";
+            this.MaxValue.Scroll += new System.EventHandler<System.EventArgs>(this.MaxValue_Scroll);
             // 
-            // invertNoiseMap
+            // MinValue
             // 
-            this.invertNoiseMap.AutoSize = true;
-            this.invertNoiseMap.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.invertNoiseMap.Location = new System.Drawing.Point(152, 104);
-            this.invertNoiseMap.Name = "invertNoiseMap";
-            this.invertNoiseMap.Size = new System.Drawing.Size(56, 19);
-            this.invertNoiseMap.TabIndex = 4;
-            this.invertNoiseMap.Text = "Invert";
-            this.toolTip1.SetToolTip(this.invertNoiseMap, "Invert the plot value before converting to Color");
-            this.invertNoiseMap.UseVisualStyleBackColor = true;
-            this.invertNoiseMap.CheckedChanged += new System.EventHandler(this.InvertNoiseMap_CheckedChanged);
+            this.MinValue.AutoSize = true;
+            this.MinValue.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.MinValue.Label = "Min Value";
+            this.MinValue.LargeChange = 100;
+            this.MinValue.Location = new System.Drawing.Point(21, 48);
+            this.MinValue.Margin = new System.Windows.Forms.Padding(1);
+            this.MinValue.Maximum = 10;
+            this.MinValue.Minimum = 0;
+            this.MinValue.Name = "MinValue";
+            this.MinValue.Size = new System.Drawing.Size(321, 20);
+            this.MinValue.SmallChange = 10;
+            this.MinValue.TabIndex = 14;
+            this.MinValue.ToolTipText = "";
+            this.MinValue.Scroll += new System.EventHandler<System.EventArgs>(this.MinValue_Scroll);
+            // 
+            // Grayscale
+            // 
+            this.Grayscale.AutoSize = true;
+            this.Grayscale.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Grayscale.Location = new System.Drawing.Point(14, 22);
+            this.Grayscale.Name = "Grayscale";
+            this.Grayscale.Size = new System.Drawing.Size(76, 19);
+            this.Grayscale.TabIndex = 13;
+            this.Grayscale.Text = "Grayscale";
+            this.toolTip1.SetToolTip(this.Grayscale, "Invert the plot value before converting to Color");
+            this.Grayscale.UseVisualStyleBackColor = true;
+            this.Grayscale.CheckedChanged += new System.EventHandler(this.Grayscale_CheckedChanged);
+            // 
+            // Round
+            // 
+            this.Round.AutoSize = true;
+            this.Round.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Round.Location = new System.Drawing.Point(21, 129);
+            this.Round.Name = "Round";
+            this.Round.Size = new System.Drawing.Size(61, 19);
+            this.Round.TabIndex = 12;
+            this.Round.Text = "Round";
+            this.toolTip1.SetToolTip(this.Round, "Make the value 0 or 1 before converting to a Color");
+            this.Round.UseVisualStyleBackColor = true;
+            this.Round.CheckedChanged += new System.EventHandler(this.RoundCheckBox_CheckedChanged);
+            // 
+            // Invert
+            // 
+            this.Invert.AutoSize = true;
+            this.Invert.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Invert.Location = new System.Drawing.Point(88, 129);
+            this.Invert.Name = "Invert";
+            this.Invert.Size = new System.Drawing.Size(56, 19);
+            this.Invert.TabIndex = 4;
+            this.Invert.Text = "Invert";
+            this.toolTip1.SetToolTip(this.Invert, "Invert the plot value before converting to Color");
+            this.Invert.UseVisualStyleBackColor = true;
+            this.Invert.CheckedChanged += new System.EventHandler(this.Invert_CheckedChanged);
             // 
             // optionTabControl
             // 
@@ -236,19 +287,6 @@
             this.Frequency.ToolTipText = "The frequency of the first octave.";
             this.Frequency.Scroll += new System.EventHandler<System.EventArgs>(this.Frequency_Scroll);
             // 
-            // Grayscale
-            // 
-            this.Grayscale.AutoSize = true;
-            this.Grayscale.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Grayscale.Location = new System.Drawing.Point(14, 22);
-            this.Grayscale.Name = "Grayscale";
-            this.Grayscale.Size = new System.Drawing.Size(76, 19);
-            this.Grayscale.TabIndex = 13;
-            this.Grayscale.Text = "Grayscale";
-            this.toolTip1.SetToolTip(this.Grayscale, "Invert the plot value before converting to Color");
-            this.Grayscale.UseVisualStyleBackColor = true;
-            this.Grayscale.CheckedChanged += new System.EventHandler(this.Grayscale_CheckedChanged);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -281,18 +319,20 @@
         private System.Windows.Forms.ComboBox NoiseTypeComboBox;
         private System.Windows.Forms.Button refreshButton;
         private System.Windows.Forms.GroupBox postProcessingGroupBox;
-        private System.Windows.Forms.CheckBox invertNoiseMap;
+        private System.Windows.Forms.CheckBox Invert;
         private System.Windows.Forms.TabControl optionTabControl;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.CheckBox oneBitCheckBox;
+        private System.Windows.Forms.CheckBox Round;
         public System.Windows.Forms.ToolTip toolTip1;
         private DecimalSlider Frequency;
         private DecimalSlider Lacunarity;
         private DecimalSlider Persistance;
         private DecimalSlider Octaves;
         private System.Windows.Forms.CheckBox Grayscale;
+        private DecimalSlider MinValue;
+        private DecimalSlider MaxValue;
     }
 }
 

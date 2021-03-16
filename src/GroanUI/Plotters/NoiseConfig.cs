@@ -4,13 +4,13 @@
     {
         public NoiseConfig(bool invert,
             float minThreshold, float maxThreshold,
-            bool oneBit, float scale,
+            bool round, float scale,
             int xOffset, int yOffset, bool grayscale)
         {
             Invert = invert;
             MinThreshold = minThreshold;
             MaxThreshold = maxThreshold;
-            OneBit = oneBit;
+            Round = round;
             Scale = scale;
             XOffset = xOffset;
             YOffset = yOffset;
@@ -21,7 +21,7 @@
         public bool Invert { get; }
         public float MinThreshold { get; }
         public float MaxThreshold { get; }
-        public bool OneBit { get; }
+        public bool Round { get; }
         public float Scale { get; }
         public int XOffset { get; }
         public int YOffset { get; }

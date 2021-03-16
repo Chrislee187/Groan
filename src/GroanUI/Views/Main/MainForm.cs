@@ -59,7 +59,8 @@ namespace GroanUI.Views.Main
         }
 
         public bool GenerateGrayscale { set => Grayscale.Checked = value; }
-
+        public bool Inverted { set => Invert.Checked = value; }
+        public bool Rounded { set => Round.Checked = value; }
         public void ShowDefaultOptionsTab()
         {
             optionTabControl.SelectedTab = optionTabControl.TabPages[0];
@@ -110,12 +111,6 @@ namespace GroanUI.Views.Main
         private void NoiseTypeComboBox_SelectedIndexChanged(object sender, EventArgs e) 
             => _presenter.SelectNoiseType(((ListItem<NoiseType, string>) NoiseTypeComboBox.SelectedItem).ID);
 
-        private void InvertNoiseMap_CheckedChanged(object sender, EventArgs e) 
-            => _presenter.InvertNoise();
-
-        private void OneBitCheckBox_CheckedChanged(object sender, EventArgs e) 
-            => _presenter.OneBitToggle();
-
         private void OptionTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             var tab = ((TabControl) sender).SelectedTab;
@@ -137,19 +132,31 @@ namespace GroanUI.Views.Main
         }
 
         private void Frequency_Scroll(object sender, EventArgs e) 
-            => _presenter.SetFrequency(((DecimalSlider) sender).Value);
+            => _presenter.UpdateFrequency(((DecimalSlider) sender).Value);
 
         private void Lacunarity_Scroll(object sender, EventArgs e) 
-            => _presenter.SetLacunarity(((DecimalSlider) sender).Value);
+            => _presenter.UpdateLacunarity(((DecimalSlider) sender).Value);
 
         private void Persistance_Scroll(object sender, EventArgs e)
-            => _presenter.SetPersistance(((DecimalSlider) sender).Value);
+            => _presenter.UpdatePersistance(((DecimalSlider) sender).Value);
 
         private void Octaves_Scroll(object sender, EventArgs e)
-            => _presenter.SetOctaves((int)((DecimalSlider) sender).Value);
+            => _presenter.UpdateOctaves((int)((DecimalSlider) sender).Value);
 
         private void Grayscale_CheckedChanged(object sender, EventArgs e)
             => _presenter.SetGrayscale(((CheckBox) sender).Checked);
+        private void Invert_CheckedChanged(object sender, EventArgs e)
+            => _presenter.SetInverted(((CheckBox)sender).Checked);
+
+        private void RoundCheckBox_CheckedChanged(object sender, EventArgs e)
+            => _presenter.SetRounded(((CheckBox)sender).Checked);
+
+
+        private void MinValue_Scroll(object sender, EventArgs e)
+            => _presenter.UpdateMinValue(((DecimalSlider)sender).Value);
+
+        private void MaxValue_Scroll(object sender, EventArgs e)
+            => _presenter.UpdateMaxValue(((DecimalSlider)sender).Value);
 
         #endregion
 
@@ -191,9 +198,12 @@ namespace GroanUI.Views.Main
                 { Sliders.Lacunarity, Lacunarity },
                 { Sliders.Persistance, Persistance },
                 { Sliders.Octaves, Octaves},
+                { Sliders.MinValue, MinValue},
+                { Sliders.MaxValue, MaxValue},
             };
         }
 
         #endregion
+
     }
 }

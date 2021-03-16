@@ -19,15 +19,15 @@ namespace GroanUI.Views.Main
         public float MinThreshold { get; set; }
         public float MaxThreshold { get; set; }
         public float NoiseScale { get; set; }
-        public bool OneBit { get; set; }
-        public int XOffset { get; set; }
-        public int YOffset { get; set; }
-
+        public bool Round { get; set; }
         public float Lacunarity { get; set; }
         public float Frequency { get; set; }
         public float Persistance { get; set; }
         public int Octaves { get; set; }
         public bool GenerateGrayscale { get; set; }
+        public int XOffset { get; set; }
+        public int YOffset { get; set; }
+
 
 
         public DecimalSlider.Configuration[] SliderSetups { get; set; }
@@ -52,7 +52,7 @@ namespace GroanUI.Views.Main
             MinThreshold = 0f;
             MaxThreshold = 1f;
             NoiseScale = 1f;
-            OneBit = false;
+            Round = false;
             XOffset = 0;
             YOffset = 0;
 
@@ -79,6 +79,18 @@ namespace GroanUI.Views.Main
                     1, 15,
                     1
                     , 1, 1),
+                new DecimalSlider.Configuration(
+                    Sliders.MinValue,
+                    MinThreshold,
+                    0, 100,
+                    100
+                    , 1, 10),                
+                new DecimalSlider.Configuration(
+                    Sliders.MaxValue,
+                    MaxThreshold,
+                    0, 100,
+                    100
+                    , 1, 10),
 
             };
         }
@@ -88,7 +100,9 @@ namespace GroanUI.Views.Main
         Frequency,
         Lacunarity,
         Persistance,
-        Octaves
+        Octaves,
+        MinValue,
+        MaxValue
     }
 
     public enum NoiseType

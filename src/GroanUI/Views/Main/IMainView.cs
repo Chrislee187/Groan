@@ -12,6 +12,8 @@ namespace GroanUI.Views.Main
         public Bitmap NoiseMapImage { set; }
         NoiseType SelectedNoise { set; }
         bool GenerateGrayscale { set; }
+        bool Inverted { set; }
+        bool Rounded { set; }
 
         void ShowOptionsTabFor(NoiseType noiseType);
         void ShowDefaultOptionsTab();

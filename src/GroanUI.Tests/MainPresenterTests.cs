@@ -90,7 +90,7 @@ namespace GroanUI.Tests
         {
             _model.InvertMap.ShouldBeFalse();
 
-            _presenter.InvertNoise();
+            _presenter.SetInverted();
 
             _model.InvertMap.ShouldBeTrue();
         }
@@ -98,25 +98,25 @@ namespace GroanUI.Tests
         [Test]
         public void InvertNoise_updates_the_NoiseMap()
         {
-            _presenter.InvertNoise();
+            _presenter.SetInverted();
 
             _viewMockery.VerifyNoiseMapImageUpdated();
         }
 
         [Test]
-        public void OneBitToggle_updates_the_model()
+        public void RoundToggle_updates_the_model()
         {
-            _model.OneBit.ShouldBeFalse();
+            _model.Round.ShouldBeFalse();
 
-            _presenter.OneBitToggle();
+            _presenter.SetRounded();
 
-            _model.OneBit.ShouldBeTrue();
+            _model.Round.ShouldBeTrue();
         }
 
         [Test]
-        public void OneBitToggle_updates_the_NoiseMap()
+        public void RoundToggle_updates_the_NoiseMap()
         {
-            _presenter.OneBitToggle();
+            _presenter.SetRounded();
 
             _viewMockery.VerifyNoiseMapImageUpdated();
         }
@@ -124,7 +124,7 @@ namespace GroanUI.Tests
         [Test]
         public void SetLacunarity_updates_the_Model()
         {
-            _presenter.SetLacunarity(3);
+            _presenter.UpdateLacunarity(3);
 
             _model.Lacunarity.ShouldBe(3);
         }
@@ -132,7 +132,7 @@ namespace GroanUI.Tests
         [Test]
         public void SetLacunarity_updates_the_NoiseMap()
         {
-            _presenter.SetLacunarity(3);
+            _presenter.UpdateLacunarity(3);
 
             _viewMockery.VerifyNoiseMapImageUpdated();
         }
@@ -140,7 +140,7 @@ namespace GroanUI.Tests
         [Test]
         public void SetFrequency_updates_the_Model()
         {
-            _presenter.SetFrequency(0.03f);
+            _presenter.UpdateFrequency(0.03f);
 
             _model.Frequency.ShouldBe(0.03f);
         }
@@ -148,7 +148,7 @@ namespace GroanUI.Tests
         [Test]
         public void SetFrequency_updates_the_NoiseMap()
         {
-            _presenter.SetFrequency(3);
+            _presenter.UpdateFrequency(3);
 
             _viewMockery.VerifyNoiseMapImageUpdated();
         }
