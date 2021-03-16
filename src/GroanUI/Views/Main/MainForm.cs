@@ -142,6 +142,9 @@ namespace GroanUI.Views.Main
 
         private void Octaves_Scroll(object sender, EventArgs e)
             => _presenter.UpdateOctaves((int)((DecimalSlider) sender).Value);
+        
+        private void NoiseScale_Scroll(object sender, EventArgs e)
+            => _presenter.UpdateScale(((DecimalSlider)sender).Value);
 
         private void Grayscale_CheckedChanged(object sender, EventArgs e)
             => _presenter.SetGrayscale(((CheckBox) sender).Checked);
@@ -158,10 +161,28 @@ namespace GroanUI.Views.Main
         private void MaxValue_Scroll(object sender, EventArgs e)
             => _presenter.UpdateMaxValue(((DecimalSlider)sender).Value);
 
+        private void NoiseMapPreview_Click(object sender, EventArgs e)
+        {
+            _presenter.SetNewSeed();
+        }
         #endregion
 
         #region Lookup indexes
 
+        private Dictionary<Sliders, Control> _sliderControls;
+        private void IndexDecimalSliders()
+        {
+            _sliderControls = new()
+            {
+                { Sliders.Frequency, Frequency },
+                { Sliders.Lacunarity, Lacunarity },
+                { Sliders.Persistance, Persistance },
+                { Sliders.Octaves, Octaves },
+                { Sliders.MinValue, MinValue },
+                { Sliders.MaxValue, MaxValue },
+                { Sliders.Scale, NoiseScale },
+            };
+        }
         private readonly Dictionary<NoiseType, TabPage> _configTabsIndex = new();
         private void IndexConfigTabs()
         {
@@ -189,25 +210,8 @@ namespace GroanUI.Views.Main
             }
         }
 
-        private Dictionary<Sliders, Control> _sliderControls;
-        private void IndexDecimalSliders()
-        {
-            _sliderControls = new()
-            {
-                { Sliders.Frequency, Frequency },
-                { Sliders.Lacunarity, Lacunarity },
-                { Sliders.Persistance, Persistance },
-                { Sliders.Octaves, Octaves},
-                { Sliders.MinValue, MinValue},
-                { Sliders.MaxValue, MaxValue},
-            };
-        }
 
         #endregion
 
-        private void NoiseMapPreview_Click(object sender, EventArgs e)
-        {
-            _presenter.SetNewSeed();
-        }
     }
 }

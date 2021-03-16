@@ -115,6 +115,14 @@ namespace GroanUI.Views.Main
             }, true);
         }
 
+        public void UpdateScale(float value)
+        {
+            ExecuteAction(() =>
+            {
+                _model.NoiseScale = value;
+            }, true);
+        }
+
         // Checkbox changes
         public void SetGrayscale(bool @checked)
         {
@@ -150,10 +158,9 @@ namespace GroanUI.Views.Main
         private readonly DefaultDictionary<NoiseType, Func<MainModel, NoiseConfig>> _configProviders =
             new(DefaultConfigProvider)
             {
-                {
-                NoiseType.Perlin,
-                m => new PerlinConfig(m.Lacunarity, m.Frequency, m.Persistance, m.Octaves, DefaultConfigProvider(m))
-                }
+                {NoiseType.Perlin, m => new PerlinConfig(m.Lacunarity, m.Frequency, m.Persistance, m.Octaves, DefaultConfigProvider(m))},
+                {NoiseType.Billow, m => new PerlinConfig(m.Lacunarity, m.Frequency, m.Persistance, m.Octaves, DefaultConfigProvider(m))},
+                {NoiseType.Cylinders, m => new CylinderConfig(m.Frequency, DefaultConfigProvider(m))},
             };
 
         private static NoiseConfig DefaultConfigProvider(MainModel model)
@@ -177,7 +184,11 @@ namespace GroanUI.Views.Main
         }
 
         private void InstantNoiseMapRedraw()
-            => View.NoiseMapImage = _noiseFactory.CreateNoiseBitmap(_model.SelectedNoiseType, _model.MapSize, _configProviders[_model.SelectedNoiseType](_model));
+        {
+            View.NoiseMapImage = _noiseFactory.CreateNoiseBitmap(_model.SelectedNoiseType, _model.MapSize, _configProviders[_model.SelectedNoiseType](_model));
+            // TODO: Display coverage
+            //View.ViewTitle = "Coverage: " +  _noiseFactory.Coverage.ToString("P");
+        }
 
         /// <summary>
         /// Calls View.DisabledChangeEvents() before running the action, then 

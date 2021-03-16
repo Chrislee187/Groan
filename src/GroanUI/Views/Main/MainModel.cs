@@ -28,8 +28,9 @@ namespace GroanUI.Views.Main
         public float Persistance { get; set; }
         public int Octaves { get; set; }
 
+        public float NoiseScale { get; set; }
+
         public DecimalSlider.Configuration[] SliderSetups { get; }
-        public float NoiseScale { get; }
 
 
         public MainModel()
@@ -38,6 +39,8 @@ namespace GroanUI.Views.Main
             NoiseTypes = new List<ListItem<NoiseType, string>>
             {
                 new(NoiseType.Perlin, "Perlin (SharpNoise)"),
+                new(NoiseType.Billow, "Billow (SharpNoise)"),
+                new(NoiseType.Cylinders, "Cylinders (SharpNoise)"),
             };
             MapSize = new Size(400, 400);
             SelectedNoiseType = NoiseTypes.First().ID;
@@ -57,7 +60,7 @@ namespace GroanUI.Views.Main
             Seed = 0;
             SliderSetups = new [] {
                 new DecimalSlider.Configuration(Sliders.Frequency,
-                    Frequency, 1f, 5f),
+                    Frequency, 0.01f, 5f),
                 new DecimalSlider.Configuration(Sliders.Lacunarity,
                     Lacunarity, 1f, 5f),
                 new DecimalSlider.Configuration(Sliders.Persistance,
@@ -65,9 +68,11 @@ namespace GroanUI.Views.Main
                 new DecimalSlider.Configuration(Sliders.Octaves,
                     Octaves, 1, 15, 1, 1, 0),
                 new DecimalSlider.Configuration(Sliders.MinValue,
-                    MinThreshold, 0, 1f),                
+                    MinThreshold, 0, 1f),
                 new DecimalSlider.Configuration(Sliders.MaxValue,
                     MaxThreshold, 0, 1f),
+                new DecimalSlider.Configuration(Sliders.Scale,
+                    NoiseScale, 0, 25f),
 
             };
         }
@@ -79,11 +84,14 @@ namespace GroanUI.Views.Main
         Persistance,
         Octaves,
         MinValue,
-        MaxValue
+        MaxValue,
+        Scale
     }
 
     public enum NoiseType
     {
-        Perlin
+        Perlin,
+        Billow,
+        Cylinders
     }
 }

@@ -33,15 +33,14 @@
             this.NoiseTypeComboBox = new System.Windows.Forms.ComboBox();
             this.refreshButton = new System.Windows.Forms.Button();
             this.postProcessingGroupBox = new System.Windows.Forms.GroupBox();
+            this.NoiseScale = new GroanUI.Views.DecimalSlider();
             this.MaxValue = new GroanUI.Views.DecimalSlider();
             this.MinValue = new GroanUI.Views.DecimalSlider();
             this.Grayscale = new System.Windows.Forms.CheckBox();
             this.Round = new System.Windows.Forms.CheckBox();
             this.Invert = new System.Windows.Forms.CheckBox();
             this.optionTabControl = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.PerlinConfigTabPage = new System.Windows.Forms.TabPage();
             this.Octaves = new GroanUI.Views.DecimalSlider();
             this.Persistance = new GroanUI.Views.DecimalSlider();
             this.Lacunarity = new GroanUI.Views.DecimalSlider();
@@ -50,8 +49,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NoiseMapPreview)).BeginInit();
             this.postProcessingGroupBox.SuspendLayout();
             this.optionTabControl.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.PerlinConfigTabPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // NoiseMapPreview
@@ -62,9 +60,8 @@
             this.NoiseMapPreview.Size = new System.Drawing.Size(400, 400);
             this.NoiseMapPreview.TabIndex = 0;
             this.NoiseMapPreview.TabStop = false;
-            this.NoiseMapPreview.Click += new System.EventHandler(this.NoiseMapPreview_Click);
             this.toolTip1.SetToolTip(this.NoiseMapPreview, "Click to generate a new seed");
-
+            this.NoiseMapPreview.Click += new System.EventHandler(this.NoiseMapPreview_Click);
             // 
             // NoiseTypeComboBox
             // 
@@ -87,6 +84,7 @@
             // 
             // postProcessingGroupBox
             // 
+            this.postProcessingGroupBox.Controls.Add(this.NoiseScale);
             this.postProcessingGroupBox.Controls.Add(this.MaxValue);
             this.postProcessingGroupBox.Controls.Add(this.MinValue);
             this.postProcessingGroupBox.Controls.Add(this.Grayscale);
@@ -98,6 +96,23 @@
             this.postProcessingGroupBox.TabIndex = 5;
             this.postProcessingGroupBox.TabStop = false;
             this.postProcessingGroupBox.Text = "Common options";
+            // 
+            // NoiseScale
+            // 
+            this.NoiseScale.AutoSize = true;
+            this.NoiseScale.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.NoiseScale.Label = "Scale";
+            this.NoiseScale.LargeChange = 100;
+            this.NoiseScale.Location = new System.Drawing.Point(21, 92);
+            this.NoiseScale.Margin = new System.Windows.Forms.Padding(1);
+            this.NoiseScale.Maximum = 10;
+            this.NoiseScale.Minimum = 0;
+            this.NoiseScale.Name = "NoiseScale";
+            this.NoiseScale.Size = new System.Drawing.Size(321, 20);
+            this.NoiseScale.SmallChange = 10;
+            this.NoiseScale.TabIndex = 16;
+            this.NoiseScale.ToolTipText = "";
+            this.NoiseScale.Scroll += new System.EventHandler<System.EventArgs>(this.NoiseScale_Scroll);
             // 
             // MaxValue
             // 
@@ -174,50 +189,29 @@
             // 
             // optionTabControl
             // 
-            this.optionTabControl.Controls.Add(this.tabPage1);
-            this.optionTabControl.Controls.Add(this.tabPage2);
+            this.optionTabControl.Controls.Add(this.PerlinConfigTabPage);
             this.optionTabControl.Location = new System.Drawing.Point(444, 187);
             this.optionTabControl.Name = "optionTabControl";
             this.optionTabControl.SelectedIndex = 0;
             this.optionTabControl.Size = new System.Drawing.Size(434, 204);
             this.optionTabControl.TabIndex = 6;
-            this.optionTabControl.SelectedIndexChanged += new System.EventHandler(this.OptionTabControl_SelectedIndexChanged);
             this.toolTip1.SetToolTip(this.optionTabControl, "Double click sliders to reset.");
+            this.optionTabControl.SelectedIndexChanged += new System.EventHandler(this.OptionTabControl_SelectedIndexChanged);
             // 
-            // tabPage1
+            // PerlinConfigTabPage
             // 
-            this.tabPage1.Controls.Add(this.label1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 24);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(426, 176);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Default";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(119, 119);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(122, 15);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "No additional options";
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage2.Controls.Add(this.Octaves);
-            this.tabPage2.Controls.Add(this.Persistance);
-            this.tabPage2.Controls.Add(this.Lacunarity);
-            this.tabPage2.Controls.Add(this.Frequency);
-            this.tabPage2.Location = new System.Drawing.Point(4, 24);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(426, 176);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Tag = "Perlin";
-            this.tabPage2.Text = "Perlin";
+            this.PerlinConfigTabPage.BackColor = System.Drawing.SystemColors.Control;
+            this.PerlinConfigTabPage.Controls.Add(this.Octaves);
+            this.PerlinConfigTabPage.Controls.Add(this.Persistance);
+            this.PerlinConfigTabPage.Controls.Add(this.Lacunarity);
+            this.PerlinConfigTabPage.Controls.Add(this.Frequency);
+            this.PerlinConfigTabPage.Location = new System.Drawing.Point(4, 24);
+            this.PerlinConfigTabPage.Name = "PerlinConfigTabPage";
+            this.PerlinConfigTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.PerlinConfigTabPage.Size = new System.Drawing.Size(426, 176);
+            this.PerlinConfigTabPage.TabIndex = 1;
+            this.PerlinConfigTabPage.Tag = "Perlin, Billow";
+            this.PerlinConfigTabPage.Text = "Perlin";
             // 
             // Octaves
             // 
@@ -309,10 +303,8 @@
             this.postProcessingGroupBox.ResumeLayout(false);
             this.postProcessingGroupBox.PerformLayout();
             this.optionTabControl.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
+            this.PerlinConfigTabPage.ResumeLayout(false);
+            this.PerlinConfigTabPage.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -325,9 +317,7 @@
         private System.Windows.Forms.GroupBox postProcessingGroupBox;
         private System.Windows.Forms.CheckBox Invert;
         private System.Windows.Forms.TabControl optionTabControl;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage PerlinConfigTabPage;
         private System.Windows.Forms.CheckBox Round;
         public System.Windows.Forms.ToolTip toolTip1;
         private DecimalSlider Frequency;
@@ -337,6 +327,7 @@
         private System.Windows.Forms.CheckBox Grayscale;
         private DecimalSlider MinValue;
         private DecimalSlider MaxValue;
+        private DecimalSlider NoiseScale;
     }
 }
 
