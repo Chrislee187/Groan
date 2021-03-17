@@ -41,15 +41,28 @@
             this.Invert = new System.Windows.Forms.CheckBox();
             this.optionTabControl = new System.Windows.Forms.TabControl();
             this.PerlinConfigTabPage = new System.Windows.Forms.TabPage();
-            this.Octaves = new GroanUI.Views.DecimalSlider();
-            this.Persistance = new GroanUI.Views.DecimalSlider();
-            this.Lacunarity = new GroanUI.Views.DecimalSlider();
-            this.Frequency = new GroanUI.Views.DecimalSlider();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.PerlinQuality = new System.Windows.Forms.ComboBox();
+            this.PerlinOctaves = new GroanUI.Views.DecimalSlider();
+            this.PerlinPersistance = new GroanUI.Views.DecimalSlider();
+            this.PerlinLacunarity = new GroanUI.Views.DecimalSlider();
+            this.PerlinFrequency = new GroanUI.Views.DecimalSlider();
+            this.BillowQuality = new System.Windows.Forms.ComboBox();
+            this.BillowConfigTabPage = new System.Windows.Forms.TabPage();
+            this.BillowOctaves = new GroanUI.Views.DecimalSlider();
+            this.BillowPersistance = new GroanUI.Views.DecimalSlider();
+            this.BillowLacunarity = new GroanUI.Views.DecimalSlider();
+            this.BillowFrequency = new GroanUI.Views.DecimalSlider();
+            this.CylinderConfigTabPage = new System.Windows.Forms.TabPage();
+            this.CylinderFrequency = new GroanUI.Views.DecimalSlider();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.NoiseMapPreview)).BeginInit();
             this.postProcessingGroupBox.SuspendLayout();
             this.optionTabControl.SuspendLayout();
             this.PerlinConfigTabPage.SuspendLayout();
+            this.BillowConfigTabPage.SuspendLayout();
+            this.CylinderConfigTabPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // NoiseMapPreview
@@ -190,6 +203,8 @@
             // optionTabControl
             // 
             this.optionTabControl.Controls.Add(this.PerlinConfigTabPage);
+            this.optionTabControl.Controls.Add(this.BillowConfigTabPage);
+            this.optionTabControl.Controls.Add(this.CylinderConfigTabPage);
             this.optionTabControl.Location = new System.Drawing.Point(444, 187);
             this.optionTabControl.Name = "optionTabControl";
             this.optionTabControl.SelectedIndex = 0;
@@ -201,89 +216,246 @@
             // PerlinConfigTabPage
             // 
             this.PerlinConfigTabPage.BackColor = System.Drawing.SystemColors.Control;
-            this.PerlinConfigTabPage.Controls.Add(this.Octaves);
-            this.PerlinConfigTabPage.Controls.Add(this.Persistance);
-            this.PerlinConfigTabPage.Controls.Add(this.Lacunarity);
-            this.PerlinConfigTabPage.Controls.Add(this.Frequency);
+            this.PerlinConfigTabPage.Controls.Add(this.label1);
+            this.PerlinConfigTabPage.Controls.Add(this.PerlinQuality);
+            this.PerlinConfigTabPage.Controls.Add(this.PerlinOctaves);
+            this.PerlinConfigTabPage.Controls.Add(this.PerlinPersistance);
+            this.PerlinConfigTabPage.Controls.Add(this.PerlinLacunarity);
+            this.PerlinConfigTabPage.Controls.Add(this.PerlinFrequency);
             this.PerlinConfigTabPage.Location = new System.Drawing.Point(4, 24);
             this.PerlinConfigTabPage.Name = "PerlinConfigTabPage";
             this.PerlinConfigTabPage.Padding = new System.Windows.Forms.Padding(3);
             this.PerlinConfigTabPage.Size = new System.Drawing.Size(426, 176);
             this.PerlinConfigTabPage.TabIndex = 1;
-            this.PerlinConfigTabPage.Tag = "Perlin, Billow";
+            this.PerlinConfigTabPage.Tag = "Perlin";
             this.PerlinConfigTabPage.Text = "Perlin";
             // 
-            // Octaves
+            // label1
             // 
-            this.Octaves.AutoSize = true;
-            this.Octaves.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.Octaves.Label = "Octaves";
-            this.Octaves.LargeChange = 100;
-            this.Octaves.Location = new System.Drawing.Point(10, 74);
-            this.Octaves.Margin = new System.Windows.Forms.Padding(1);
-            this.Octaves.Maximum = 10;
-            this.Octaves.Minimum = 0;
-            this.Octaves.Name = "Octaves";
-            this.Octaves.Size = new System.Drawing.Size(321, 20);
-            this.Octaves.SmallChange = 10;
-            this.Octaves.TabIndex = 34;
-            this.Octaves.ToolTipText = "The number of octaves controls the amount of detail in the Perlin noise. The larg" +
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(10, 101);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(45, 15);
+            this.label1.TabIndex = 36;
+            this.label1.Text = "Quality";
+            // 
+            // label1
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(10, 101);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(45, 15);
+            this.label2.TabIndex = 36;
+            this.label2.Text = "Quality";
+            // 
+            // PerlinQuality
+            // 
+            this.PerlinQuality.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.PerlinQuality.FormattingEnabled = true;
+            this.PerlinQuality.Location = new System.Drawing.Point(90, 98);
+            this.PerlinQuality.Name = "PerlinQuality";
+            this.PerlinQuality.Size = new System.Drawing.Size(121, 23);
+            this.PerlinQuality.TabIndex = 35;
+            this.PerlinQuality.SelectedIndexChanged += new System.EventHandler(this.PerlinQuality_SelectedIndexChanged);
+            // 
+            // PerlinOctaves
+            // 
+            this.PerlinOctaves.AutoSize = true;
+            this.PerlinOctaves.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.PerlinOctaves.Label = "Octaves";
+            this.PerlinOctaves.LargeChange = 100;
+            this.PerlinOctaves.Location = new System.Drawing.Point(10, 74);
+            this.PerlinOctaves.Margin = new System.Windows.Forms.Padding(1);
+            this.PerlinOctaves.Maximum = 10;
+            this.PerlinOctaves.Minimum = 0;
+            this.PerlinOctaves.Name = "PerlinOctaves";
+            this.PerlinOctaves.Size = new System.Drawing.Size(321, 20);
+            this.PerlinOctaves.SmallChange = 10;
+            this.PerlinOctaves.TabIndex = 34;
+            this.PerlinOctaves.ToolTipText = "The number of octaves controls the amount of detail in the Perlin noise. The larg" +
     "er the number of octaves, the more time required to calculate the Perlin-noise v" +
     "alue.";
-            this.Octaves.Scroll += new System.EventHandler<System.EventArgs>(this.Octaves_Scroll);
+            this.PerlinOctaves.Scroll += new System.EventHandler<System.EventArgs>(this.PerlinOctaves_Scroll);
             // 
-            // Persistance
+            // PerlinPersistance
             // 
-            this.Persistance.AutoSize = true;
-            this.Persistance.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.Persistance.Label = "Persistance";
-            this.Persistance.LargeChange = 100;
-            this.Persistance.Location = new System.Drawing.Point(10, 52);
-            this.Persistance.Margin = new System.Windows.Forms.Padding(1);
-            this.Persistance.Maximum = 10;
-            this.Persistance.Minimum = 0;
-            this.Persistance.Name = "Persistance";
-            this.Persistance.Size = new System.Drawing.Size(321, 20);
-            this.Persistance.SmallChange = 10;
-            this.Persistance.TabIndex = 33;
-            this.Persistance.ToolTipText = "The persistence value controls the roughness of the Perlin noise. For best result" +
+            this.PerlinPersistance.AutoSize = true;
+            this.PerlinPersistance.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.PerlinPersistance.Label = "Persistance";
+            this.PerlinPersistance.LargeChange = 100;
+            this.PerlinPersistance.Location = new System.Drawing.Point(10, 52);
+            this.PerlinPersistance.Margin = new System.Windows.Forms.Padding(1);
+            this.PerlinPersistance.Maximum = 10;
+            this.PerlinPersistance.Minimum = 0;
+            this.PerlinPersistance.Name = "PerlinPersistance";
+            this.PerlinPersistance.Size = new System.Drawing.Size(321, 20);
+            this.PerlinPersistance.SmallChange = 10;
+            this.PerlinPersistance.TabIndex = 33;
+            this.PerlinPersistance.ToolTipText = "The persistence value controls the roughness of the Perlin noise. For best result" +
     "s, set the persistence to a number between 0.0 and 1.0.";
-            this.Persistance.Scroll += new System.EventHandler<System.EventArgs>(this.Persistance_Scroll);
+            this.PerlinPersistance.Scroll += new System.EventHandler<System.EventArgs>(this.PerlinPersistance_Scroll);
             // 
-            // Lacunarity
+            // PerlinLacunarity
             // 
-            this.Lacunarity.AutoSize = true;
-            this.Lacunarity.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.Lacunarity.Label = "Lacunarity";
-            this.Lacunarity.LargeChange = 100;
-            this.Lacunarity.Location = new System.Drawing.Point(10, 30);
-            this.Lacunarity.Margin = new System.Windows.Forms.Padding(1);
-            this.Lacunarity.Maximum = 10;
-            this.Lacunarity.Minimum = 0;
-            this.Lacunarity.Name = "Lacunarity";
-            this.Lacunarity.Size = new System.Drawing.Size(321, 20);
-            this.Lacunarity.SmallChange = 10;
-            this.Lacunarity.TabIndex = 32;
-            this.Lacunarity.ToolTipText = "The lacunarity is the frequency multiplier between successive octaves. For best r" +
+            this.PerlinLacunarity.AutoSize = true;
+            this.PerlinLacunarity.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.PerlinLacunarity.Label = "PerlinLacunarity";
+            this.PerlinLacunarity.LargeChange = 100;
+            this.PerlinLacunarity.Location = new System.Drawing.Point(10, 30);
+            this.PerlinLacunarity.Margin = new System.Windows.Forms.Padding(1);
+            this.PerlinLacunarity.Maximum = 10;
+            this.PerlinLacunarity.Minimum = 0;
+            this.PerlinLacunarity.Name = "PerlinLacunarity";
+            this.PerlinLacunarity.Size = new System.Drawing.Size(321, 20);
+            this.PerlinLacunarity.SmallChange = 10;
+            this.PerlinLacunarity.TabIndex = 32;
+            this.PerlinLacunarity.ToolTipText = "The lacunarity is the frequency multiplier between successive octaves. For best r" +
     "esults, set the lacunarity to a number between 1.5 and 3.5.";
-            this.Lacunarity.Scroll += new System.EventHandler<System.EventArgs>(this.Lacunarity_Scroll);
+            this.PerlinLacunarity.Scroll += new System.EventHandler<System.EventArgs>(this.PerlinLacunarity_Scroll);
             // 
-            // Frequency
+            // PerlinFrequency
             // 
-            this.Frequency.AutoSize = true;
-            this.Frequency.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.Frequency.Label = "Frequency";
-            this.Frequency.LargeChange = 100;
-            this.Frequency.Location = new System.Drawing.Point(10, 8);
-            this.Frequency.Margin = new System.Windows.Forms.Padding(1);
-            this.Frequency.Maximum = 10;
-            this.Frequency.Minimum = 0;
-            this.Frequency.Name = "Frequency";
-            this.Frequency.Size = new System.Drawing.Size(321, 20);
-            this.Frequency.SmallChange = 10;
-            this.Frequency.TabIndex = 31;
-            this.Frequency.ToolTipText = "The frequency of the first octave.";
-            this.Frequency.Scroll += new System.EventHandler<System.EventArgs>(this.Frequency_Scroll);
+            this.PerlinFrequency.AutoSize = true;
+            this.PerlinFrequency.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.PerlinFrequency.Label = "Frequency";
+            this.PerlinFrequency.LargeChange = 100;
+            this.PerlinFrequency.Location = new System.Drawing.Point(10, 8);
+            this.PerlinFrequency.Margin = new System.Windows.Forms.Padding(1);
+            this.PerlinFrequency.Maximum = 10;
+            this.PerlinFrequency.Minimum = 0;
+            this.PerlinFrequency.Name = "PerlinFrequency";
+            this.PerlinFrequency.Size = new System.Drawing.Size(321, 20);
+            this.PerlinFrequency.SmallChange = 10;
+            this.PerlinFrequency.TabIndex = 31;
+            this.PerlinFrequency.ToolTipText = "The frequency of the first octave.";
+            this.PerlinFrequency.Scroll += new System.EventHandler<System.EventArgs>(this.PerlinFrequency_Scroll);
+            // 
+            // BillowConfigTabPage
+            // 
+            this.BillowConfigTabPage.Controls.Add(this.BillowOctaves);
+            this.BillowConfigTabPage.Controls.Add(this.BillowPersistance);
+            this.BillowConfigTabPage.Controls.Add(this.BillowLacunarity);
+            this.BillowConfigTabPage.Controls.Add(this.BillowFrequency);
+            this.BillowConfigTabPage.Controls.Add(this.label2);
+            this.BillowConfigTabPage.Controls.Add(this.BillowQuality);
+            this.BillowConfigTabPage.Location = new System.Drawing.Point(4, 24);
+            this.BillowConfigTabPage.Name = "BillowConfigTabPage";
+            this.BillowConfigTabPage.Size = new System.Drawing.Size(426, 176);
+            this.BillowConfigTabPage.TabIndex = 3;
+            this.BillowConfigTabPage.Tag = "Billow";
+            this.BillowConfigTabPage.Text = "Billow";
+            this.BillowConfigTabPage.UseVisualStyleBackColor = true;
+            // 
+            // BillowOctaves
+            // 
+            this.BillowOctaves.AutoSize = true;
+            this.BillowOctaves.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BillowOctaves.Label = "Octaves";
+            this.BillowOctaves.LargeChange = 100;
+            this.BillowOctaves.Location = new System.Drawing.Point(17, 77);
+            this.BillowOctaves.Margin = new System.Windows.Forms.Padding(1);
+            this.BillowOctaves.Maximum = 10;
+            this.BillowOctaves.Minimum = 0;
+            this.BillowOctaves.Name = "BillowOctaves";
+            this.BillowOctaves.Size = new System.Drawing.Size(321, 20);
+            this.BillowOctaves.SmallChange = 10;
+            this.BillowOctaves.TabIndex = 38;
+            this.BillowOctaves.ToolTipText = "The number of octaves controls the amount of detail in the Perlin noise. The larg" +
+    "er the number of octaves, the more time required to calculate the Perlin-noise v" +
+    "alue.";
+            this.BillowOctaves.Scroll += new System.EventHandler<System.EventArgs>(this.BillowOctaves_Scroll);
+            // 
+            // BillowPersistance
+            // 
+            this.BillowPersistance.AutoSize = true;
+            this.BillowPersistance.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BillowPersistance.Label = "Persistance";
+            this.BillowPersistance.LargeChange = 100;
+            this.BillowPersistance.Location = new System.Drawing.Point(17, 55);
+            this.BillowPersistance.Margin = new System.Windows.Forms.Padding(1);
+            this.BillowPersistance.Maximum = 10;
+            this.BillowPersistance.Minimum = 0;
+            this.BillowPersistance.Name = "BillowPersistance";
+            this.BillowPersistance.Size = new System.Drawing.Size(321, 20);
+            this.BillowPersistance.SmallChange = 10;
+            this.BillowPersistance.TabIndex = 37;
+            this.BillowPersistance.ToolTipText = "The persistence value controls the roughness of the Perlin noise. For best result" +
+    "s, set the persistence to a number between 0.0 and 1.0.";
+            this.BillowPersistance.Scroll += new System.EventHandler<System.EventArgs>(this.BillowPersistance_Scroll);
+            // 
+            // BillowLacunarity
+            // 
+            this.BillowLacunarity.AutoSize = true;
+            this.BillowLacunarity.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BillowLacunarity.Label = "Lacunarity";
+            this.BillowLacunarity.LargeChange = 100;
+            this.BillowLacunarity.Location = new System.Drawing.Point(17, 33);
+            this.BillowLacunarity.Margin = new System.Windows.Forms.Padding(1);
+            this.BillowLacunarity.Maximum = 10;
+            this.BillowLacunarity.Minimum = 0;
+            this.BillowLacunarity.Name = "BillowLacunarity";
+            this.BillowLacunarity.Size = new System.Drawing.Size(321, 20);
+            this.BillowLacunarity.SmallChange = 10;
+            this.BillowLacunarity.TabIndex = 36;
+            this.BillowLacunarity.ToolTipText = "The lacunarity is the frequency multiplier between successive octaves. For best r" +
+    "esults, set the lacunarity to a number between 1.5 and 3.5.";
+            this.BillowLacunarity.Scroll += new System.EventHandler<System.EventArgs>(this.BillowLacunarity_Scroll);
+            // 
+            // BillowFrequency
+            // 
+            this.BillowFrequency.AutoSize = true;
+            this.BillowFrequency.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BillowFrequency.Label = "Frequency";
+            this.BillowFrequency.LargeChange = 100;
+            this.BillowFrequency.Location = new System.Drawing.Point(17, 11);
+            this.BillowFrequency.Margin = new System.Windows.Forms.Padding(1);
+            this.BillowFrequency.Maximum = 10;
+            this.BillowFrequency.Minimum = 0;
+            this.BillowFrequency.Name = "BillowFrequency";
+            this.BillowFrequency.Size = new System.Drawing.Size(321, 20);
+            this.BillowFrequency.SmallChange = 10;
+            this.BillowFrequency.TabIndex = 35;
+            this.BillowFrequency.ToolTipText = "The frequency of the first octave.";
+            this.BillowFrequency.Scroll += new System.EventHandler<System.EventArgs>(this.BillowFrequency_Scroll);
+            // 
+            // BillowQuality
+            // 
+            this.BillowQuality.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.BillowQuality.FormattingEnabled = true;
+            this.BillowQuality.Location = new System.Drawing.Point(90, 98);
+            this.BillowQuality.Name = "BillowQuality";
+            this.BillowQuality.Size = new System.Drawing.Size(121, 23);
+            this.BillowQuality.TabIndex = 35;
+            this.BillowQuality.SelectedIndexChanged += new System.EventHandler(this.BillowQuality_SelectedIndexChanged);
+
+            // 
+            // CylinderConfigTabPage
+            // 
+            this.CylinderConfigTabPage.Controls.Add(this.CylinderFrequency);
+            this.CylinderConfigTabPage.Location = new System.Drawing.Point(4, 24);
+            this.CylinderConfigTabPage.Name = "CylinderConfigTabPage";
+            this.CylinderConfigTabPage.Size = new System.Drawing.Size(426, 176);
+            this.CylinderConfigTabPage.TabIndex = 2;
+            this.CylinderConfigTabPage.Tag = "Cylinder";
+            this.CylinderConfigTabPage.Text = "Cylinder";
+            this.CylinderConfigTabPage.UseVisualStyleBackColor = true;
+            // 
+            // CylinderFrequency
+            // 
+            this.CylinderFrequency.AutoSize = true;
+            this.CylinderFrequency.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.CylinderFrequency.Label = "Frequency";
+            this.CylinderFrequency.LargeChange = 100;
+            this.CylinderFrequency.Location = new System.Drawing.Point(13, 9);
+            this.CylinderFrequency.Margin = new System.Windows.Forms.Padding(1);
+            this.CylinderFrequency.Maximum = 10;
+            this.CylinderFrequency.Minimum = 0;
+            this.CylinderFrequency.Name = "CylinderFrequency";
+            this.CylinderFrequency.Size = new System.Drawing.Size(321, 20);
+            this.CylinderFrequency.SmallChange = 10;
+            this.CylinderFrequency.TabIndex = 0;
+            this.CylinderFrequency.ToolTipText = "";
+            this.CylinderFrequency.Scroll += new System.EventHandler<System.EventArgs>(this.CylinderFrequency_Scroll);
             // 
             // MainForm
             // 
@@ -305,6 +477,10 @@
             this.optionTabControl.ResumeLayout(false);
             this.PerlinConfigTabPage.ResumeLayout(false);
             this.PerlinConfigTabPage.PerformLayout();
+            this.BillowConfigTabPage.ResumeLayout(false);
+            this.BillowConfigTabPage.PerformLayout();
+            this.CylinderConfigTabPage.ResumeLayout(false);
+            this.CylinderConfigTabPage.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -320,14 +496,25 @@
         private System.Windows.Forms.TabPage PerlinConfigTabPage;
         private System.Windows.Forms.CheckBox Round;
         public System.Windows.Forms.ToolTip toolTip1;
-        private DecimalSlider Frequency;
-        private DecimalSlider Lacunarity;
-        private DecimalSlider Persistance;
-        private DecimalSlider Octaves;
+        private DecimalSlider PerlinFrequency;
+        private DecimalSlider PerlinLacunarity;
+        private DecimalSlider PerlinPersistance;
+        private DecimalSlider PerlinOctaves;
         private System.Windows.Forms.CheckBox Grayscale;
         private DecimalSlider MinValue;
         private DecimalSlider MaxValue;
         private DecimalSlider NoiseScale;
+        private System.Windows.Forms.TabPage CylinderConfigTabPage;
+        private DecimalSlider CylinderFrequency;
+        private System.Windows.Forms.TabPage BillowConfigTabPage;
+        private DecimalSlider BillowOctaves;
+        private DecimalSlider BillowPersistance;
+        private DecimalSlider BillowLacunarity;
+        private DecimalSlider BillowFrequency;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox PerlinQuality;
+        private System.Windows.Forms.ComboBox BillowQuality;
     }
 }
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using GroanUI.Util;
+using SharpNoise;
 
 namespace GroanUI.Views.Main
 {
@@ -8,12 +9,15 @@ namespace GroanUI.Views.Main
     {
         public string ViewTitle { set; }
         public IEnumerable<ListItem<NoiseType, string>> NoiseTypes { set; }
+        IEnumerable<ListItem<NoiseQuality, string>> NoiseQualities { set; }
         public Size MapSize { set; }
         public Bitmap NoiseMapImage { set; }
         NoiseType SelectedNoise { set; }
         bool GenerateGrayscale { set; }
         bool Inverted { set; }
         bool Rounded { set; }
+        NoiseQuality SelectedPerlinQuality { set; }
+        NoiseQuality SelectedBillowQuality { set; }
 
         void ShowOptionsTabFor(NoiseType noiseType);
         void ShowDefaultOptionsTab();

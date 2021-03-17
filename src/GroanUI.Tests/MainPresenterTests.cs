@@ -10,7 +10,9 @@ namespace GroanUI.Tests
     public class MainPresenterTests
     {
         private MainPresenter _presenter;
+
         private MainViewMockery _viewMockery;
+
         private MainModel _model;
 
         [OneTimeSetUp]
@@ -37,52 +39,200 @@ namespace GroanUI.Tests
             _viewMockery.VerifyChangeEventsManaged();
         }
 
-        [Test, Ignore("Fix once have more than one noise type")]
+        [Test]
         public void NoiseTypeSelected_updates_the_selected_OptionsTab()
         {
-            // _presenter.SelectNoiseType(NoiseType.VerticalGradient);
-            //
-            // _viewMockery.VerifyOptionsTabUpdated(NoiseType.VerticalGradient);
+            _presenter.SelectNoiseType(NoiseType.Cylinder);
+            
+            _viewMockery.VerifyOptionsTabUpdated(NoiseType.Cylinder);
         }
 
-        [Test, Ignore("Fix once have more than one noise type")]
+        [Test]
         public void NoiseTypeSelected_updates_the_NoiseMap()
         {
-            // _presenter.SelectNoiseType(NoiseType.VerticalGradient);
-            //
-            // _viewMockery.VerifyNoiseMapImageUpdated();
+            _presenter.SelectNoiseType(NoiseType.Cylinder);
+            
+            _viewMockery.VerifyNoiseMapImageUpdated();
         }
 
-        [Test, Ignore("Fix once have more than one noise type")]
+        [Test]
         public void NoiseTypeSelected_updates_the_Model()
         {
-            // _presenter.SelectNoiseType(NoiseType.VerticalGradient);
-            //
-            // _model.SelectedNoiseType.ShouldBe(NoiseType.VerticalGradient);
+            _presenter.SelectNoiseType(NoiseType.Cylinder);
+            
+            _model.SelectedNoiseType.ShouldBe(NoiseType.Cylinder);
         }
 
-        [Test, Ignore("Fix once have more than one noise type")]
+        [Test]
         public void OptionsTabSelected_updates_the_Model()
         {
-            // _presenter.SelectOptionsTab(NoiseType.VerticalGradient);
-            //
-            // _model.SelectedNoiseType.ShouldBe(NoiseType.VerticalGradient);
+            _presenter.SelectOptionsTab(NoiseType.Cylinder);
+            
+            _model.SelectedNoiseType.ShouldBe(NoiseType.Cylinder);
         }
 
-        [Test, Ignore("Fix once have more than one noise type")]
+        [Test]
         public void OptionsTabSelected_updates_the_selected_NoiseType()
         {
-            // _presenter.SelectOptionsTab(NoiseType.VerticalGradient);
-            //
-            // _viewMockery.VerifySelectedNoiseUpdated(NoiseType.VerticalGradient);
+            _presenter.SelectOptionsTab(NoiseType.Cylinder);
+            
+            _viewMockery.VerifySelectedNoiseUpdated(NoiseType.Cylinder);
         }
 
-        [Test, Ignore("Fix once have more than one noise type")]
+        [Test]
         public void OptionsTabSelected_updates_the_NoiseMap()
         {
-            // _presenter.SelectOptionsTab(NoiseType.VerticalGradient);
-            //
-            // _viewMockery.VerifyNoiseMapImageUpdated();
+            _presenter.SelectOptionsTab(NoiseType.Cylinder);
+            
+            _viewMockery.VerifyNoiseMapImageUpdated();
+        }
+
+
+
+        [Test]
+        public void SetPerlinLacunarity_updates_the_Mode()
+        {
+            _presenter.UpdatePerlinLacunarity(3);
+
+            _model.PerlinLacunarity.ShouldBe(3);
+        }
+
+        [Test]
+        public void SetPerlinLacunarity_updates_the_NoiseMap()
+        {
+            _presenter.UpdatePerlinLacunarity(3);
+
+            _viewMockery.VerifyNoiseMapImageUpdated();
+        }
+
+        [Test]
+        public void SetPerlinFrequency_updates_the_Model()
+        {
+            _presenter.UpdatePerlinFrequency(0.03f);
+
+            _model.PerlinFrequency.ShouldBe(0.03f);
+        }
+
+        [Test]
+        public void SetPerlinFrequency_updates_the_NoiseMap()
+        {
+            _presenter.UpdatePerlinFrequency(3);
+
+            _viewMockery.VerifyNoiseMapImageUpdated();
+        }
+
+        [Test]
+        public void SetPerlinOctaves_updates_the_Model()
+        {
+            _presenter.UpdatePerlinOctaves(2);
+
+            _model.PerlinOctaves.ShouldBe(2);
+        }
+
+        [Test]
+        public void SetPerlinOctaves_updates_the_NoiseMap()
+        {
+            _presenter.UpdatePerlinOctaves(2);
+
+            _viewMockery.VerifyNoiseMapImageUpdated();
+        }
+
+        [Test]
+        public void SetPerlinPersistance_updates_the_Model()
+        {
+            _presenter.UpdatePerlinPersistance(1.5f);
+
+            _model.PerlinPersistance.ShouldBe(1.5f);
+        }
+
+        [Test]
+        public void SetPerlinPersistance_updates_the_NoiseMap()
+        {
+            _presenter.UpdatePerlinPersistance(1.5f);
+
+            _viewMockery.VerifyNoiseMapImageUpdated();
+        }
+
+
+        [Test]
+        public void SetBillowLacunarity_updates_the_Mode()
+        {
+            _presenter.UpdateBillowLacunarity(3);
+
+            _model.BillowLacunarity.ShouldBe(3);
+        }
+
+        [Test]
+        public void SetBillowLacunarity_updates_the_NoiseMap()
+        {
+            _presenter.UpdateBillowLacunarity(3);
+
+            _viewMockery.VerifyNoiseMapImageUpdated();
+        }
+
+        [Test]
+        public void SetBillowFrequency_updates_the_Model()
+        {
+            _presenter.UpdateBillowFrequency(0.03f);
+
+            _model.BillowFrequency.ShouldBe(0.03f);
+        }
+
+        [Test]
+        public void SetBillowFrequency_updates_the_NoiseMap()
+        {
+            _presenter.UpdateBillowFrequency(3);
+
+            _viewMockery.VerifyNoiseMapImageUpdated();
+        }
+
+        [Test]
+        public void SetBillowOctaves_updates_the_Model()
+        {
+            _presenter.UpdateBillowOctaves(2);
+
+            _model.BillowOctaves.ShouldBe(2);
+        }
+
+        [Test]
+        public void SetBillowOctaves_updates_the_NoiseMap()
+        {
+            _presenter.UpdateBillowOctaves(2);
+
+            _viewMockery.VerifyNoiseMapImageUpdated();
+        }
+
+        [Test]
+        public void SetBillowPersistance_updates_the_Model()
+        {
+            _presenter.UpdateBillowPersistance(1.5f);
+
+            _model.BillowPersistance.ShouldBe(1.5f);
+        }
+
+        [Test]
+        public void SetBillowPersistance_updates_the_NoiseMap()
+        {
+            _presenter.UpdateBillowPersistance(1.5f);
+
+            _viewMockery.VerifyNoiseMapImageUpdated();
+        }
+
+
+        [Test]
+        public void SetCylinderFrequency_updates_the_Model()
+        {
+            _presenter.UpdateCylinderFrequency(0.03f);
+
+            _model.CylinderFrequency.ShouldBe(0.03f);
+        }
+
+        [Test]
+        public void SetCylinderFrequency_updates_the_NoiseMap()
+        {
+            _presenter.UpdateCylinderFrequency(3);
+
+            _viewMockery.VerifyNoiseMapImageUpdated();
         }
 
         [Test]
@@ -121,37 +271,6 @@ namespace GroanUI.Tests
             _viewMockery.VerifyNoiseMapImageUpdated();
         }
 
-        [Test]
-        public void SetLacunarity_updates_the_Model()
-        {
-            _presenter.UpdateLacunarity(3);
-
-            _model.Lacunarity.ShouldBe(3);
-        }
-
-        [Test]
-        public void SetLacunarity_updates_the_NoiseMap()
-        {
-            _presenter.UpdateLacunarity(3);
-
-            _viewMockery.VerifyNoiseMapImageUpdated();
-        }
-
-        [Test]
-        public void SetFrequency_updates_the_Model()
-        {
-            _presenter.UpdateFrequency(0.03f);
-
-            _model.Frequency.ShouldBe(0.03f);
-        }
-
-        [Test]
-        public void SetFrequency_updates_the_NoiseMap()
-        {
-            _presenter.UpdateFrequency(3);
-
-            _viewMockery.VerifyNoiseMapImageUpdated();
-        }
 
         [Test]
         public void SelectDefaultNoise_updates_the_NoiseMap()
@@ -161,12 +280,12 @@ namespace GroanUI.Tests
             _viewMockery.VerifyNoiseMapImageUpdated();
         }
 
-        [Test, Ignore("Fix once have more than one noise type")]
+        [Test]
         public void SelectDefaultNoise_updates_the_Model()
         {
-            // _presenter.SelectDefaultNoise();
-            //
-            // _model.SelectedNoiseType.ShouldBe(NoiseType.HorizontalGradient);
+            _presenter.SelectDefaultNoise();
+            
+            _model.SelectedNoiseType.ShouldBe(NoiseType.Perlin);
         }
 
         [Test]

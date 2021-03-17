@@ -16,7 +16,7 @@ namespace GroanUI.Plotters
                 Persistence = pcfg.Persistance, 
                 OctaveCount = pcfg.Octaves,
                 // TODO: Front end for
-                Quality = NoiseQuality.Standard
+                Quality = pcfg.Quality
             };
             return noiseSource;
         }

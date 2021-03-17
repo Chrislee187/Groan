@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using GroanUI.Plotters;
 using GroanUI.Util;
+using SharpNoise;
 
 namespace GroanUI.Views.Main
 {
@@ -32,6 +33,7 @@ namespace GroanUI.Views.Main
             View.ViewTitle = _model.ViewTitle;
             View.MapSize = _model.MapSize;
             View.NoiseTypes = _model.NoiseTypes;
+            View.NoiseQualities = _model.NoiseQualities;
             View.GenerateGrayscale = _model.GenerateGrayscale;
             View.Inverted = _model.Invert;
             View.Rounded = _model.Round;
@@ -47,6 +49,24 @@ namespace GroanUI.Views.Main
                 _model.SelectedNoiseType = noiseType;
                 View.SelectedNoise = noiseType;
                 View.ShowOptionsTabFor(noiseType);
+            });
+        }
+
+        public void SelectPerlinQuality(NoiseQuality quality)
+        {
+            ExecuteAction(() =>
+            {
+                _model.PerlinQuality = quality;
+                View.SelectedPerlinQuality = quality;
+            });
+        }
+
+        public void SelectBillowQuality(NoiseQuality quality)
+        {
+            ExecuteAction(() =>
+            {
+                _model.BillowQuality = quality;
+                View.SelectedBillowQuality = quality;
             });
         }
 
@@ -71,35 +91,75 @@ namespace GroanUI.Views.Main
         }
 
         // Slider changes
-        public void UpdateLacunarity(float value)
+        public void UpdatePerlinLacunarity(float value)
         {
             ExecuteAction(() =>
             {
-                _model.Lacunarity = value;
+                _model.PerlinLacunarity = value;
             }, true);
         }
-        public void UpdateFrequency(float value)
+        public void UpdatePerlinFrequency(float value)
         {
             ExecuteAction(() =>
             {
-                _model.Frequency = value;
+                _model.PerlinFrequency = value;
             }, true);
         }
-        public void UpdatePersistance(float value)
+        public void UpdatePerlinPersistance(float value)
         {
             ExecuteAction(() =>
             {
-                _model.Persistance = value;
+                _model.PerlinPersistance = value;
 
             }, true);
         }
-        public void UpdateOctaves(int value)
+        public void UpdatePerlinOctaves(int value)
         {
             ExecuteAction(() =>
             {
-                _model.Octaves = value;
+                _model.PerlinOctaves = value;
             }, true);
         }
+
+        public void UpdateBillowLacunarity(float value)
+        {
+            ExecuteAction(() =>
+            {
+                _model.BillowLacunarity = value;
+            }, true);
+        }
+        public void UpdateBillowFrequency(float value)
+        {
+            ExecuteAction(() =>
+            {
+                _model.BillowFrequency = value;
+            }, true);
+        }
+        public void UpdateBillowPersistance(float value)
+        {
+            ExecuteAction(() =>
+            {
+                _model.BillowPersistance = value;
+
+            }, true);
+        }
+        public void UpdateBillowOctaves(int value)
+        {
+            ExecuteAction(() =>
+            {
+                _model.BillowOctaves = value;
+            }, true);
+        }
+
+
+        public void UpdateCylinderFrequency(float value)
+        {
+            ExecuteAction(() =>
+            {
+                _model.CylinderFrequency = value;
+            }, true);
+        }
+
         public void UpdateMinValue(float value)
         {
             ExecuteAction(() =>
@@ -158,9 +218,9 @@ namespace GroanUI.Views.Main
         private readonly DefaultDictionary<NoiseType, Func<MainModel, NoiseConfig>> _configProviders =
             new(DefaultConfigProvider)
             {
-                {NoiseType.Perlin, m => new PerlinConfig(m.Lacunarity, m.Frequency, m.Persistance, m.Octaves, DefaultConfigProvider(m))},
-                {NoiseType.Billow, m => new PerlinConfig(m.Lacunarity, m.Frequency, m.Persistance, m.Octaves, DefaultConfigProvider(m))},
-                {NoiseType.Cylinders, m => new CylinderConfig(m.Frequency, DefaultConfigProvider(m))},
+                {NoiseType.Perlin, m => new PerlinConfig(m.PerlinLacunarity, m.PerlinFrequency, m.PerlinPersistance, m.PerlinOctaves, m.PerlinQuality, DefaultConfigProvider(m))},
+                {NoiseType.Billow, m => new PerlinConfig(m.BillowLacunarity, m.BillowFrequency, m.BillowPersistance, m.BillowOctaves, m.BillowQuality, DefaultConfigProvider(m))},
+                {NoiseType.Cylinder, m => new CylinderConfig(m.CylinderFrequency, DefaultConfigProvider(m))},
             };
 
         private static NoiseConfig DefaultConfigProvider(MainModel model)

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using GroanUI.Util;
+using SharpNoise;
 
 namespace GroanUI.Views.Main
 {
@@ -24,14 +26,22 @@ namespace GroanUI.Views.Main
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            IndexNoiseTypesListItems();
-
             _presenter.Init();
+            IndexNoiseTypesListItems();
+            IndexPerlinQualitiesListItems();
+            IndexBillowQualitiesListItems();
+
         }
-        
+
         #region View implementation
 
         public string ViewTitle { set => Text = value; }
+
+
+        public Size MapSize { set => NoiseMapPreview.Size = value; }
+
+        public Bitmap NoiseMapImage { set => NoiseMapPreview.Image = value; }
+
 
         public IEnumerable<ListItem<NoiseType, string>> NoiseTypes
         {
@@ -44,11 +54,6 @@ namespace GroanUI.Views.Main
                 NoiseTypeComboBox.DisplayMember = nameof(ListItem<NoiseType, string>.Value);
             }
         }
-
-        public Size MapSize { set => NoiseMapPreview.Size = value; }
-
-        public Bitmap NoiseMapImage { set => NoiseMapPreview.Image = value; }
-
         public NoiseType SelectedNoise
         {
             set =>
@@ -58,9 +63,45 @@ namespace GroanUI.Views.Main
                         : NoiseTypeComboBox.Items[0];
         }
 
+        public IEnumerable<ListItem<NoiseQuality, string>> NoiseQualities
+        {
+            set
+            {
+                if (!Equals(PerlinQuality.DataSource, value))
+                {
+                    PerlinQuality.DataSource = value.ToList();
+                }
+                PerlinQuality.DisplayMember = nameof(ListItem<NoiseType, string>.Value);
+
+                if (!Equals(BillowQuality.DataSource, value))
+                {
+                    BillowQuality.DataSource = value.ToList();
+                }
+                BillowQuality.DisplayMember = nameof(ListItem<NoiseType, string>.Value);
+            }
+        }
+        public NoiseQuality SelectedPerlinQuality
+        {
+            set =>
+                PerlinQuality.SelectedItem =
+                    _perlinQualitiesListItemIndex.TryGetValue(value, out var item)
+                        ? item
+                        : PerlinQuality.Items[0];
+        }
+
+        public NoiseQuality SelectedBillowQuality
+        {
+            set =>
+                BillowQuality.SelectedItem =
+                    _billowQualitiesListItemIndex.TryGetValue(value, out var item)
+                        ? item
+                        : BillowQuality.Items[0];
+        }
+
         public bool GenerateGrayscale { set => Grayscale.Checked = value; }
         public bool Inverted { set => Invert.Checked = value; }
         public bool Rounded { set => Round.Checked = value; }
+
         public void ShowDefaultOptionsTab()
         {
             optionTabControl.SelectedTab = optionTabControl.TabPages[0];
@@ -79,12 +120,16 @@ namespace GroanUI.Views.Main
         {
             NoiseTypeComboBox.SelectedIndexChanged -= NoiseTypeComboBox_SelectedIndexChanged;
             optionTabControl.SelectedIndexChanged -= OptionTabControl_SelectedIndexChanged;
+            PerlinQuality.SelectedIndexChanged -= PerlinQuality_SelectedIndexChanged;
+            BillowQuality.SelectedIndexChanged -= BillowQuality_SelectedIndexChanged;
         }
 
         public void EnableChangeEvents()
         {
             NoiseTypeComboBox.SelectedIndexChanged += NoiseTypeComboBox_SelectedIndexChanged;
             optionTabControl.SelectedIndexChanged += OptionTabControl_SelectedIndexChanged;
+            PerlinQuality.SelectedIndexChanged += PerlinQuality_SelectedIndexChanged;
+            BillowQuality.SelectedIndexChanged += BillowQuality_SelectedIndexChanged;
         }
 
         public void SetupSliders(params DecimalSlider.Configuration[] sliderSetup)
@@ -111,6 +156,12 @@ namespace GroanUI.Views.Main
         private void NoiseTypeComboBox_SelectedIndexChanged(object sender, EventArgs e) 
             => _presenter.SelectNoiseType(((ListItem<NoiseType, string>) NoiseTypeComboBox.SelectedItem).ID);
 
+        private void PerlinQuality_SelectedIndexChanged(object sender, EventArgs e)
+            => _presenter.SelectPerlinQuality(((ListItem<NoiseQuality, string>)PerlinQuality.SelectedItem).ID);
+
+        private void BillowQuality_SelectedIndexChanged(object sender, EventArgs e)
+            => _presenter.SelectBillowQuality(((ListItem<NoiseQuality, string>)BillowQuality.SelectedItem).ID);
+
         private void OptionTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             var tab = ((TabControl) sender).SelectedTab;
@@ -126,23 +177,41 @@ namespace GroanUI.Views.Main
                     if (Enum.TryParse<NoiseType>(t, out var nt))
                     {
                         _presenter.SelectOptionsTab(nt);
+                        break;
                     }
                 }
             }
         }
 
-        private void Frequency_Scroll(object sender, EventArgs e) 
-            => _presenter.UpdateFrequency(((DecimalSlider) sender).Value);
+        private void PerlinFrequency_Scroll(object sender, EventArgs e) 
+            => _presenter.UpdatePerlinFrequency(((DecimalSlider) sender).Value);
 
-        private void Lacunarity_Scroll(object sender, EventArgs e) 
-            => _presenter.UpdateLacunarity(((DecimalSlider) sender).Value);
+        private void PerlinLacunarity_Scroll(object sender, EventArgs e) 
+            => _presenter.UpdatePerlinLacunarity(((DecimalSlider) sender).Value);
 
-        private void Persistance_Scroll(object sender, EventArgs e)
-            => _presenter.UpdatePersistance(((DecimalSlider) sender).Value);
+        private void PerlinPersistance_Scroll(object sender, EventArgs e)
+            => _presenter.UpdatePerlinPersistance(((DecimalSlider) sender).Value);
 
-        private void Octaves_Scroll(object sender, EventArgs e)
-            => _presenter.UpdateOctaves((int)((DecimalSlider) sender).Value);
-        
+        private void PerlinOctaves_Scroll(object sender, EventArgs e)
+            => _presenter.UpdatePerlinOctaves((int)((DecimalSlider) sender).Value);
+
+        private void BillowFrequency_Scroll(object sender, EventArgs e)
+            => _presenter.UpdateBillowFrequency(((DecimalSlider)sender).Value);
+
+        private void BillowLacunarity_Scroll(object sender, EventArgs e)
+            => _presenter.UpdateBillowLacunarity(((DecimalSlider)sender).Value);
+
+        private void BillowPersistance_Scroll(object sender, EventArgs e)
+            => _presenter.UpdateBillowPersistance(((DecimalSlider)sender).Value);
+
+        private void BillowOctaves_Scroll(object sender, EventArgs e)
+            => _presenter.UpdateBillowOctaves((int)((DecimalSlider)sender).Value);
+
+
+        private void CylinderFrequency_Scroll(object sender, EventArgs e)
+            => _presenter.UpdateCylinderFrequency(((DecimalSlider)sender).Value);
+
+
         private void NoiseScale_Scroll(object sender, EventArgs e)
             => _presenter.UpdateScale(((DecimalSlider)sender).Value);
 
@@ -174,13 +243,18 @@ namespace GroanUI.Views.Main
         {
             _sliderControls = new()
             {
-                { Sliders.Frequency, Frequency },
-                { Sliders.Lacunarity, Lacunarity },
-                { Sliders.Persistance, Persistance },
-                { Sliders.Octaves, Octaves },
+                { Sliders.PerlinFrequency, PerlinFrequency },
+                { Sliders.PerlinLacunarity, PerlinLacunarity },
+                { Sliders.PerlinPersistance, PerlinPersistance },
+                { Sliders.PerlinOctaves, PerlinOctaves },
+                { Sliders.BillowFrequency, BillowFrequency },
+                { Sliders.BillowLacunarity, BillowLacunarity },
+                { Sliders.BillowPersistance, BillowPersistance },
+                { Sliders.BillowOctaves, BillowOctaves },
                 { Sliders.MinValue, MinValue },
                 { Sliders.MaxValue, MaxValue },
                 { Sliders.Scale, NoiseScale },
+                { Sliders.CylinderFrequency, CylinderFrequency },
             };
         }
         private readonly Dictionary<NoiseType, TabPage> _configTabsIndex = new();
@@ -201,7 +275,7 @@ namespace GroanUI.Views.Main
             }
         }
 
-        private readonly Dictionary<NoiseType, ListItem<NoiseType, string>> _noiseTypesListItemIndex =  new ();
+        private readonly Dictionary<NoiseType, ListItem<NoiseType, string>> _noiseTypesListItemIndex = new();
         private void IndexNoiseTypesListItems()
         {
             foreach (ListItem<NoiseType, string> listItem in NoiseTypeComboBox.Items)
@@ -210,8 +284,25 @@ namespace GroanUI.Views.Main
             }
         }
 
+        private readonly Dictionary<NoiseQuality, ListItem<NoiseQuality, string>> _perlinQualitiesListItemIndex = new();
+        private void IndexPerlinQualitiesListItems()
+        {
+            foreach (ListItem<NoiseQuality, string> listItem in PerlinQuality.Items)
+            {
+                _perlinQualitiesListItemIndex.Add(listItem.ID, listItem);
+            }
+        }
+        
+        private readonly Dictionary<NoiseQuality, ListItem<NoiseQuality, string>> _billowQualitiesListItemIndex = new();
+        private void IndexBillowQualitiesListItems()
+        {
+            foreach (ListItem<NoiseQuality, string> listItem in BillowQuality.Items)
+            {
+                _billowQualitiesListItemIndex.Add(listItem.ID, listItem);
+            }
+        }
+
 
         #endregion
-
     }
 }

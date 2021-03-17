@@ -9,15 +9,7 @@ namespace GroanUI.Plotters
             var pcfg = (CylinderConfig)cfg;
             var noiseSource = new SharpNoise.Modules.Cylinders()
             {
-                
-                //
-                // Seed = pcfg.Seed,
                 Frequency = pcfg.Frequency,
-                // Lacunarity = pcfg.Lacunarity,
-                // Persistence = pcfg.Persistance,
-                // OctaveCount = pcfg.Octaves,
-                // // TODO: Front end for
-                // Quality = NoiseQuality.Standard
             };
             return noiseSource;
         }
