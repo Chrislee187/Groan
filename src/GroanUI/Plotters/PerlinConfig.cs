@@ -1,4 +1,5 @@
 ﻿using SharpNoise;
+using SharpNoise.Modules;
 
 namespace GroanUI.Plotters
 {
@@ -9,6 +10,7 @@ namespace GroanUI.Plotters
         public float Persistance { get; }
         public int Octaves { get; }
         public NoiseQuality Quality { get; }
+        public Cell.CellType CellType { get; set; }
 
         public PerlinConfig(float lacunarity, float frequency, float persistance, int octaves,
             NoiseQuality quality,
@@ -20,6 +22,23 @@ namespace GroanUI.Plotters
             Persistance = persistance;
             Octaves = octaves;
             Quality = quality;
+        }
+
+
+    }
+    public class CellConfig : NoiseConfig
+    {
+        public float Frequency { get; }
+        public float Displacement { get; }
+        public Cell.CellType CellType { get; set; }
+
+        public CellConfig(float frequency, float displacement, Cell.CellType cellType,
+            NoiseConfig cfg
+        ) : base(cfg)
+        {
+            Frequency = frequency;
+            Displacement = displacement;
+            CellType = cellType;
         }
 
 

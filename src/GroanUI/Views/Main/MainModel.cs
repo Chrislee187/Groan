@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using GroanUI.Util;
 using SharpNoise;
+using SharpNoise.Modules;
 
 namespace GroanUI.Views.Main
 {
@@ -13,10 +14,16 @@ namespace GroanUI.Views.Main
 
         public IEnumerable<ListItem<NoiseType, string>> NoiseTypes { get;}
 
-        public IEnumerable<ListItem<NoiseQuality, string>> NoiseQualities 
+        public IEnumerable<ListItem<NoiseQuality, string>> NoiseQualities
             => Enum.GetValues<NoiseQuality>()
                 .Select(nq =>
                     new ListItem<NoiseQuality, string>(nq, nq.ToString()));
+
+        public IEnumerable<ListItem<Cell.CellType, string>> CellTypes
+            => new []{ Cell.CellType.Voronoi, Cell.CellType.Quadratic, 
+                        Cell.CellType.Manhattan, Cell.CellType.Chebychev}
+                .Select(cellType =>
+                    new ListItem<Cell.CellType, string>(cellType, cellType.ToString()));
 
         public Size MapSize { get; set; }
 
@@ -44,6 +51,10 @@ namespace GroanUI.Views.Main
 
         public float CylinderFrequency { get; set; }
 
+        public float CellFrequency { get; set; }
+        public float CellDisplacement { get; set; }
+        public Cell.CellType CellType { get; set; }
+
         public float NoiseScale { get; set; }
 
         public DecimalSlider.Configuration[] SliderSetups { get; }
@@ -56,10 +67,8 @@ namespace GroanUI.Views.Main
                 new(NoiseType.Perlin, "Perlin (SharpNoise)"),
                 new(NoiseType.Billow, "Billow (SharpNoise)"),
                 new(NoiseType.Cylinder, "Cylinder (SharpNoise)"),
+                new(NoiseType.Cell, "Cell (SharpNoise)"),
             };
-            // NoiseQualities = Enum.GetValues<NoiseQuality>().Select(nq =>
-            //     new ListItem<NoiseQuality, string>(nq, nq.ToString())
-            // ).ToList();
             
             MapSize = new Size(400, 400);
             SelectedNoiseType = NoiseTypes.First().ID;
@@ -77,6 +86,10 @@ namespace GroanUI.Views.Main
             BillowQuality = NoiseQuality.Standard;
 
             CylinderFrequency = 1.5f;
+
+            CellFrequency = 10.0f;
+            CellDisplacement = 1.5f;
+            CellType = Cell.CellType.Voronoi;
             GenerateGrayscale = true;
 
             MinThreshold = 0f;
@@ -113,6 +126,16 @@ namespace GroanUI.Views.Main
                 new DecimalSlider.Configuration(Sliders.CylinderFrequency,
                     CylinderFrequency, 0, 25f),
 
+
+                new DecimalSlider.Configuration(Sliders.CellFrequency,
+                    CellFrequency, 0, 25f),
+                new DecimalSlider.Configuration(Sliders.CellDisplacement,
+                    CellDisplacement, 0, 25f),
+
+
+                new DecimalSlider.Configuration(Sliders.Scale,
+                    MinThreshold + 0.01f, 0+ 0.01f, 50f),
+
             };
         }
     }
@@ -129,13 +152,16 @@ namespace GroanUI.Views.Main
         BillowFrequency,
         BillowLacunarity,
         BillowPersistance,
-        BillowOctaves
+        BillowOctaves,
+        CellFrequency,
+        CellDisplacement
     }
 
     public enum NoiseType
     {
         Perlin,
         Billow,
-        Cylinder
+        Cylinder,
+        Cell
     }
 }

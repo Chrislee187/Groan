@@ -20,6 +20,7 @@ namespace GroanUI.Plotters
                 { NoiseType.Perlin, new PerlinNoiseBuilder() },
                 { NoiseType.Billow, new BillowNoiseBuilder() },
                 { NoiseType.Cylinder, new CylindersNoiseBuilder() },
+                { NoiseType.Cell, new CellNoiseBuilder() },
             };
     }
 

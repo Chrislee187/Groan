@@ -1,4 +1,9 @@
-﻿namespace GroanUI.Views.Main
+﻿using System.Collections.Generic;
+using System.Windows.Forms;
+using GroanUI.Util;
+using SharpNoise.Modules;
+
+namespace GroanUI.Views.Main
 {
     partial class MainForm
     {
@@ -31,6 +36,7 @@
             this.components = new System.ComponentModel.Container();
             this.NoiseMapPreview = new System.Windows.Forms.PictureBox();
             this.NoiseTypeComboBox = new System.Windows.Forms.ComboBox();
+            this.CellTypeComboBox = new System.Windows.Forms.ComboBox();
             this.refreshButton = new System.Windows.Forms.Button();
             this.postProcessingGroupBox = new System.Windows.Forms.GroupBox();
             this.NoiseScale = new GroanUI.Views.DecimalSlider();
@@ -42,27 +48,31 @@
             this.optionTabControl = new System.Windows.Forms.TabControl();
             this.PerlinConfigTabPage = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.PerlinQuality = new System.Windows.Forms.ComboBox();
             this.PerlinOctaves = new GroanUI.Views.DecimalSlider();
             this.PerlinPersistance = new GroanUI.Views.DecimalSlider();
             this.PerlinLacunarity = new GroanUI.Views.DecimalSlider();
             this.PerlinFrequency = new GroanUI.Views.DecimalSlider();
-            this.BillowQuality = new System.Windows.Forms.ComboBox();
             this.BillowConfigTabPage = new System.Windows.Forms.TabPage();
             this.BillowOctaves = new GroanUI.Views.DecimalSlider();
             this.BillowPersistance = new GroanUI.Views.DecimalSlider();
             this.BillowLacunarity = new GroanUI.Views.DecimalSlider();
             this.BillowFrequency = new GroanUI.Views.DecimalSlider();
+            this.label2 = new System.Windows.Forms.Label();
+            this.BillowQuality = new System.Windows.Forms.ComboBox();
             this.CylinderConfigTabPage = new System.Windows.Forms.TabPage();
             this.CylinderFrequency = new GroanUI.Views.DecimalSlider();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.CellConfigTabPage = new System.Windows.Forms.TabPage();
+            this.CellDisplacement = new GroanUI.Views.DecimalSlider();
+            this.CellFrequency = new GroanUI.Views.DecimalSlider();
             ((System.ComponentModel.ISupportInitialize)(this.NoiseMapPreview)).BeginInit();
             this.postProcessingGroupBox.SuspendLayout();
             this.optionTabControl.SuspendLayout();
             this.PerlinConfigTabPage.SuspendLayout();
             this.BillowConfigTabPage.SuspendLayout();
             this.CylinderConfigTabPage.SuspendLayout();
+            this.CellConfigTabPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // NoiseMapPreview
@@ -93,7 +103,6 @@
             this.refreshButton.Size = new System.Drawing.Size(90, 27);
             this.refreshButton.TabIndex = 2;
             this.refreshButton.Text = "button1";
-            this.refreshButton.UseVisualStyleBackColor = true;
             // 
             // postProcessingGroupBox
             // 
@@ -171,7 +180,6 @@
             this.Grayscale.TabIndex = 13;
             this.Grayscale.Text = "Grayscale";
             this.toolTip1.SetToolTip(this.Grayscale, "Invert the plot value before converting to Color");
-            this.Grayscale.UseVisualStyleBackColor = true;
             this.Grayscale.CheckedChanged += new System.EventHandler(this.Grayscale_CheckedChanged);
             // 
             // Round
@@ -184,7 +192,6 @@
             this.Round.TabIndex = 12;
             this.Round.Text = "Round";
             this.toolTip1.SetToolTip(this.Round, "Make the value 0 or 1 before converting to a Color");
-            this.Round.UseVisualStyleBackColor = true;
             this.Round.CheckedChanged += new System.EventHandler(this.RoundCheckBox_CheckedChanged);
             // 
             // Invert
@@ -197,7 +204,6 @@
             this.Invert.TabIndex = 4;
             this.Invert.Text = "Invert";
             this.toolTip1.SetToolTip(this.Invert, "Invert the plot value before converting to Color");
-            this.Invert.UseVisualStyleBackColor = true;
             this.Invert.CheckedChanged += new System.EventHandler(this.Invert_CheckedChanged);
             // 
             // optionTabControl
@@ -205,6 +211,7 @@
             this.optionTabControl.Controls.Add(this.PerlinConfigTabPage);
             this.optionTabControl.Controls.Add(this.BillowConfigTabPage);
             this.optionTabControl.Controls.Add(this.CylinderConfigTabPage);
+            this.optionTabControl.Controls.Add(this.CellConfigTabPage);
             this.optionTabControl.Location = new System.Drawing.Point(444, 187);
             this.optionTabControl.Name = "optionTabControl";
             this.optionTabControl.SelectedIndex = 0;
@@ -238,15 +245,6 @@
             this.label1.Size = new System.Drawing.Size(45, 15);
             this.label1.TabIndex = 36;
             this.label1.Text = "Quality";
-            // 
-            // label1
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(10, 101);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(45, 15);
-            this.label2.TabIndex = 36;
-            this.label2.Text = "Quality";
             // 
             // PerlinQuality
             // 
@@ -299,7 +297,7 @@
             // 
             this.PerlinLacunarity.AutoSize = true;
             this.PerlinLacunarity.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.PerlinLacunarity.Label = "PerlinLacunarity";
+            this.PerlinLacunarity.Label = "Lacunarity";
             this.PerlinLacunarity.LargeChange = 100;
             this.PerlinLacunarity.Location = new System.Drawing.Point(10, 30);
             this.PerlinLacunarity.Margin = new System.Windows.Forms.Padding(1);
@@ -344,7 +342,6 @@
             this.BillowConfigTabPage.TabIndex = 3;
             this.BillowConfigTabPage.Tag = "Billow";
             this.BillowConfigTabPage.Text = "Billow";
-            this.BillowConfigTabPage.UseVisualStyleBackColor = true;
             // 
             // BillowOctaves
             // 
@@ -352,7 +349,7 @@
             this.BillowOctaves.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BillowOctaves.Label = "Octaves";
             this.BillowOctaves.LargeChange = 100;
-            this.BillowOctaves.Location = new System.Drawing.Point(17, 77);
+            this.BillowOctaves.Location = new System.Drawing.Point(10, 74);
             this.BillowOctaves.Margin = new System.Windows.Forms.Padding(1);
             this.BillowOctaves.Maximum = 10;
             this.BillowOctaves.Minimum = 0;
@@ -371,7 +368,7 @@
             this.BillowPersistance.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BillowPersistance.Label = "Persistance";
             this.BillowPersistance.LargeChange = 100;
-            this.BillowPersistance.Location = new System.Drawing.Point(17, 55);
+            this.BillowPersistance.Location = new System.Drawing.Point(10, 52);
             this.BillowPersistance.Margin = new System.Windows.Forms.Padding(1);
             this.BillowPersistance.Maximum = 10;
             this.BillowPersistance.Minimum = 0;
@@ -389,7 +386,7 @@
             this.BillowLacunarity.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BillowLacunarity.Label = "Lacunarity";
             this.BillowLacunarity.LargeChange = 100;
-            this.BillowLacunarity.Location = new System.Drawing.Point(17, 33);
+            this.BillowLacunarity.Location = new System.Drawing.Point(10, 30);
             this.BillowLacunarity.Margin = new System.Windows.Forms.Padding(1);
             this.BillowLacunarity.Maximum = 10;
             this.BillowLacunarity.Minimum = 0;
@@ -407,7 +404,7 @@
             this.BillowFrequency.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BillowFrequency.Label = "Frequency";
             this.BillowFrequency.LargeChange = 100;
-            this.BillowFrequency.Location = new System.Drawing.Point(17, 11);
+            this.BillowFrequency.Location = new System.Drawing.Point(10, 8);
             this.BillowFrequency.Margin = new System.Windows.Forms.Padding(1);
             this.BillowFrequency.Maximum = 10;
             this.BillowFrequency.Minimum = 0;
@@ -418,6 +415,15 @@
             this.BillowFrequency.ToolTipText = "The frequency of the first octave.";
             this.BillowFrequency.Scroll += new System.EventHandler<System.EventArgs>(this.BillowFrequency_Scroll);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(10, 101);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(45, 15);
+            this.label2.TabIndex = 36;
+            this.label2.Text = "Quality";
+            // 
             // BillowQuality
             // 
             this.BillowQuality.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -427,7 +433,6 @@
             this.BillowQuality.Size = new System.Drawing.Size(121, 23);
             this.BillowQuality.TabIndex = 35;
             this.BillowQuality.SelectedIndexChanged += new System.EventHandler(this.BillowQuality_SelectedIndexChanged);
-
             // 
             // CylinderConfigTabPage
             // 
@@ -438,7 +443,6 @@
             this.CylinderConfigTabPage.TabIndex = 2;
             this.CylinderConfigTabPage.Tag = "Cylinder";
             this.CylinderConfigTabPage.Text = "Cylinder";
-            this.CylinderConfigTabPage.UseVisualStyleBackColor = true;
             // 
             // CylinderFrequency
             // 
@@ -456,6 +460,68 @@
             this.CylinderFrequency.TabIndex = 0;
             this.CylinderFrequency.ToolTipText = "";
             this.CylinderFrequency.Scroll += new System.EventHandler<System.EventArgs>(this.CylinderFrequency_Scroll);
+            // 
+            // CellConfigTabPage
+            // 
+            this.CellConfigTabPage.BackColor = System.Drawing.SystemColors.Control;
+            this.CellConfigTabPage.Controls.Add(this.CellDisplacement);
+            this.CellConfigTabPage.Controls.Add(this.CellFrequency);
+            this.CellConfigTabPage.Controls.Add(this.CellTypeComboBox);
+            this.CellConfigTabPage.Location = new System.Drawing.Point(4, 24);
+            this.CellConfigTabPage.Name = "CellConfigTabPage";
+            this.CellConfigTabPage.Size = new System.Drawing.Size(426, 176);
+            this.CellConfigTabPage.TabIndex = 4;
+            this.CellConfigTabPage.Text = "Cell";
+            this.CellConfigTabPage.Tag = "Cell";
+
+            // 
+            // CellDisplacement
+            // 
+            this.CellDisplacement.AutoSize = true;
+            this.CellDisplacement.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.CellDisplacement.Label = "Lacunarity";
+            this.CellDisplacement.LargeChange = 100;
+            this.CellDisplacement.Location = new System.Drawing.Point(10, 30);
+            this.CellDisplacement.Margin = new System.Windows.Forms.Padding(1);
+            this.CellDisplacement.Maximum = 10;
+            this.CellDisplacement.Minimum = 0;
+            this.CellDisplacement.Name = "CellDisplacement";
+            this.CellDisplacement.Size = new System.Drawing.Size(321, 20);
+            this.CellDisplacement.SmallChange = 10;
+            this.CellDisplacement.TabIndex = 34;
+            this.CellDisplacement.ToolTipText = "The lacunarity is the frequency multiplier between successive octaves. For best r" +
+    "esults, set the lacunarity to a number between 1.5 and 3.5.";
+            this.CellDisplacement.Scroll += new System.EventHandler<System.EventArgs>(this.CellDisplacement_Scroll);
+
+            // 
+            // CellFrequency
+            // 
+            this.CellFrequency.AutoSize = true;
+            this.CellFrequency.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.CellFrequency.Label = "Frequency";
+            this.CellFrequency.LargeChange = 100;
+            this.CellFrequency.Location = new System.Drawing.Point(10, 8);
+            this.CellFrequency.Margin = new System.Windows.Forms.Padding(1);
+            this.CellFrequency.Maximum = 10;
+            this.CellFrequency.Minimum = 0;
+            this.CellFrequency.Name = "CellFrequency";
+            this.CellFrequency.Size = new System.Drawing.Size(321, 20);
+            this.CellFrequency.SmallChange = 10;
+            this.CellFrequency.TabIndex = 33;
+            this.CellFrequency.ToolTipText = "The frequency of the first octave.";
+            this.CellFrequency.Scroll += new System.EventHandler<System.EventArgs>(this.CellFrequency_Scroll);
+
+            // 
+            // CellTypeComboBox
+            // 
+            this.CellTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CellTypeComboBox.FormattingEnabled = true;
+            this.CellTypeComboBox.Location = new System.Drawing.Point(10, 52);
+            this.CellTypeComboBox.Name = "CellTypeComboBox";
+            this.CellTypeComboBox.Size = new System.Drawing.Size(400, 23);
+            this.CellTypeComboBox.TabIndex = 1;
+            this.CellTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.CellTypeComboBox_SelectedIndexChanged);
+
             // 
             // MainForm
             // 
@@ -481,6 +547,8 @@
             this.BillowConfigTabPage.PerformLayout();
             this.CylinderConfigTabPage.ResumeLayout(false);
             this.CylinderConfigTabPage.PerformLayout();
+            this.CellConfigTabPage.ResumeLayout(false);
+            this.CellConfigTabPage.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -515,6 +583,10 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox PerlinQuality;
         private System.Windows.Forms.ComboBox BillowQuality;
+        private System.Windows.Forms.TabPage CellConfigTabPage;
+        private DecimalSlider CellDisplacement;
+        private DecimalSlider CellFrequency;
+        private System.Windows.Forms.ComboBox CellTypeComboBox { get; set; }
     }
 }
 

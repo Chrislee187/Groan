@@ -39,9 +39,9 @@ namespace GroanUI.Tests
         {
             var failMessage = $"Value changed events not correctly managed by the Presenter. Surround Presenter actions with calls to {nameof(IMainView.DisableChangeEvents)}() and {nameof(IMainView.EnableChangeEvents)}() to avoid problems caused by cascading 'changed' or 'selected' style events";
             _viewMock.Verify((v)
-                => v.DisableChangeEvents(), Times.Once, failMessage);
+                => v.DisableChangeEvents(), Times.AtLeastOnce, failMessage);
             _viewMock.Verify((v)
-                => v.EnableChangeEvents(), Times.Once, failMessage);
+                => v.EnableChangeEvents(), Times.AtLeastOnce, failMessage);
         }
 
         public void VerifyOptionsTabUpdated(NoiseType nt)

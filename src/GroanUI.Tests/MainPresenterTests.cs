@@ -1,8 +1,12 @@
+using System;
 using System.Drawing;
+using System.Linq;
 using GroanUI.Plotters;
 using GroanUI.Views.Main;
 using Moq;
 using NUnit.Framework;
+using SharpNoise;
+using SharpNoise.Modules;
 using Shouldly;
 
 namespace GroanUI.Tests
@@ -113,6 +117,7 @@ namespace GroanUI.Tests
             _model.PerlinFrequency.ShouldBe(0.03f);
         }
 
+
         [Test]
         public void SetPerlinFrequency_updates_the_NoiseMap()
         {
@@ -153,6 +158,22 @@ namespace GroanUI.Tests
             _viewMockery.VerifyNoiseMapImageUpdated();
         }
 
+        [Test]
+        public void SetPerlinQuality_updates_the_Model()
+        {
+            _presenter.SelectPerlinQuality(NoiseQuality.Fast);
+
+            _model.PerlinQuality.ShouldBe(NoiseQuality.Fast);
+        }
+
+        
+        [Test]
+        public void SetPerlinQuality_updates_the_NoiseMap()
+        {
+            _presenter.SelectPerlinQuality(NoiseQuality.Fast);
+
+            _viewMockery.VerifyNoiseMapImageUpdated();
+        }
 
         [Test]
         public void SetBillowLacunarity_updates_the_Mode()
@@ -218,6 +239,23 @@ namespace GroanUI.Tests
             _viewMockery.VerifyNoiseMapImageUpdated();
         }
 
+        [Test]
+        public void SetBillowQuality_updates_the_Model()
+        {
+            _presenter.SelectBillowQuality(NoiseQuality.Fast);
+
+            _model.BillowQuality.ShouldBe(NoiseQuality.Fast);
+        }
+
+
+        [Test]
+        public void SetBillowQuality_updates_the_NoiseMap()
+        {
+            _presenter.SelectBillowQuality(NoiseQuality.Fast);
+
+            _viewMockery.VerifyNoiseMapImageUpdated();
+        }
+
 
         [Test]
         public void SetCylinderFrequency_updates_the_Model()
@@ -231,6 +269,52 @@ namespace GroanUI.Tests
         public void SetCylinderFrequency_updates_the_NoiseMap()
         {
             _presenter.UpdateCylinderFrequency(3);
+
+            _viewMockery.VerifyNoiseMapImageUpdated();
+        }
+
+        [Test]
+        public void SetCellFrequency_updates_the_Model()
+        {
+            _presenter.UpdateCellFrequency(0.03f);
+
+            _model.CellFrequency.ShouldBe(0.03f);
+        }
+
+        [Test]
+        public void SetCellFrequency_updates_the_NoiseMap()
+        {
+            _presenter.UpdateCellFrequency(3);
+
+            _viewMockery.VerifyNoiseMapImageUpdated();
+        }
+
+        [Test]
+        public void SetCellType_updates_the_Model()
+        {
+            _presenter.SelectCellType(Cell.CellType.Quadratic);
+
+            _model.CellType.ShouldBe(Cell.CellType.Quadratic);
+        }
+        [Test]
+        public void SetCellType_updates_the_NoiseMap()
+        {
+            _presenter.SelectCellType(Cell.CellType.Quadratic);
+
+            _viewMockery.VerifyNoiseMapImageUpdated();
+        }
+        [Test]
+        public void SetCellDisplacement_updates_the_Model()
+        {
+            _presenter.UpdateCellDisplacement(0.03f);
+
+            _model.CellDisplacement.ShouldBe(0.03f);
+        }
+
+        [Test]
+        public void SetCellDisplacement_updates_the_NoiseMap()
+        {
+            _presenter.UpdateCellDisplacement(3);
 
             _viewMockery.VerifyNoiseMapImageUpdated();
         }
@@ -297,6 +381,26 @@ namespace GroanUI.Tests
         }
 
 
-
     }
+    [TestFixture]
+    public class MainModelTests
+    {
+        private MainModel _model;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _model = new MainModelBuilder().Build();
+
+        }
+
+        [Test]
+        public void DefaultModel_contains_all_slider_setups()
+        {
+            Enum.GetValues<Sliders>()
+                .All(s => _model.SliderSetups.Any(setup => setup.Slider == s))
+                .ShouldBeTrue();
+        }
+    }
+
 }

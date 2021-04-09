@@ -2,6 +2,7 @@
 using System.Drawing;
 using GroanUI.Util;
 using SharpNoise;
+using SharpNoise.Modules;
 
 namespace GroanUI.Views.Main
 {
@@ -10,6 +11,7 @@ namespace GroanUI.Views.Main
         public string ViewTitle { set; }
         public IEnumerable<ListItem<NoiseType, string>> NoiseTypes { set; }
         IEnumerable<ListItem<NoiseQuality, string>> NoiseQualities { set; }
+        IEnumerable<ListItem<Cell.CellType, string>> CellTypes { set; }
         public Size MapSize { set; }
         public Bitmap NoiseMapImage { set; }
         NoiseType SelectedNoise { set; }
@@ -18,6 +20,7 @@ namespace GroanUI.Views.Main
         bool Rounded { set; }
         NoiseQuality SelectedPerlinQuality { set; }
         NoiseQuality SelectedBillowQuality { set; }
+        Cell.CellType SelectedCellType { set; }
 
         void ShowOptionsTabFor(NoiseType noiseType);
         void ShowDefaultOptionsTab();

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using GroanUI.Plotters;
 using GroanUI.Util;
 using SharpNoise;
+using SharpNoise.Modules;
 
 namespace GroanUI.Views.Main
 {
@@ -30,15 +31,18 @@ namespace GroanUI.Views.Main
         }
         public override void Init()
         {
+            View.DisableChangeEvents();
             View.ViewTitle = _model.ViewTitle;
             View.MapSize = _model.MapSize;
             View.NoiseTypes = _model.NoiseTypes;
             View.NoiseQualities = _model.NoiseQualities;
+            View.CellTypes = _model.CellTypes;
             View.GenerateGrayscale = _model.GenerateGrayscale;
             View.Inverted = _model.Invert;
             View.Rounded = _model.Round;
 
             View.SetupSliders(_model.SliderSetups);
+            View.EnableChangeEvents();
         }
 
 
@@ -60,6 +64,14 @@ namespace GroanUI.Views.Main
                 View.SelectedPerlinQuality = quality;
             });
         }
+        public void SelectCellType(Cell.CellType cellType)
+        {
+            ExecuteAction(() =>
+            {
+                _model.CellType = cellType;
+                View.SelectedCellType = cellType;
+            });
+        }
 
         public void SelectBillowQuality(NoiseQuality quality)
         {
@@ -75,7 +87,7 @@ namespace GroanUI.Views.Main
             ExecuteAction(() =>
             {
                 _model.SelectedNoiseType = noiseType;
-
+                
                 View.SelectedNoise = noiseType;
             });
         }
@@ -159,6 +171,20 @@ namespace GroanUI.Views.Main
                 _model.CylinderFrequency = value;
             }, true);
         }
+        public void UpdateCellFrequency(float value)
+        {
+            ExecuteAction(() =>
+            {
+                _model.CellFrequency = value;
+            }, true);
+        }
+        public void UpdateCellDisplacement(float value)
+        {
+            ExecuteAction(() =>
+            {
+                _model.CellDisplacement = value;
+            }, true);
+        }
 
         public void UpdateMinValue(float value)
         {
@@ -221,6 +247,7 @@ namespace GroanUI.Views.Main
                 {NoiseType.Perlin, m => new PerlinConfig(m.PerlinLacunarity, m.PerlinFrequency, m.PerlinPersistance, m.PerlinOctaves, m.PerlinQuality, DefaultConfigProvider(m))},
                 {NoiseType.Billow, m => new PerlinConfig(m.BillowLacunarity, m.BillowFrequency, m.BillowPersistance, m.BillowOctaves, m.BillowQuality, DefaultConfigProvider(m))},
                 {NoiseType.Cylinder, m => new CylinderConfig(m.CylinderFrequency, DefaultConfigProvider(m))},
+                {NoiseType.Cell, m => new CellConfig(m.CellFrequency, m.CellDisplacement, m.CellType, DefaultConfigProvider(m)) },
             };
 
         private static NoiseConfig DefaultConfigProvider(MainModel model)
@@ -278,6 +305,7 @@ namespace GroanUI.Views.Main
 
             View.EnableChangeEvents();
         }
-    }
+
+            }
 
 }

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using GroanUI.Util;
 using SharpNoise;
+using SharpNoise.Modules;
 
 namespace GroanUI.Views.Main
 {
@@ -26,11 +28,12 @@ namespace GroanUI.Views.Main
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            _presenter.Init();
-            IndexNoiseTypesListItems();
-            IndexPerlinQualitiesListItems();
-            IndexBillowQualitiesListItems();
+            _noiseTypesListItemIndex = IndexListItem<NoiseType>(NoiseTypeComboBox.Items);
+            _perlinQualitiesListItemIndex = IndexListItem<NoiseQuality>(PerlinQuality.Items);
+            _billowQualitiesListItemIndex = IndexListItem<NoiseQuality>(BillowQuality.Items);
+            _cellTypesListItemIndex = IndexListItem<Cell.CellType>(CellTypeComboBox.Items);
 
+            _presenter.Init();
         }
 
         #region View implementation
@@ -41,6 +44,26 @@ namespace GroanUI.Views.Main
         public Size MapSize { set => NoiseMapPreview.Size = value; }
 
         public Bitmap NoiseMapImage { set => NoiseMapPreview.Image = value; }
+        public IEnumerable<ListItem<Cell.CellType, string>> CellTypes
+        {
+            set
+            {
+                var data = value.ToArray();
+                if (!Equals(CellTypeComboBox.DataSource, data))
+                {
+                    CellTypeComboBox.DataSource = data;
+                }
+                CellTypeComboBox.DisplayMember = nameof(ListItem<Cell.CellType, string>.Value);
+            }
+        }
+        public Cell.CellType SelectedCellType
+        {
+            set =>
+                CellTypeComboBox.SelectedItem =
+                    _cellTypesListItemIndex.TryGetValue(value, out var item)
+                        ? item
+                        : CellTypeComboBox.Items[0];
+        }
 
 
         public IEnumerable<ListItem<NoiseType, string>> NoiseTypes
@@ -153,8 +176,11 @@ namespace GroanUI.Views.Main
 
         #region Control events
 
-        private void NoiseTypeComboBox_SelectedIndexChanged(object sender, EventArgs e) 
-            => _presenter.SelectNoiseType(((ListItem<NoiseType, string>) NoiseTypeComboBox.SelectedItem).ID);
+        private void NoiseTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+            => _presenter.SelectNoiseType(((ListItem<NoiseType, string>)NoiseTypeComboBox.SelectedItem).ID);
+
+        private void CellTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+            => _presenter.SelectCellType(((ListItem<Cell.CellType, string>)CellTypeComboBox.SelectedItem).ID);
 
         private void PerlinQuality_SelectedIndexChanged(object sender, EventArgs e)
             => _presenter.SelectPerlinQuality(((ListItem<NoiseQuality, string>)PerlinQuality.SelectedItem).ID);
@@ -211,6 +237,10 @@ namespace GroanUI.Views.Main
         private void CylinderFrequency_Scroll(object sender, EventArgs e)
             => _presenter.UpdateCylinderFrequency(((DecimalSlider)sender).Value);
 
+        private void CellFrequency_Scroll(object sender, EventArgs e)
+            => _presenter.UpdateCellFrequency(((DecimalSlider)sender).Value);
+        private void CellDisplacement_Scroll(object sender, EventArgs e)
+            => _presenter.UpdateCellDisplacement(((DecimalSlider)sender).Value);
 
         private void NoiseScale_Scroll(object sender, EventArgs e)
             => _presenter.UpdateScale(((DecimalSlider)sender).Value);
@@ -230,10 +260,9 @@ namespace GroanUI.Views.Main
         private void MaxValue_Scroll(object sender, EventArgs e)
             => _presenter.UpdateMaxValue(((DecimalSlider)sender).Value);
 
-        private void NoiseMapPreview_Click(object sender, EventArgs e)
-        {
-            _presenter.SetNewSeed();
-        }
+        private void NoiseMapPreview_Click(object sender, EventArgs e) 
+            => _presenter.SetNewSeed();
+
         #endregion
 
         #region Lookup indexes
@@ -255,6 +284,8 @@ namespace GroanUI.Views.Main
                 { Sliders.MaxValue, MaxValue },
                 { Sliders.Scale, NoiseScale },
                 { Sliders.CylinderFrequency, CylinderFrequency },
+                { Sliders.CellFrequency, CellFrequency},
+                { Sliders.CellDisplacement, CellDisplacement},
             };
         }
         private readonly Dictionary<NoiseType, TabPage> _configTabsIndex = new();
@@ -262,46 +293,39 @@ namespace GroanUI.Views.Main
         {
             foreach (TabPage tab in optionTabControl.TabPages)
             {
-                if (tab?.Tag != null)
+                if (tab?.Tag == null) continue;
+
+                foreach (var t in tab.Tag.ToString()!.Split(",", StringSplitOptions.TrimEntries))
                 {
-                    foreach (var t in tab.Tag.ToString()!.Split(",", StringSplitOptions.TrimEntries))
+                    if (Enum.TryParse<NoiseType>(t, out var nt))
                     {
-                        if (Enum.TryParse<NoiseType>(t, out var nt))
-                        {
-                            _configTabsIndex.Add(nt, tab);
-                        }
+                        _configTabsIndex.Add(nt, tab);
                     }
                 }
             }
         }
 
-        private readonly Dictionary<NoiseType, ListItem<NoiseType, string>> _noiseTypesListItemIndex = new();
-        private void IndexNoiseTypesListItems()
+        private IndexDictionary<T> IndexListItem<T>(ComboBox.ObjectCollection objectCollection)
         {
-            foreach (ListItem<NoiseType, string> listItem in NoiseTypeComboBox.Items)
+            var r = new IndexDictionary<T>();
+
+            foreach (ListItem<T, string> listItem in objectCollection)
             {
-                _noiseTypesListItemIndex.Add(listItem.ID, listItem);
+                r.Add(listItem.ID, listItem);
             }
+
+            return r;
         }
 
-        private readonly Dictionary<NoiseQuality, ListItem<NoiseQuality, string>> _perlinQualitiesListItemIndex = new();
-        private void IndexPerlinQualitiesListItems()
-        {
-            foreach (ListItem<NoiseQuality, string> listItem in PerlinQuality.Items)
-            {
-                _perlinQualitiesListItemIndex.Add(listItem.ID, listItem);
-            }
-        }
-        
-        private readonly Dictionary<NoiseQuality, ListItem<NoiseQuality, string>> _billowQualitiesListItemIndex = new();
-        private void IndexBillowQualitiesListItems()
-        {
-            foreach (ListItem<NoiseQuality, string> listItem in BillowQuality.Items)
-            {
-                _billowQualitiesListItemIndex.Add(listItem.ID, listItem);
-            }
-        }
+        private IndexDictionary<NoiseType> _noiseTypesListItemIndex;
+        private IndexDictionary<NoiseQuality> _perlinQualitiesListItemIndex;
+        private IndexDictionary<NoiseQuality> _billowQualitiesListItemIndex;
+        private IndexDictionary<Cell.CellType> _cellTypesListItemIndex;
 
+        private class IndexDictionary<T> : Dictionary<T, ListItem<T, string>>
+        {
+
+        }
 
         #endregion
     }

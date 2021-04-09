@@ -26,21 +26,15 @@ namespace GroanUI.Views
         public int SmallChange { get => TrackBar.SmallChange; set => TrackBar.SmallChange = value; }
         public int LargeChange { get => TrackBar.LargeChange; set => TrackBar.LargeChange = value; }
 
-        private EventHandler<EventArgs> onScroll;
+        private EventHandler<EventArgs> _onScroll;
         private Configuration _sliderConfig;
 
         [Browsable(true)]
         [Category("Action")]
         public new event EventHandler<EventArgs> Scroll
         {
-            add
-            {
-                onScroll += value;
-            }
-            remove
-            {
-                onScroll -= value;
-            }
+            add => _onScroll += value;
+            remove => _onScroll -= value;
         }
         public DecimalSlider()
         {
@@ -68,7 +62,7 @@ namespace GroanUI.Views
         {
             _sliderConfig.Set(((TrackBar) sender).Value);
             ValueLabel.Text = _sliderConfig.ModelValue.ToString(CultureInfo.InvariantCulture);
-            onScroll?.Invoke(this, e);
+            _onScroll?.Invoke(this, e);
         }
 
         private void ResetValue_DoubleClick(object sender, EventArgs e)
@@ -76,7 +70,7 @@ namespace GroanUI.Views
             _sliderConfig.ResetValue();
             TrackBar.Value = _sliderConfig.Value;
             ValueLabel.Text = _sliderConfig.ModelValue.ToString(CultureInfo.InvariantCulture);
-            onScroll?.Invoke(this, e);
+            _onScroll?.Invoke(this, e);
         }
 
         public class Configuration
