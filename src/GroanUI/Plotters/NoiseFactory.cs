@@ -6,11 +6,12 @@ namespace GroanUI.Plotters
 {
     public class NoiseFactory : INoiseFactory
     {
-        public float Coverage { get; private set; }
+        public string Info { get; private set; }
         public Bitmap CreateNoiseBitmap(NoiseType noiseType, Size size, NoiseConfig cfg)
         {
-            var noiseBitmap = _noiseProvider[noiseType].GetBitmap(size, cfg);
-            Coverage = _noiseProvider[noiseType].CoveragePercent;
+            var b = _noiseProvider[noiseType];
+            var noiseBitmap = b.GetBitmap(size, cfg);
+            Info = $"Density: {b.Density:P}, Coverage: {b.Coverage:P}";
             return noiseBitmap;
         }
 
@@ -26,7 +27,7 @@ namespace GroanUI.Plotters
 
     public interface INoiseFactory
     {
-        public float Coverage { get; }
+        public string Info { get; }
         Bitmap CreateNoiseBitmap(NoiseType noiseType, Size size, NoiseConfig cfg);
     }
 }

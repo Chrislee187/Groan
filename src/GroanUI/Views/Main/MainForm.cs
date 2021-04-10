@@ -27,12 +27,11 @@ namespace GroanUI.Views.Main
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
+            _presenter.Init();
             _noiseTypesListItemIndex = IndexListItem<NoiseType>(NoiseTypeComboBox.Items);
             _perlinQualitiesListItemIndex = IndexListItem<NoiseQuality>(PerlinQuality.Items);
             _billowQualitiesListItemIndex = IndexListItem<NoiseQuality>(BillowQuality.Items);
             _cellTypesListItemIndex = IndexListItem<Cell.CellType>(CellTypeComboBox.Items);
-
-            _presenter.Init();
         }
 
         #region View implementation
@@ -144,6 +143,7 @@ namespace GroanUI.Views.Main
             optionTabControl.SelectedIndexChanged -= OptionTabControl_SelectedIndexChanged;
             PerlinQuality.SelectedIndexChanged -= PerlinQuality_SelectedIndexChanged;
             BillowQuality.SelectedIndexChanged -= BillowQuality_SelectedIndexChanged;
+            CellTypeComboBox.SelectedIndexChanged -= CellTypeComboBox_SelectedIndexChanged;
         }
 
         public void EnableChangeEvents()
@@ -152,6 +152,7 @@ namespace GroanUI.Views.Main
             optionTabControl.SelectedIndexChanged += OptionTabControl_SelectedIndexChanged;
             PerlinQuality.SelectedIndexChanged += PerlinQuality_SelectedIndexChanged;
             BillowQuality.SelectedIndexChanged += BillowQuality_SelectedIndexChanged;
+            CellTypeComboBox.SelectedIndexChanged += CellTypeComboBox_SelectedIndexChanged;
         }
 
         public void SetupSliders(params DecimalSlider.Configuration[] sliderSetup)

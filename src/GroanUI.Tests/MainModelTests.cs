@@ -24,5 +24,13 @@ namespace GroanUI.Tests
                 .All(s => _model.SliderSetups.Any(setup => setup.Slider == s))
                 .ShouldBeTrue();
         }
+
+        [Test]
+        public void DefaultModel_contains_all_NoiseTypes()
+        {
+            Enum.GetValues<NoiseType>()
+                .All(nt => _model.NoiseTypes.Any(li => li.ID == nt))
+                .ShouldBeTrue();
+        }
     }
 }

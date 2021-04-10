@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using SharpNoise;
@@ -12,7 +13,6 @@ namespace GroanUI.Plotters
 {
     public abstract class NoiseBuilder
     {
-        public float CoveragePercent { get; private set; }
         protected abstract Module BuildNoiseSource(NoiseConfig cfg);
 
         protected virtual NoiseMap BuildNoiseMap(Size size, NoiseConfig cfg)
@@ -33,9 +33,22 @@ namespace GroanUI.Plotters
 
             noiseMapBuilder.Build();
             var count = PostProcessing(size, cfg, noiseMap);
-            CoveragePercent = (float)count / (size.Width * size.Height);
+            Size2 = size.Width * size.Height;
+            Total = noiseMap.Data.Sum();
+            
+            Density = Total / Size2;
+            Coverage = noiseMap.Data.Count(v => v > 0f) /Size2;
             return noiseMap;
         }
+
+        public float Size2 { get; private set; }
+
+        public float Coverage { get; set; }
+
+        public float Density { get; private set; }
+
+        public float Total { get; private set; }
+
         public virtual double[,] GetMap(Size size, NoiseConfig cfg) 
             => ToArray(size, BuildNoiseMap(size, cfg));
 
@@ -85,9 +98,10 @@ namespace GroanUI.Plotters
                     v *= cfg.Scale;
                     v = v < cfg.MinThreshold ? cfg.MinThreshold : v;
                     v = v > cfg.MaxThreshold ? cfg.MaxThreshold : v;
-                    v = (cfg.Invert ? 1f : 0f) - v;
+                    v = cfg.Invert ? 1f - v : 0f - v;
                     v = cfg.Round ? (int)Math.Round(v) : v;
                     v = Math.Abs(v);
+                    v = Math.Clamp(v,0f,1f);
                     count += v > 0 ? 1 : 0;
                     noiseMap[x, y] = v;
                 }

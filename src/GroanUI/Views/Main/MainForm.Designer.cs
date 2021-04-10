@@ -520,7 +520,7 @@ namespace GroanUI.Views.Main
             this.CellTypeComboBox.Name = "CellTypeComboBox";
             this.CellTypeComboBox.Size = new System.Drawing.Size(400, 23);
             this.CellTypeComboBox.TabIndex = 1;
-            this.CellTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.CellTypeComboBox_SelectedIndexChanged);
+            this.CellTypeComboBox.SelectedIndexChanged +=this.CellTypeComboBox_SelectedIndexChanged;
 
             // 
             // MainForm

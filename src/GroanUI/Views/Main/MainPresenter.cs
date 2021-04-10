@@ -273,8 +273,6 @@ namespace GroanUI.Views.Main
         private void InstantNoiseMapRedraw()
         {
             View.NoiseMapImage = _noiseFactory.CreateNoiseBitmap(_model.SelectedNoiseType, _model.MapSize, _configProviders[_model.SelectedNoiseType](_model));
-            // TODO: Display coverage
-            //View.ViewTitle = "Coverage: " +  _noiseFactory.Coverage.ToString("P");
         }
 
         /// <summary>
@@ -302,6 +300,7 @@ namespace GroanUI.Views.Main
             {
                 InstantNoiseMapRedraw();
             }
+            View.ViewTitle = _noiseFactory.Info;
 
             View.EnableChangeEvents();
         }
