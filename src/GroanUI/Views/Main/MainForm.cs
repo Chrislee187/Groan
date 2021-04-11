@@ -38,7 +38,6 @@ namespace GroanUI.Views.Main
 
         public string ViewTitle { set => Text = value; }
 
-
         public Size MapSize { set => NoiseMapPreview.Size = value; }
 
         public Bitmap NoiseMapImage { set => NoiseMapPreview.Image = value; }
@@ -175,22 +174,15 @@ namespace GroanUI.Views.Main
         #endregion
 
         #region Control events
-
         private void NoiseTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
-            => _presenter.SelectNoiseType(((ListItem<NoiseType, string>)NoiseTypeComboBox.SelectedItem).ID);
+            => _presenter.SelectNoiseType(NoiseTypeComboBox.SelectedItem.AsListItem<NoiseType>().ID);
 
         private void CellTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
-            => _presenter.SelectCellType(((ListItem<Cell.CellType, string>)CellTypeComboBox.SelectedItem).ID);
-
-        private void PerlinQuality_SelectedIndexChanged(object sender, EventArgs e)
-            => _presenter.SelectPerlinQuality(((ListItem<NoiseQuality, string>)PerlinQuality.SelectedItem).ID);
-
-        private void BillowQuality_SelectedIndexChanged(object sender, EventArgs e)
-            => _presenter.SelectBillowQuality(((ListItem<NoiseQuality, string>)BillowQuality.SelectedItem).ID);
+            => _presenter.SelectCellType((CellTypeComboBox.SelectedItem.AsListItem<Cell.CellType>()).ID);
 
         private void OptionTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var tab = ((TabControl) sender).SelectedTab;
+            var tab = ((TabControl)sender).SelectedTab;
 
             if (tab?.Tag == null)
             {
@@ -209,68 +201,59 @@ namespace GroanUI.Views.Main
             }
         }
 
-        private void PerlinFrequency_Scroll(object sender, EventArgs e) 
-            => _presenter.UpdatePerlinFrequency(((DecimalSlider) sender).Value);
-
-        private void PerlinLacunarity_Scroll(object sender, EventArgs e) 
-            => _presenter.UpdatePerlinLacunarity(((DecimalSlider) sender).Value);
-
+        private void PerlinFrequency_Scroll(object sender, EventArgs e)
+            => _presenter.UpdatePerlinFrequency(sender.AsDecimalSlider().Value);
+        private void PerlinLacunarity_Scroll(object sender, EventArgs e)
+            => _presenter.UpdatePerlinLacunarity((sender.AsDecimalSlider()).Value);
         private void PerlinPersistance_Scroll(object sender, EventArgs e)
-            => _presenter.UpdatePerlinPersistance(((DecimalSlider) sender).Value);
-
+            => _presenter.UpdatePerlinPersistance(sender.AsDecimalSlider().Value);
         private void PerlinOctaves_Scroll(object sender, EventArgs e)
-            => _presenter.UpdatePerlinOctaves((int)((DecimalSlider) sender).Value);
+            => _presenter.UpdatePerlinOctaves((int)sender.AsDecimalSlider().Value);
+        private void PerlinQuality_SelectedIndexChanged(object sender, EventArgs e)
+            => _presenter.SelectPerlinQuality(PerlinQuality.SelectedItem.AsListItem<NoiseQuality>().ID);
 
         private void BillowFrequency_Scroll(object sender, EventArgs e)
-            => _presenter.UpdateBillowFrequency(((DecimalSlider)sender).Value);
-
+            => _presenter.UpdateBillowFrequency(sender.AsDecimalSlider().Value);
         private void BillowLacunarity_Scroll(object sender, EventArgs e)
-            => _presenter.UpdateBillowLacunarity(((DecimalSlider)sender).Value);
-
+            => _presenter.UpdateBillowLacunarity(sender.AsDecimalSlider().Value);
         private void BillowPersistance_Scroll(object sender, EventArgs e)
-            => _presenter.UpdateBillowPersistance(((DecimalSlider)sender).Value);
-
+            => _presenter.UpdateBillowPersistance(sender.AsDecimalSlider().Value);
         private void BillowOctaves_Scroll(object sender, EventArgs e)
-            => _presenter.UpdateBillowOctaves((int)((DecimalSlider)sender).Value);
-
+            => _presenter.UpdateBillowOctaves((int)sender.AsDecimalSlider().Value);
+        private void BillowQuality_SelectedIndexChanged(object sender, EventArgs e)
+            => _presenter.SelectBillowQuality(BillowQuality.AsListItem<NoiseQuality>().ID);
 
         private void CylinderFrequency_Scroll(object sender, EventArgs e)
-            => _presenter.UpdateCylinderFrequency(((DecimalSlider)sender).Value);
+            => _presenter.UpdateCylinderFrequency(sender.AsDecimalSlider().Value);
 
         private void CellFrequency_Scroll(object sender, EventArgs e)
-            => _presenter.UpdateCellFrequency(((DecimalSlider)sender).Value);
+            => _presenter.UpdateCellFrequency(sender.AsDecimalSlider().Value);
         private void CellDisplacement_Scroll(object sender, EventArgs e)
-            => _presenter.UpdateCellDisplacement(((DecimalSlider)sender).Value);
-
-        private void CellEnable_CheckedChanged(object? sender, EventArgs e)
-            => _presenter.SetCellEnableDistance(((CheckBox) sender).Checked);
+            => _presenter.UpdateCellDisplacement(sender.AsDecimalSlider().Value);
+        private void CellEnable_CheckedChanged(object sender, EventArgs e)
+            => _presenter.SetCellEnableDistance(sender.AsCheckBox().Checked);
 
         private void NoiseScale_Scroll(object sender, EventArgs e)
-            => _presenter.UpdateScale(((DecimalSlider)sender).Value);
-
+            => _presenter.UpdateScale(sender.AsDecimalSlider().Value);
         private void Grayscale_CheckedChanged(object sender, EventArgs e)
-            => _presenter.SetGrayscale(((CheckBox) sender).Checked);
+            => _presenter.SetGrayscale(sender.AsCheckBox().Checked);
         private void Invert_CheckedChanged(object sender, EventArgs e)
-            => _presenter.SetInverted(((CheckBox)sender).Checked);
-
+            => _presenter.SetInverted(sender.AsCheckBox().Checked);
         private void RoundCheckBox_CheckedChanged(object sender, EventArgs e)
-            => _presenter.SetRounded(((CheckBox)sender).Checked);
-
-
+            => _presenter.SetRounded(sender.AsCheckBox().Checked);
         private void MinValue_Scroll(object sender, EventArgs e)
-            => _presenter.UpdateMinValue(((DecimalSlider)sender).Value);
-
+            => _presenter.UpdateMinValue(sender.AsDecimalSlider().Value);
         private void MaxValue_Scroll(object sender, EventArgs e)
-            => _presenter.UpdateMaxValue(((DecimalSlider)sender).Value);
+            => _presenter.UpdateMaxValue(sender.AsDecimalSlider().Value);
 
         private void NoiseMapPreview_Click(object sender, EventArgs e) 
             => _presenter.SetNewSeed();
 
         #endregion
 
-        #region Lookup indexes
+        #region Control indexes
 
-        private Dictionary<Sliders, Control> _sliderControls;
+        private SliderIndex _sliderControls;
         private void IndexDecimalSliders()
         {
             _sliderControls = new()
@@ -291,7 +274,8 @@ namespace GroanUI.Views.Main
                 { Sliders.CellDisplacement, CellDisplacement},
             };
         }
-        private readonly Dictionary<NoiseType, TabPage> _configTabsIndex = new();
+        
+        private readonly TabPageIndex _configTabsIndex = new();
         private void IndexConfigTabs()
         {
             foreach (TabPage tab in optionTabControl.TabPages)
@@ -308,6 +292,11 @@ namespace GroanUI.Views.Main
             }
         }
 
+        private ListItemIndex<NoiseType> _noiseTypesListItemIndex;
+        private ListItemIndex<NoiseQuality> _perlinQualitiesListItemIndex;
+        private ListItemIndex<NoiseQuality> _billowQualitiesListItemIndex;
+        private ListItemIndex<Cell.CellType> _cellTypesListItemIndex;
+        
         private ListItemIndex<T> IndexListItem<T>(ComboBox.ObjectCollection objectCollection)
         {
             var r = new ListItemIndex<T>();
@@ -320,17 +309,24 @@ namespace GroanUI.Views.Main
             return r;
         }
 
-        private ListItemIndex<NoiseType> _noiseTypesListItemIndex;
-        private ListItemIndex<NoiseQuality> _perlinQualitiesListItemIndex;
-        private ListItemIndex<NoiseQuality> _billowQualitiesListItemIndex;
-        private ListItemIndex<Cell.CellType> _cellTypesListItemIndex;
-
         private class ListItemIndex<T> : Dictionary<T, ListItem<T, string>>
         {
 
         }
 
+        private class SliderIndex : Dictionary<Sliders, Control>
+        {
+
+        }
+
+        private class TabPageIndex : Dictionary<NoiseType, TabPage> { }
         #endregion
 
+    }
+    static class Ext
+    {
+        public static DecimalSlider AsDecimalSlider(this object ctrl) => ctrl as DecimalSlider;
+        public static CheckBox AsCheckBox(this object ctrl) => ctrl as CheckBox;
+        public static ListItem<T, string> AsListItem<T>(this object ctrl) => ctrl as ListItem<T, string>;
     }
 }

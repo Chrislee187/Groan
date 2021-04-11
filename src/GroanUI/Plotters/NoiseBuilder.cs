@@ -41,11 +41,8 @@ namespace GroanUI.Plotters
         }
 
         public float Size2 { get; private set; }
-
         public float Coverage { get; set; }
-
         public float Density { get; private set; }
-
         public float Total { get; private set; }
 
         public virtual double[,] GetMap(Size size, NoiseConfig cfg) 
@@ -96,10 +93,9 @@ namespace GroanUI.Plotters
                     v *= cfg.Scale;
                     v = v < cfg.MinThreshold ? cfg.MinThreshold : v;
                     v = v > cfg.MaxThreshold ? cfg.MaxThreshold : v;
-                    v = cfg.Invert ? 1f - v : 0f - v;
+                    v = cfg.Invert ? 1f - v : v;
                     v = cfg.Round ? (int)Math.Round(v) : v;
-                    v = Math.Abs(v);
-                    v = Math.Clamp(v,0f,1f);
+                    v = Math.Clamp(Math.Abs(v), 0f,1f);
                     noiseMap[x, y] = v;
                 }
             });

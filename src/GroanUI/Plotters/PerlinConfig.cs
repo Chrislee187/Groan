@@ -10,7 +10,6 @@ namespace GroanUI.Plotters
         public float Persistance { get; }
         public int Octaves { get; }
         public NoiseQuality Quality { get; }
-        public Cell.CellType CellType { get; set; }
 
         public PerlinConfig(float lacunarity, float frequency, float persistance, int octaves,
             NoiseQuality quality,

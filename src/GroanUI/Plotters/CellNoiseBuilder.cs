@@ -17,14 +17,7 @@ namespace GroanUI.Plotters
                 Frequency = pcfg.Frequency,
                 Displacement = pcfg.Displacement,
                 EnableDistance = pcfg.EnableDistance
-                
-                // TODO: Add to CellConfig
-                // Type = Cell.CellType.Custom,
-                // EnableDistance = true,
-                // CustomDistanceFunction = (x,y,z) 
-                //     => Math.Abs(x) - Math.Abs(y) - Math.Abs(z)
-
-        };
+            };
             return noiseSource;
         }
     }
