@@ -14,5 +14,6 @@ namespace GroanUI.Views.Main
         public float Frequency { get; set; }
         public float Displacement { get; set; }
         public Cell.CellType CellType { get; set; }
+        public bool EnableDistance { get; set; }
     }
 }

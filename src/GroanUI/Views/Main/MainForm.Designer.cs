@@ -539,7 +539,7 @@ namespace GroanUI.Views.Main
             this.CellTypeComboBox.TabIndex = 35;
             this.CellTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.CellTypeComboBox_SelectedIndexChanged);
             // 
-            // CellEnableDistance
+            // EnableDistance
             // 
             this.CellEnableDistance.AutoSize = true;
             this.CellEnableDistance.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;

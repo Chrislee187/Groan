@@ -58,11 +58,11 @@ namespace GroanUI.Tests
             [Test]
             public void SetCellEnableDistance_updates_the_Model()
             {
-                Model.CellEnableDistance.ShouldBeFalse();
+                Model.CellOptions.EnableDistance.ShouldBeFalse();
 
                 Presenter.SetCellEnableDistance(true);
 
-                Model.CellEnableDistance.ShouldBeTrue();
+                Model.CellOptions.EnableDistance.ShouldBeTrue();
             }
 
             [Test]

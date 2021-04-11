@@ -47,209 +47,148 @@ namespace GroanUI.Views.Main
             View.EnableChangeEvents();
         }
 
-
-        public void SelectNoiseType(NoiseType noiseType)
-        {
-            ExecuteAction(() =>
-            {
-                _model.SelectedNoiseType = noiseType;
-                View.SelectedNoise = noiseType;
-                View.ShowOptionsTabFor(noiseType);
-            });
-        }
-
-        public void SelectPerlinQuality(NoiseQuality quality)
-        {
-            ExecuteAction(() =>
-            {
-                _model.PerlinOptions.Quality = quality;
-                View.SelectedPerlinQuality = quality;
-            });
-        }
-        public void SelectCellType(Cell.CellType cellType)
-        {
-            ExecuteAction(() =>
-            {
-                _model.CellOptions.CellType = cellType;
-                View.SelectedCellType = cellType;
-            });
-        }
-
-        public void SelectBillowQuality(NoiseQuality quality)
-        {
-            ExecuteAction(() =>
-            {
-                _model.BillowOptions.Quality = quality;
-                View.SelectedBillowQuality = quality;
-            });
-        }
-
-        public void SelectOptionsTab(NoiseType noiseType)
-        {
-            ExecuteAction(() =>
-            {
-                _model.SelectedNoiseType = noiseType;
-                
-                View.SelectedNoise = noiseType;
-            });
-        }
-
-        public void SelectDefaultNoise()
-        {
+        public void SelectDefaultNoise() =>
             ExecuteAction(() =>
             {
                 _model.SelectedNoiseType = NoiseType.Perlin;
 
                 View.ShowDefaultOptionsTab();
             });
-        }
 
-        // Slider changes
-        public void UpdatePerlinLacunarity(float value)
-        {
+        public void SelectNoiseType(NoiseType noiseType) =>
+            ExecuteAction(() =>
+            {
+                _model.SelectedNoiseType = noiseType;
+                View.SelectedNoise = noiseType;
+                View.ShowOptionsTabFor(noiseType);
+            });
+        public void SelectOptionsTab(NoiseType noiseType) =>
+            ExecuteAction(() =>
+            {
+                _model.SelectedNoiseType = noiseType;
+
+                View.SelectedNoise = noiseType;
+            });
+        public void SetGrayscale(bool @checked) =>
+            ExecuteAction(() =>
+            {
+                _model.GenerateGrayscale = @checked;
+            });
+        public void SetInverted(bool @checked) =>
+            ExecuteAction(() =>
+            {
+                _model.Invert = @checked;
+            });
+        public void SetRounded(bool @checked) =>
+            ExecuteAction(() =>
+            {
+                _model.Round = @checked;
+            });
+
+        public void UpdatePerlinLacunarity(float value) =>
             ExecuteAction(() =>
             {
                 _model.PerlinOptions.Lacunarity = value;
             }, true);
-        }
-        public void UpdatePerlinFrequency(float value)
-        {
+        public void UpdatePerlinFrequency(float value) =>
             ExecuteAction(() =>
             {
                 _model.PerlinOptions.Frequency = value;
             }, true);
-        }
-        public void UpdatePerlinPersistance(float value)
-        {
+        public void UpdatePerlinPersistance(float value) =>
             ExecuteAction(() =>
             {
                 _model.PerlinOptions.Persistance = value;
 
             }, true);
-        }
-        public void UpdatePerlinOctaves(int value)
-        {
+        public void UpdatePerlinOctaves(int value) =>
             ExecuteAction(() =>
             {
                 _model.PerlinOptions.Octaves = value;
             }, true);
-        }
+        public void SelectPerlinQuality(NoiseQuality quality) =>
+            ExecuteAction(() =>
+            {
+                _model.PerlinOptions.Quality = quality;
+                View.SelectedPerlinQuality = quality;
+            });
 
-        public void UpdateBillowLacunarity(float value)
-        {
+        public void UpdateBillowLacunarity(float value) =>
             ExecuteAction(() =>
             {
                 _model.BillowOptions.Lacunarity = value;
             }, true);
-        }
-        public void UpdateBillowFrequency(float value)
-        {
+        public void UpdateBillowFrequency(float value) =>
             ExecuteAction(() =>
             {
                 _model.BillowOptions.Frequency = value;
             }, true);
-        }
-        public void UpdateBillowPersistance(float value)
-        {
+        public void UpdateBillowPersistance(float value) =>
             ExecuteAction(() =>
             {
                 _model.BillowOptions.Persistance = value;
 
             }, true);
-        }
-        public void UpdateBillowOctaves(int value)
-        {
+        public void UpdateBillowOctaves(int value) =>
             ExecuteAction(() =>
             {
                 _model.BillowOptions.Octaves = value;
             }, true);
-        }
-
-
-        public void UpdateCylinderFrequency(float value)
-        {
+        public void SelectBillowQuality(NoiseQuality quality) =>
+            ExecuteAction(() =>
+            {
+                _model.BillowOptions.Quality = quality;
+                View.SelectedBillowQuality = quality;
+            });
+        
+        public void UpdateCylinderFrequency(float value) =>
             ExecuteAction(() =>
             {
                 _model.CylinderOptions.Frequency = value;
             }, true);
-        }
-        public void UpdateCellFrequency(float value)
-        {
+        public void UpdateCellFrequency(float value) =>
             ExecuteAction(() =>
             {
                 _model.CellOptions.Frequency = value;
             }, true);
-        }
-        public void UpdateCellDisplacement(float value)
-        {
+        public void UpdateCellDisplacement(float value) =>
             ExecuteAction(() =>
             {
                 _model.CellOptions.Displacement = value;
             }, true);
-        }
+        public void SelectCellType(Cell.CellType cellType) =>
+            ExecuteAction(() =>
+            {
+                _model.CellOptions.CellType = cellType;
+                View.SelectedCellType = cellType;
+            });
+        public void SetCellEnableDistance(bool @checked) =>
+            ExecuteAction(() =>
+            {
+                _model.CellOptions.EnableDistance = @checked;
+            });
 
-        public void UpdateMinValue(float value)
-        {
+        public void UpdateMinValue(float value) =>
             ExecuteAction(() =>
             {
                 _model.MinThreshold = value;
             }, true);
-        }
-        public void UpdateMaxValue(float value)
-        {
+        public void UpdateMaxValue(float value) =>
             ExecuteAction(() =>
             {
                 _model.MaxThreshold = value;
             }, true);
-        }
-
-        public void UpdateScale(float value)
-        {
+        public void UpdateScale(float value) =>
             ExecuteAction(() =>
             {
                 _model.NoiseScale = value;
             }, true);
-        }
 
-        // Checkbox changes
-        public void SetGrayscale(bool @checked)
-        {
-            ExecuteAction(() =>
-            {
-                _model.GenerateGrayscale = @checked;
-            });
-        }
-        public void SetInverted(bool @checked)
-        {
-            ExecuteAction(() =>
-            {
-                _model.Invert = @checked;
-            });
-        }
-        public void SetRounded(bool @checked)
-        {
-            ExecuteAction(() =>
-            {
-                _model.Round = @checked;
-            });
-        }
-        public void SetCellEnableDistance(bool @checked)
-        {
-            ExecuteAction(() =>
-            {
-                _model.CellEnableDistance = @checked;
-            });
-        }
-
-
-        // Other actions
-        public void SetNewSeed()
-        {
+        public void SetNewSeed() =>
             ExecuteAction(() =>
             {
                 _model.Seed = DateTime.Now.Ticks.GetHashCode();
             }, true);
-        }
 
         private readonly DefaultDictionary<NoiseType, Func<MainModel, NoiseConfig>> _configProviders =
             new(DefaultConfigProvider)
@@ -257,7 +196,7 @@ namespace GroanUI.Views.Main
                 {NoiseType.Perlin, m => new PerlinConfig(m.PerlinOptions.Lacunarity, m.PerlinOptions.Frequency, m.PerlinOptions.Persistance, m.PerlinOptions.Octaves, m.PerlinOptions.Quality, DefaultConfigProvider(m))},
                 {NoiseType.Billow, m => new PerlinConfig(m.BillowOptions.Lacunarity, m.BillowOptions.Frequency, m.BillowOptions.Persistance, m.BillowOptions.Octaves, m.BillowOptions.Quality, DefaultConfigProvider(m))},
                 {NoiseType.Cylinder, m => new CylinderConfig(m.CylinderOptions.Frequency, DefaultConfigProvider(m))},
-                {NoiseType.Cell, m => new CellConfig(m.CellOptions.Frequency, m.CellOptions.Displacement, m.CellOptions.CellType, m.CellEnableDistance, DefaultConfigProvider(m)) },
+                {NoiseType.Cell, m => new CellConfig(m.CellOptions.Frequency, m.CellOptions.Displacement, m.CellOptions.CellType, m.CellOptions.EnableDistance, DefaultConfigProvider(m)) },
             };
 
         private static NoiseConfig DefaultConfigProvider(MainModel model)
@@ -290,7 +229,7 @@ namespace GroanUI.Views.Main
         /// updates the Preview image (with an optional delay) before 
         /// calling View.EnabledChangeEvents() after the action.
         ///
-        /// Use to avoid any cascading events when changing values from the presenter.
+        /// Use to avoid any cascading UI events when changing values from the presenter.
         /// </summary>
         /// <param name="action"></param>
         /// <param name="withDelay">Delay the update slightly, use when responding to events from

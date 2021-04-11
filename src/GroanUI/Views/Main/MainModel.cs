@@ -11,41 +11,27 @@ namespace GroanUI.Views.Main
     public class MainModel
     {
         public string ViewTitle { get; }
-
-        public IEnumerable<ListItem<NoiseType, string>> NoiseTypes { get;}
-
-        public IEnumerable<ListItem<NoiseQuality, string>> NoiseQualities
-            => Enum.GetValues<NoiseQuality>()
-                .Select(nq =>
-                    new ListItem<NoiseQuality, string>(nq, nq.ToString()));
-
-        public IEnumerable<ListItem<Cell.CellType, string>> CellTypes
-            => new []{ Cell.CellType.Voronoi, Cell.CellType.Quadratic, 
-                        Cell.CellType.Manhattan, Cell.CellType.Chebychev}
-                .Select(cellType =>
-                    new ListItem<Cell.CellType, string>(cellType, cellType.ToString()));
-
         public Size MapSize { get; set; }
-
+        public IEnumerable<ListItem<NoiseType, string>> NoiseTypes { get;}
+        public IEnumerable<ListItem<NoiseQuality, string>> NoiseQualities => _noiseQualities;
+        public IEnumerable<ListItem<Cell.CellType, string>> CellTypes => _cellTypes;
+        
         public int Seed { get; set; }
         public bool Invert { get; set; }
         public bool Round { get; set; }
         public bool GenerateGrayscale { get; set; }
 
         public NoiseType SelectedNoiseType { get; set; }
-
         public float MinThreshold { get; set; }
         public float MaxThreshold { get; set; }
-
         public float NoiseScale { get; set; }
-
-        public DecimalSlider.Configuration[] SliderSetups { get; }
-        public bool CellEnableDistance { get; set; }
 
         public PerlinOptionsModel PerlinOptions { get; }
         public BillowOptionsModel BillowOptions { get; }
         public CylinderOptionsModel CylinderOptions { get; }
         public CellOptionsModel CellOptions { get; }
+
+        public DecimalSlider.Configuration[] SliderSetups { get; }
 
         public MainModel()
         {
@@ -106,6 +92,18 @@ namespace GroanUI.Views.Main
 
             };
         }
+
+        private static readonly IEnumerable<ListItem<NoiseQuality, string>> _noiseQualities = Enum.GetValues<NoiseQuality>()
+            .Select(nq =>
+                new ListItem<NoiseQuality, string>(nq, nq.ToString()));
+
+        private static readonly IEnumerable<ListItem<Cell.CellType, string>> _cellTypes = new[]
+            {
+                Cell.CellType.Voronoi, Cell.CellType.Quadratic,
+                Cell.CellType.Manhattan, Cell.CellType.Chebychev
+            }
+            .Select(cellType =>
+                new ListItem<Cell.CellType, string>(cellType, cellType.ToString()));
     }
     public enum Sliders
     {
