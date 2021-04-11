@@ -32,6 +32,7 @@ namespace GroanUI.Views.Main
         public override void Init()
         {
             View.DisableChangeEvents();
+
             View.ViewTitle = _model.ViewTitle;
             View.MapSize = _model.MapSize;
             View.NoiseTypes = _model.NoiseTypes;
@@ -42,6 +43,7 @@ namespace GroanUI.Views.Main
             View.Rounded = _model.Round;
 
             View.SetupSliders(_model.SliderSetups);
+            
             View.EnableChangeEvents();
         }
 
@@ -60,7 +62,7 @@ namespace GroanUI.Views.Main
         {
             ExecuteAction(() =>
             {
-                _model.PerlinQuality = quality;
+                _model.PerlinOptions.Quality = quality;
                 View.SelectedPerlinQuality = quality;
             });
         }
@@ -68,7 +70,7 @@ namespace GroanUI.Views.Main
         {
             ExecuteAction(() =>
             {
-                _model.CellType = cellType;
+                _model.CellOptions.CellType = cellType;
                 View.SelectedCellType = cellType;
             });
         }
@@ -77,7 +79,7 @@ namespace GroanUI.Views.Main
         {
             ExecuteAction(() =>
             {
-                _model.BillowQuality = quality;
+                _model.BillowOptions.Quality = quality;
                 View.SelectedBillowQuality = quality;
             });
         }
@@ -107,21 +109,21 @@ namespace GroanUI.Views.Main
         {
             ExecuteAction(() =>
             {
-                _model.PerlinLacunarity = value;
+                _model.PerlinOptions.Lacunarity = value;
             }, true);
         }
         public void UpdatePerlinFrequency(float value)
         {
             ExecuteAction(() =>
             {
-                _model.PerlinFrequency = value;
+                _model.PerlinOptions.Frequency = value;
             }, true);
         }
         public void UpdatePerlinPersistance(float value)
         {
             ExecuteAction(() =>
             {
-                _model.PerlinPersistance = value;
+                _model.PerlinOptions.Persistance = value;
 
             }, true);
         }
@@ -129,7 +131,7 @@ namespace GroanUI.Views.Main
         {
             ExecuteAction(() =>
             {
-                _model.PerlinOctaves = value;
+                _model.PerlinOptions.Octaves = value;
             }, true);
         }
 
@@ -137,21 +139,21 @@ namespace GroanUI.Views.Main
         {
             ExecuteAction(() =>
             {
-                _model.BillowLacunarity = value;
+                _model.BillowOptions.Lacunarity = value;
             }, true);
         }
         public void UpdateBillowFrequency(float value)
         {
             ExecuteAction(() =>
             {
-                _model.BillowFrequency = value;
+                _model.BillowOptions.Frequency = value;
             }, true);
         }
         public void UpdateBillowPersistance(float value)
         {
             ExecuteAction(() =>
             {
-                _model.BillowPersistance = value;
+                _model.BillowOptions.Persistance = value;
 
             }, true);
         }
@@ -159,7 +161,7 @@ namespace GroanUI.Views.Main
         {
             ExecuteAction(() =>
             {
-                _model.BillowOctaves = value;
+                _model.BillowOptions.Octaves = value;
             }, true);
         }
 
@@ -168,21 +170,21 @@ namespace GroanUI.Views.Main
         {
             ExecuteAction(() =>
             {
-                _model.CylinderFrequency = value;
+                _model.CylinderOptions.Frequency = value;
             }, true);
         }
         public void UpdateCellFrequency(float value)
         {
             ExecuteAction(() =>
             {
-                _model.CellFrequency = value;
+                _model.CellOptions.Frequency = value;
             }, true);
         }
         public void UpdateCellDisplacement(float value)
         {
             ExecuteAction(() =>
             {
-                _model.CellDisplacement = value;
+                _model.CellOptions.Displacement = value;
             }, true);
         }
 
@@ -231,6 +233,14 @@ namespace GroanUI.Views.Main
                 _model.Round = @checked;
             });
         }
+        public void SetCellEnableDistance(bool @checked)
+        {
+            ExecuteAction(() =>
+            {
+                _model.CellEnableDistance = @checked;
+            });
+        }
+
 
         // Other actions
         public void SetNewSeed()
@@ -244,10 +254,10 @@ namespace GroanUI.Views.Main
         private readonly DefaultDictionary<NoiseType, Func<MainModel, NoiseConfig>> _configProviders =
             new(DefaultConfigProvider)
             {
-                {NoiseType.Perlin, m => new PerlinConfig(m.PerlinLacunarity, m.PerlinFrequency, m.PerlinPersistance, m.PerlinOctaves, m.PerlinQuality, DefaultConfigProvider(m))},
-                {NoiseType.Billow, m => new PerlinConfig(m.BillowLacunarity, m.BillowFrequency, m.BillowPersistance, m.BillowOctaves, m.BillowQuality, DefaultConfigProvider(m))},
-                {NoiseType.Cylinder, m => new CylinderConfig(m.CylinderFrequency, DefaultConfigProvider(m))},
-                {NoiseType.Cell, m => new CellConfig(m.CellFrequency, m.CellDisplacement, m.CellType, DefaultConfigProvider(m)) },
+                {NoiseType.Perlin, m => new PerlinConfig(m.PerlinOptions.Lacunarity, m.PerlinOptions.Frequency, m.PerlinOptions.Persistance, m.PerlinOptions.Octaves, m.PerlinOptions.Quality, DefaultConfigProvider(m))},
+                {NoiseType.Billow, m => new PerlinConfig(m.BillowOptions.Lacunarity, m.BillowOptions.Frequency, m.BillowOptions.Persistance, m.BillowOptions.Octaves, m.BillowOptions.Quality, DefaultConfigProvider(m))},
+                {NoiseType.Cylinder, m => new CylinderConfig(m.CylinderOptions.Frequency, DefaultConfigProvider(m))},
+                {NoiseType.Cell, m => new CellConfig(m.CellOptions.Frequency, m.CellOptions.Displacement, m.CellOptions.CellType, m.CellEnableDistance, DefaultConfigProvider(m)) },
             };
 
         private static NoiseConfig DefaultConfigProvider(MainModel model)
@@ -305,6 +315,6 @@ namespace GroanUI.Views.Main
             View.EnableChangeEvents();
         }
 
-            }
+    }
 
 }

@@ -14,7 +14,7 @@ namespace GroanUI.Tests
             {
                 Presenter.UpdateCellFrequency(0.03f);
 
-                Model.CellFrequency.ShouldBe(0.03f);
+                Model.CellOptions.Frequency.ShouldBe(0.03f);
             }
 
             [Test]
@@ -30,7 +30,7 @@ namespace GroanUI.Tests
             {
                 Presenter.SelectCellType(Cell.CellType.Quadratic);
 
-                Model.CellType.ShouldBe(Cell.CellType.Quadratic);
+                Model.CellOptions.CellType.ShouldBe(Cell.CellType.Quadratic);
             }
             [Test]
             public void SetCellType_updates_the_NoiseMap()
@@ -44,13 +44,31 @@ namespace GroanUI.Tests
             {
                 Presenter.UpdateCellDisplacement(0.03f);
 
-                Model.CellDisplacement.ShouldBe(0.03f);
+                Model.CellOptions.Displacement.ShouldBe(0.03f);
             }
 
             [Test]
             public void SetCellDisplacement_updates_the_NoiseMap()
             {
                 Presenter.UpdateCellDisplacement(3);
+
+                ViewMockery.VerifyNoiseMapImageUpdated();
+            }
+
+            [Test]
+            public void SetCellEnableDistance_updates_the_Model()
+            {
+                Model.CellEnableDistance.ShouldBeFalse();
+
+                Presenter.SetCellEnableDistance(true);
+
+                Model.CellEnableDistance.ShouldBeTrue();
+            }
+
+            [Test]
+            public void SetCellEnableDistance_updates_the_NoiseMap()
+            {
+                Presenter.SetCellEnableDistance(true);
 
                 ViewMockery.VerifyNoiseMapImageUpdated();
             }

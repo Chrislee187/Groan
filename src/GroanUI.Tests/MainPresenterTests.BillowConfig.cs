@@ -14,7 +14,7 @@ namespace GroanUI.Tests
             {
                 Presenter.UpdateBillowLacunarity(3);
 
-                Model.BillowLacunarity.ShouldBe(3);
+                Model.BillowOptions.Lacunarity.ShouldBe(3);
             }
 
             [Test]
@@ -30,7 +30,7 @@ namespace GroanUI.Tests
             {
                 Presenter.UpdateBillowFrequency(0.03f);
 
-                Model.BillowFrequency.ShouldBe(0.03f);
+                Model.BillowOptions.Frequency.ShouldBe(0.03f);
             }
 
             [Test]
@@ -46,7 +46,7 @@ namespace GroanUI.Tests
             {
                 Presenter.UpdateBillowOctaves(2);
 
-                Model.BillowOctaves.ShouldBe(2);
+                Model.BillowOptions.Octaves.ShouldBe(2);
             }
 
             [Test]
@@ -62,7 +62,7 @@ namespace GroanUI.Tests
             {
                 Presenter.UpdateBillowPersistance(1.5f);
 
-                Model.BillowPersistance.ShouldBe(1.5f);
+                Model.BillowOptions.Persistance.ShouldBe(1.5f);
             }
 
             [Test]
@@ -78,7 +78,7 @@ namespace GroanUI.Tests
             {
                 Presenter.SelectBillowQuality(NoiseQuality.Fast);
 
-                Model.BillowQuality.ShouldBe(NoiseQuality.Fast);
+                Model.BillowOptions.Quality.ShouldBe(NoiseQuality.Fast);
             }
 
 

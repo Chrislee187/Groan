@@ -14,7 +14,7 @@ namespace GroanUI.Tests
             {
                 Presenter.UpdateCylinderFrequency(0.03f);
 
-                Model.CylinderFrequency.ShouldBe(0.03f);
+                Model.CylinderOptions.Frequency.ShouldBe(0.03f);
             }
 
             [Test]

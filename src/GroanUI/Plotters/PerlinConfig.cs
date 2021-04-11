@@ -31,14 +31,16 @@ namespace GroanUI.Plotters
         public float Frequency { get; }
         public float Displacement { get; }
         public Cell.CellType CellType { get; set; }
+        public bool EnableDistance { get; set; }
 
-        public CellConfig(float frequency, float displacement, Cell.CellType cellType,
+        public CellConfig(float frequency, float displacement, Cell.CellType cellType, bool enabledDistance,
             NoiseConfig cfg
         ) : base(cfg)
         {
             Frequency = frequency;
             Displacement = displacement;
             CellType = cellType;
+            EnableDistance = enabledDistance;
         }
 
 

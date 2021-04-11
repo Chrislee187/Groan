@@ -242,6 +242,9 @@ namespace GroanUI.Views.Main
         private void CellDisplacement_Scroll(object sender, EventArgs e)
             => _presenter.UpdateCellDisplacement(((DecimalSlider)sender).Value);
 
+        private void CellEnable_CheckedChanged(object? sender, EventArgs e)
+            => _presenter.SetCellEnableDistance(((CheckBox) sender).Checked);
+
         private void NoiseScale_Scroll(object sender, EventArgs e)
             => _presenter.UpdateScale(((DecimalSlider)sender).Value);
 
@@ -305,9 +308,9 @@ namespace GroanUI.Views.Main
             }
         }
 
-        private IndexDictionary<T> IndexListItem<T>(ComboBox.ObjectCollection objectCollection)
+        private ListItemIndex<T> IndexListItem<T>(ComboBox.ObjectCollection objectCollection)
         {
-            var r = new IndexDictionary<T>();
+            var r = new ListItemIndex<T>();
 
             foreach (ListItem<T, string> listItem in objectCollection)
             {
@@ -317,16 +320,17 @@ namespace GroanUI.Views.Main
             return r;
         }
 
-        private IndexDictionary<NoiseType> _noiseTypesListItemIndex;
-        private IndexDictionary<NoiseQuality> _perlinQualitiesListItemIndex;
-        private IndexDictionary<NoiseQuality> _billowQualitiesListItemIndex;
-        private IndexDictionary<Cell.CellType> _cellTypesListItemIndex;
+        private ListItemIndex<NoiseType> _noiseTypesListItemIndex;
+        private ListItemIndex<NoiseQuality> _perlinQualitiesListItemIndex;
+        private ListItemIndex<NoiseQuality> _billowQualitiesListItemIndex;
+        private ListItemIndex<Cell.CellType> _cellTypesListItemIndex;
 
-        private class IndexDictionary<T> : Dictionary<T, ListItem<T, string>>
+        private class ListItemIndex<T> : Dictionary<T, ListItem<T, string>>
         {
 
         }
 
         #endregion
+
     }
 }

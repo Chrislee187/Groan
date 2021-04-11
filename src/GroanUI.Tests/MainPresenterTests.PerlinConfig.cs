@@ -14,7 +14,7 @@ namespace GroanUI.Tests
             {
                 Presenter.UpdatePerlinLacunarity(3);
 
-                Model.PerlinLacunarity.ShouldBe(3);
+                Model.PerlinOptions.Lacunarity.ShouldBe(3);
             }
 
             [Test]
@@ -30,7 +30,7 @@ namespace GroanUI.Tests
             {
                 Presenter.UpdatePerlinFrequency(0.03f);
 
-                Model.PerlinFrequency.ShouldBe(0.03f);
+                Model.PerlinOptions.Frequency.ShouldBe(0.03f);
             }
 
 
@@ -47,7 +47,7 @@ namespace GroanUI.Tests
             {
                 Presenter.UpdatePerlinOctaves(2);
 
-                Model.PerlinOctaves.ShouldBe(2);
+                Model.PerlinOptions.Octaves.ShouldBe(2);
             }
 
             [Test]
@@ -63,7 +63,7 @@ namespace GroanUI.Tests
             {
                 Presenter.UpdatePerlinPersistance(1.5f);
 
-                Model.PerlinPersistance.ShouldBe(1.5f);
+                Model.PerlinOptions.Persistance.ShouldBe(1.5f);
             }
 
             [Test]
@@ -79,7 +79,7 @@ namespace GroanUI.Tests
             {
                 Presenter.SelectPerlinQuality(NoiseQuality.Fast);
 
-                Model.PerlinQuality.ShouldBe(NoiseQuality.Fast);
+                Model.PerlinOptions.Quality.ShouldBe(NoiseQuality.Fast);
             }
 
 

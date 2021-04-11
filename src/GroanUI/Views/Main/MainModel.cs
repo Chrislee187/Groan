@@ -37,31 +37,21 @@ namespace GroanUI.Views.Main
         public float MinThreshold { get; set; }
         public float MaxThreshold { get; set; }
 
-        public float PerlinLacunarity { get; set; }
-        public float PerlinFrequency { get; set; }
-        public float PerlinPersistance { get; set; }
-        public int PerlinOctaves { get; set; }
-        public NoiseQuality PerlinQuality { get; set; }
-
-        public float BillowLacunarity { get; set; }
-        public float BillowFrequency { get; set; }
-        public float BillowPersistance { get; set; }
-        public int BillowOctaves { get; set; }
-        public NoiseQuality BillowQuality { get; set; }
-
-        public float CylinderFrequency { get; set; }
-
-        public float CellFrequency { get; set; }
-        public float CellDisplacement { get; set; }
-        public Cell.CellType CellType { get; set; }
-
         public float NoiseScale { get; set; }
 
         public DecimalSlider.Configuration[] SliderSetups { get; }
+        public bool CellEnableDistance { get; set; }
+
+        public PerlinOptionsModel PerlinOptions { get; }
+        public BillowOptionsModel BillowOptions { get; }
+        public CylinderOptionsModel CylinderOptions { get; }
+        public CellOptionsModel CellOptions { get; }
 
         public MainModel()
         {
             ViewTitle = "Noise Map Visualiser";
+            MapSize = new Size(400, 400);
+
             NoiseTypes = new List<ListItem<NoiseType, string>>
             {
                 new(NoiseType.Perlin, "Perlin (SharpNoise)"),
@@ -69,27 +59,16 @@ namespace GroanUI.Views.Main
                 new(NoiseType.Cylinder, "Cylinder (SharpNoise)"),
                 new(NoiseType.Cell, "Cell (SharpNoise)"),
             };
-            
-            MapSize = new Size(400, 400);
+
             SelectedNoiseType = NoiseTypes.First().ID;
 
-            PerlinFrequency = 1f;
-            PerlinLacunarity = 2f;
-            PerlinPersistance = 1f;
-            PerlinOctaves = 6;
-            PerlinQuality = NoiseQuality.Standard;
+            PerlinOptions = new PerlinOptionsModel(1f, 2f, 0.5f, 6);
 
-            BillowFrequency = 3f;
-            BillowLacunarity = 2f;
-            BillowPersistance = 0.5f;
-            BillowOctaves = 6;
-            BillowQuality = NoiseQuality.Standard;
+            BillowOptions = new BillowOptionsModel(1f, 2f, 0.25f, 6);
 
-            CylinderFrequency = 1.5f;
+            CylinderOptions = new CylinderOptionsModel(1.5f);
 
-            CellFrequency = 10.0f;
-            CellDisplacement = 1.5f;
-            CellType = Cell.CellType.Voronoi;
+            CellOptions = new CellOptionsModel(1.0f, 1.5f);
             GenerateGrayscale = true;
 
             MinThreshold = 0f;
@@ -100,37 +79,26 @@ namespace GroanUI.Views.Main
 
             Seed = 0;
             SliderSetups = new [] {
-                new DecimalSlider.Configuration(Sliders.PerlinFrequency,
-                    PerlinFrequency, 0.01f, 5f),
-                new DecimalSlider.Configuration(Sliders.PerlinLacunarity,
-                    PerlinLacunarity, 1f, 5f),
-                new DecimalSlider.Configuration(Sliders.PerlinPersistance,
-                    PerlinPersistance, 0, 2f),
-                new DecimalSlider.Configuration(Sliders.PerlinOctaves,
-                    PerlinOctaves, 1, 15, 1, 1, 0),
+                new DecimalSlider.Configuration(Sliders.PerlinFrequency, PerlinOptions.Frequency, 0.01f, 5f),
+                new DecimalSlider.Configuration(Sliders.PerlinLacunarity, PerlinOptions.Lacunarity, 1f, 5f),
+                new DecimalSlider.Configuration(Sliders.PerlinPersistance, PerlinOptions.Persistance, 0, 2f),
+                new DecimalSlider.Configuration(Sliders.PerlinOctaves, PerlinOptions.Octaves, 1, 15, 1, 1, 0),
 
-                new DecimalSlider.Configuration(Sliders.BillowFrequency,
-                    BillowFrequency, 0.01f, 25f),
-                new DecimalSlider.Configuration(Sliders.BillowLacunarity,
-                    BillowLacunarity, 1f, 5f),
-                new DecimalSlider.Configuration(Sliders.BillowPersistance,
-                    BillowPersistance, 0, 2f),
-                new DecimalSlider.Configuration(Sliders.BillowOctaves,
-                    BillowOctaves, 1, 15, 1, 1, 0),
+                new DecimalSlider.Configuration(Sliders.BillowFrequency, BillowOptions.Frequency, 0.01f, 25f),
+                new DecimalSlider.Configuration(Sliders.BillowLacunarity, BillowOptions.Lacunarity, 1f, 5f),
+                new DecimalSlider.Configuration(Sliders.BillowPersistance, BillowOptions.Persistance, 0, 2f),
+                new DecimalSlider.Configuration(Sliders.BillowOctaves, BillowOptions.Octaves, 1, 15, 1, 1, 0),
 
 
                 new DecimalSlider.Configuration(Sliders.MinValue,
                     MinThreshold, 0, 1f),
                 new DecimalSlider.Configuration(Sliders.MaxValue,
                     MaxThreshold, 0, 1f),
-                new DecimalSlider.Configuration(Sliders.CylinderFrequency,
-                    CylinderFrequency, 0, 25f),
+                new DecimalSlider.Configuration(Sliders.CylinderFrequency, CylinderOptions.Frequency, 0, 25f),
 
 
-                new DecimalSlider.Configuration(Sliders.CellFrequency,
-                    CellFrequency, 0, 25f),
-                new DecimalSlider.Configuration(Sliders.CellDisplacement,
-                    CellDisplacement, 0, 25f),
+                new DecimalSlider.Configuration(Sliders.CellFrequency, CellOptions.Frequency, 0, 25f),
+                new DecimalSlider.Configuration(Sliders.CellDisplacement, CellOptions.Displacement, 0, 25f),
 
 
                 new DecimalSlider.Configuration(Sliders.Scale,

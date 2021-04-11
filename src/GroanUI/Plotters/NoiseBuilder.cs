@@ -29,10 +29,9 @@ namespace GroanUI.Plotters
             };
 
             noiseMapBuilder.SetDestSize(noiseMap.Width, noiseMap.Height);
-            noiseMapBuilder.SetBounds(0, 1, 0, 1);
-
+            noiseMapBuilder.SetBounds(0, noiseMap.Width * 0.01, 0, noiseMap.Height * 0.01);
             noiseMapBuilder.Build();
-            var count = PostProcessing(size, cfg, noiseMap);
+            PostProcessing(size, cfg, noiseMap);
             Size2 = size.Width * size.Height;
             Total = noiseMap.Data.Sum();
             
@@ -83,9 +82,8 @@ namespace GroanUI.Plotters
             return image.ToGdiBitmap();
         }
 
-        private static int PostProcessing(Size size, NoiseConfig cfg, NoiseMap noiseMap)
+        private static void PostProcessing(Size size, NoiseConfig cfg, NoiseMap noiseMap)
         {
-            var count = 0;
             var po = new ParallelOptions()
             {
                 CancellationToken = new CancellationToken(),
@@ -102,17 +100,10 @@ namespace GroanUI.Plotters
                     v = cfg.Round ? (int)Math.Round(v) : v;
                     v = Math.Abs(v);
                     v = Math.Clamp(v,0f,1f);
-                    count += v > 0 ? 1 : 0;
                     noiseMap[x, y] = v;
                 }
             });
-
-            return count;
         }
-
-        private static bool RequiresPostProcessing(NoiseConfig cfg) 
-            => cfg.Invert || cfg.Round || cfg.MinThreshold > 0f || cfg.MaxThreshold < 1f
-            || cfg.Scale < 1.0f || cfg.Scale > 1.0f;
 
         private static void BuildTerrainRenderer(ImageRenderer renderer)
         {
